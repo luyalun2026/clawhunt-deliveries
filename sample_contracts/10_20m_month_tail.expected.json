@@ -1,0 +1,364 @@
+{
+ "contract_id": "HT-20m_month_tail",
+ "pay_cycle": "month",
+ "per_type_sum": {
+  "rent": 2459178,
+  "membership": 614795,
+  "deposit": 60000
+ },
+ "deposit_cents": 60000,
+ "installment_count": 43,
+ "counts_by_type": {
+  "rent": 21,
+  "membership": 21,
+  "deposit": 1
+ },
+ "first_year_amount_cents": 1800000,
+ "expected_by": "reference.py（独立参照算法，整数 divmod）",
+ "installments": [
+  {
+   "fee_type": "rent",
+   "seq": 1,
+   "amount_cents": 120000,
+   "due_date": "2026-02-01",
+   "period": "2026-02-01~2026-02-28",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 2,
+   "amount_cents": 120000,
+   "due_date": "2026-02-26",
+   "period": "2026-03-01~2026-03-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 3,
+   "amount_cents": 120000,
+   "due_date": "2026-03-29",
+   "period": "2026-04-01~2026-04-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 4,
+   "amount_cents": 120000,
+   "due_date": "2026-04-28",
+   "period": "2026-05-01~2026-05-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 5,
+   "amount_cents": 120000,
+   "due_date": "2026-05-29",
+   "period": "2026-06-01~2026-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 6,
+   "amount_cents": 120000,
+   "due_date": "2026-06-28",
+   "period": "2026-07-01~2026-07-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 7,
+   "amount_cents": 120000,
+   "due_date": "2026-07-29",
+   "period": "2026-08-01~2026-08-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 8,
+   "amount_cents": 120000,
+   "due_date": "2026-08-29",
+   "period": "2026-09-01~2026-09-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 9,
+   "amount_cents": 120000,
+   "due_date": "2026-09-28",
+   "period": "2026-10-01~2026-10-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 10,
+   "amount_cents": 120000,
+   "due_date": "2026-10-29",
+   "period": "2026-11-01~2026-11-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 11,
+   "amount_cents": 120000,
+   "due_date": "2026-11-28",
+   "period": "2026-12-01~2026-12-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 12,
+   "amount_cents": 120000,
+   "due_date": "2026-12-29",
+   "period": "2027-01-01~2027-01-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 13,
+   "amount_cents": 120000,
+   "due_date": "2027-01-29",
+   "period": "2027-02-01~2027-02-28",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 14,
+   "amount_cents": 120000,
+   "due_date": "2027-02-26",
+   "period": "2027-03-01~2027-03-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 15,
+   "amount_cents": 120000,
+   "due_date": "2027-03-29",
+   "period": "2027-04-01~2027-04-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 16,
+   "amount_cents": 120000,
+   "due_date": "2027-04-28",
+   "period": "2027-05-01~2027-05-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 17,
+   "amount_cents": 120000,
+   "due_date": "2027-05-29",
+   "period": "2027-06-01~2027-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 18,
+   "amount_cents": 120000,
+   "due_date": "2027-06-28",
+   "period": "2027-07-01~2027-07-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 19,
+   "amount_cents": 120000,
+   "due_date": "2027-07-29",
+   "period": "2027-08-01~2027-08-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 20,
+   "amount_cents": 120000,
+   "due_date": "2027-08-29",
+   "period": "2027-09-01~2027-09-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 21,
+   "amount_cents": 59178,
+   "due_date": "2027-09-28",
+   "period": "2027-10-01~2027-10-15",
+   "kind": "tail"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 1,
+   "amount_cents": 30000,
+   "due_date": "2026-02-01",
+   "period": "2026-02-01~2026-02-28",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 2,
+   "amount_cents": 30000,
+   "due_date": "2026-02-26",
+   "period": "2026-03-01~2026-03-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 3,
+   "amount_cents": 30000,
+   "due_date": "2026-03-29",
+   "period": "2026-04-01~2026-04-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 4,
+   "amount_cents": 30000,
+   "due_date": "2026-04-28",
+   "period": "2026-05-01~2026-05-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 5,
+   "amount_cents": 30000,
+   "due_date": "2026-05-29",
+   "period": "2026-06-01~2026-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 6,
+   "amount_cents": 30000,
+   "due_date": "2026-06-28",
+   "period": "2026-07-01~2026-07-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 7,
+   "amount_cents": 30000,
+   "due_date": "2026-07-29",
+   "period": "2026-08-01~2026-08-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 8,
+   "amount_cents": 30000,
+   "due_date": "2026-08-29",
+   "period": "2026-09-01~2026-09-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 9,
+   "amount_cents": 30000,
+   "due_date": "2026-09-28",
+   "period": "2026-10-01~2026-10-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 10,
+   "amount_cents": 30000,
+   "due_date": "2026-10-29",
+   "period": "2026-11-01~2026-11-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 11,
+   "amount_cents": 30000,
+   "due_date": "2026-11-28",
+   "period": "2026-12-01~2026-12-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 12,
+   "amount_cents": 30000,
+   "due_date": "2026-12-29",
+   "period": "2027-01-01~2027-01-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 13,
+   "amount_cents": 30000,
+   "due_date": "2027-01-29",
+   "period": "2027-02-01~2027-02-28",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 14,
+   "amount_cents": 30000,
+   "due_date": "2027-02-26",
+   "period": "2027-03-01~2027-03-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 15,
+   "amount_cents": 30000,
+   "due_date": "2027-03-29",
+   "period": "2027-04-01~2027-04-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 16,
+   "amount_cents": 30000,
+   "due_date": "2027-04-28",
+   "period": "2027-05-01~2027-05-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 17,
+   "amount_cents": 30000,
+   "due_date": "2027-05-29",
+   "period": "2027-06-01~2027-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 18,
+   "amount_cents": 30000,
+   "due_date": "2027-06-28",
+   "period": "2027-07-01~2027-07-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 19,
+   "amount_cents": 30000,
+   "due_date": "2027-07-29",
+   "period": "2027-08-01~2027-08-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 20,
+   "amount_cents": 30000,
+   "due_date": "2027-08-29",
+   "period": "2027-09-01~2027-09-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "membership",
+   "seq": 21,
+   "amount_cents": 14795,
+   "due_date": "2027-09-28",
+   "period": "2027-10-01~2027-10-15",
+   "kind": "tail"
+  },
+  {
+   "fee_type": "deposit",
+   "seq": 1,
+   "amount_cents": 60000,
+   "due_date": "2026-02-01",
+   "period": "2026-02-01~2026-02-01",
+   "kind": "deposit"
+  }
+ ]
+}

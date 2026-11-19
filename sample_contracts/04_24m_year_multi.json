@@ -1,0 +1,21 @@
+{
+ "source_event_id": "evt-24m_year_multi",
+ "contract_id": "HT-24m_year_multi",
+ "company_id": "co-demo",
+ "start_date": "2026-01-01",
+ "end_date": "2027-12-31",
+ "pay_cycle": "year",
+ "fees": [
+  {
+   "fee_type": "rent",
+   "period_amount_cents": 1200000
+  },
+  {
+   "fee_type": "membership",
+   "period_amount_cents": 300000
+  }
+ ],
+ "deposit_cents": 100000,
+ "first_payment_date": "2026-01-01",
+ "advance_days": 15
+}

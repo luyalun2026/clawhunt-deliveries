@@ -1,0 +1,21 @@
+{
+ "source_event_id": "evt-8m_month_tail",
+ "contract_id": "HT-8m_month_tail",
+ "company_id": "co-demo",
+ "start_date": "2026-03-15",
+ "end_date": "2026-11-14",
+ "pay_cycle": "month",
+ "fees": [
+  {
+   "fee_type": "rent",
+   "period_amount_cents": 80000
+  },
+  {
+   "fee_type": "membership",
+   "period_amount_cents": 20000
+  }
+ ],
+ "deposit_cents": 15000,
+ "first_payment_date": "2026-03-15",
+ "advance_days": 7
+}

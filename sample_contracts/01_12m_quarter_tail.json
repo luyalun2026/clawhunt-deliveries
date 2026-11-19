@@ -1,0 +1,21 @@
+{
+ "source_event_id": "evt-12m_quarter_tail",
+ "contract_id": "HT-12m_quarter_tail",
+ "company_id": "co-demo",
+ "start_date": "2026-01-01",
+ "end_date": "2026-12-31",
+ "pay_cycle": "quarter",
+ "fees": [
+  {
+   "fee_type": "rent",
+   "period_amount_cents": 300000
+  },
+  {
+   "fee_type": "membership",
+   "period_amount_cents": 90000
+  }
+ ],
+ "deposit_cents": 50000,
+ "first_payment_date": "2026-01-01",
+ "advance_days": 10
+}

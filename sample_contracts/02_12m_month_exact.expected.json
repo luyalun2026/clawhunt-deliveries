@@ -1,0 +1,122 @@
+{
+ "contract_id": "HT-12m_month_exact",
+ "pay_cycle": "month",
+ "per_type_sum": {
+  "rent": 1200000,
+  "deposit": 20000
+ },
+ "deposit_cents": 20000,
+ "installment_count": 13,
+ "counts_by_type": {
+  "rent": 12,
+  "deposit": 1
+ },
+ "first_year_amount_cents": 1200000,
+ "expected_by": "reference.py（独立参照算法，整数 divmod）",
+ "installments": [
+  {
+   "fee_type": "rent",
+   "seq": 1,
+   "amount_cents": 100000,
+   "due_date": "2026-01-01",
+   "period": "2026-01-01~2026-01-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 2,
+   "amount_cents": 100000,
+   "due_date": "2026-01-27",
+   "period": "2026-02-01~2026-02-28",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 3,
+   "amount_cents": 100000,
+   "due_date": "2026-02-24",
+   "period": "2026-03-01~2026-03-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 4,
+   "amount_cents": 100000,
+   "due_date": "2026-03-27",
+   "period": "2026-04-01~2026-04-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 5,
+   "amount_cents": 100000,
+   "due_date": "2026-04-26",
+   "period": "2026-05-01~2026-05-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 6,
+   "amount_cents": 100000,
+   "due_date": "2026-05-27",
+   "period": "2026-06-01~2026-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 7,
+   "amount_cents": 100000,
+   "due_date": "2026-06-26",
+   "period": "2026-07-01~2026-07-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 8,
+   "amount_cents": 100000,
+   "due_date": "2026-07-27",
+   "period": "2026-08-01~2026-08-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 9,
+   "amount_cents": 100000,
+   "due_date": "2026-08-27",
+   "period": "2026-09-01~2026-09-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 10,
+   "amount_cents": 100000,
+   "due_date": "2026-09-26",
+   "period": "2026-10-01~2026-10-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 11,
+   "amount_cents": 100000,
+   "due_date": "2026-10-27",
+   "period": "2026-11-01~2026-11-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 12,
+   "amount_cents": 100000,
+   "due_date": "2026-11-26",
+   "period": "2026-12-01~2026-12-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "deposit",
+   "seq": 1,
+   "amount_cents": 20000,
+   "due_date": "2026-01-01",
+   "period": "2026-01-01~2026-01-01",
+   "kind": "deposit"
+  }
+ ]
+}

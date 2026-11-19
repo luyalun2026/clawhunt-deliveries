@@ -1,0 +1,58 @@
+{
+ "contract_id": "HT-18m_half_year_tail",
+ "pay_cycle": "half_year",
+ "per_type_sum": {
+  "rent": 1463425,
+  "deposit": 50000
+ },
+ "deposit_cents": 50000,
+ "installment_count": 5,
+ "counts_by_type": {
+  "rent": 4,
+  "deposit": 1
+ },
+ "first_year_amount_cents": 900000,
+ "expected_by": "reference.py（独立参照算法，整数 divmod）",
+ "installments": [
+  {
+   "fee_type": "rent",
+   "seq": 1,
+   "amount_cents": 450000,
+   "due_date": "2026-01-01",
+   "period": "2026-01-01~2026-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 2,
+   "amount_cents": 450000,
+   "due_date": "2026-06-19",
+   "period": "2026-07-01~2026-12-31",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 3,
+   "amount_cents": 450000,
+   "due_date": "2026-12-20",
+   "period": "2027-01-01~2027-06-30",
+   "kind": "regular"
+  },
+  {
+   "fee_type": "rent",
+   "seq": 4,
+   "amount_cents": 113425,
+   "due_date": "2027-06-19",
+   "period": "2027-07-01~2027-08-15",
+   "kind": "tail"
+  },
+  {
+   "fee_type": "deposit",
+   "seq": 1,
+   "amount_cents": 50000,
+   "due_date": "2026-01-01",
+   "period": "2026-01-01~2026-01-01",
+   "kind": "deposit"
+  }
+ ]
+}

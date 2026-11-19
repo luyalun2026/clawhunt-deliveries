@@ -1,0 +1,24 @@
+{
+ "contract_id": "HT-1m_month_min",
+ "pay_cycle": "month",
+ "per_type_sum": {
+  "rent": 100000
+ },
+ "deposit_cents": 0,
+ "installment_count": 1,
+ "counts_by_type": {
+  "rent": 1
+ },
+ "first_year_amount_cents": 100000,
+ "expected_by": "reference.py（独立参照算法，整数 divmod）",
+ "installments": [
+  {
+   "fee_type": "rent",
+   "seq": 1,
+   "amount_cents": 100000,
+   "due_date": "2026-05-01",
+   "period": "2026-05-01~2026-05-31",
+   "kind": "regular"
+  }
+ ]
+}
