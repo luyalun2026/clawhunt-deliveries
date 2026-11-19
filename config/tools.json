@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "note": "被测 7 个 AI 工具的入口地址与鉴权。密钥只写环境变量名（token_env），配置文件内不含任何明文密钥。接口未就绪时 adapter 设为 stub。",
+  "tools": {
+    "kb_assistant": {
+      "adapter": "http",
+      "tool_name": "kb_assistant",
+      "base_url": "https://kb-assistant.internal.member-space.example",
+      "token_env": "EVAL_KB_ASSISTANT_TOKEN",
+      "timeout_s": 60
+    },
+    "sop_copilot": {
+      "adapter": "http",
+      "tool_name": "sop_copilot",
+      "base_url": "https://sop-copilot.internal.member-space.example",
+      "token_env": "EVAL_SOP_COPILOT_TOKEN",
+      "timeout_s": 60
+    },
+    "match_agent": {
+      "adapter": "http",
+      "tool_name": "match_agent",
+      "base_url": "https://match-agent.internal.member-space.example",
+      "token_env": "EVAL_MATCH_AGENT_TOKEN",
+      "timeout_s": 60
+    },
+    "sales_assistant": {
+      "adapter": "http",
+      "tool_name": "sales_assistant",
+      "base_url": "https://sales-assistant.internal.member-space.example",
+      "token_env": "EVAL_SALES_ASSISTANT_TOKEN",
+      "timeout_s": 60
+    },
+    "doc_writer": {
+      "adapter": "http",
+      "tool_name": "doc_writer",
+      "base_url": "https://doc-writer.internal.member-space.example",
+      "token_env": "EVAL_DOC_WRITER_TOKEN",
+      "timeout_s": 60
+    },
+    "data_analyst": {
+      "adapter": "http",
+      "tool_name": "data_analyst",
+      "base_url": "https://data-analyst.internal.member-space.example",
+      "token_env": "EVAL_DATA_ANALYST_TOKEN",
+      "timeout_s": 60
+    },
+    "site_qa": {
+      "adapter": "stub",
+      "tool_name": "site_qa",
+      "base_url": "https://site-qa.internal.member-space.example",
+      "token_env": "EVAL_SITE_QA_TOKEN",
+      "timeout_s": 60,
+      "stub_reason": "该工具评测入口尚未就绪，按【依赖】条款先用桩；对接点为 POST /internal/eval/site_qa/invoke"
+    }
+  }
+}

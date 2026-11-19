@@ -1,0 +1,5 @@
+﻿AC,要求,实现位置,测试,实测,结论
+1,20 条 mock 用例 --concurrency 4 总耗时约为串行 1/4,core.run_suite 线程池,test_ac1_concurrency_speedup_is_about_4x,串行 1018 ms / 并发 274 ms = 3.72x,通过
+2,超时用例重试 1 次后记 error，退出码 2,core._execute_case,test_ac2_timeout_retry_once_then_error_exit_2,attempts=2 exit_code=2,通过
+3,--resume 只执行剩余用例，结果表无重复,store.completed_case_ids,test_ac3_resume_runs_only_remaining_cases,首轮 8 / 续跑 12 / 结果行 20 / 去重 20,通过
+4,通过率低于阈值时退出码 3,run_suite 退出码判定,test_ac4_below_threshold_exit_3,pass_rate=0.5 exit_code=3,通过

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eval-runner"
+version = "1.0.0"
+description = "会员空间平台 AI 工具评测执行器（EVAL-003）：并发执行、超时重试、断点续跑、CI 退出码"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+eval-run = "eval_runner.cli:main"
+
+[tool.setuptools]
+packages = ["eval_runner"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

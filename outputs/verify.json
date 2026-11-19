@@ -1,0 +1,72 @@
+{
+  "problem_id": 1987,
+  "suite": "mock20",
+  "pytest": {
+    "exit": 0,
+    "passed": 8
+  },
+  "ac1": {
+    "serial_ms": 1018,
+    "concurrency4_ms": 274,
+    "speedup": 3.72
+  },
+  "ac2": {
+    "exit_code": 2,
+    "error": 1,
+    "attempts": 2
+  },
+  "ac3": {
+    "run_id": "59245afb-7c99-43a6-a84d-7ef6011a2686",
+    "first_executed": 8,
+    "resume_executed": 12,
+    "skipped": 8,
+    "rows": 20,
+    "distinct": 20,
+    "second_wave_calls": 12
+  },
+  "ac4": {
+    "passed": 5,
+    "failed": 5,
+    "error": 0,
+    "pass_rate": 0.5,
+    "exit_code": 3
+  },
+  "cli": {
+    "exit": 0,
+    "duration_ms": 121,
+    "exit_code": 0,
+    "threshold_exit": 3,
+    "threshold_exit_code": 3
+  },
+  "checks": [
+    {
+      "name": "pytest 全通过（8 例）",
+      "ok": true
+    },
+    {
+      "name": "AC1 加速比 2.0~8.0 且 20 例全过",
+      "ok": true
+    },
+    {
+      "name": "AC2 超时重试 1 次（attempts=2）且退出码 2",
+      "ok": true
+    },
+    {
+      "name": "AC3 续跑只执行剩余 12 条、结果 20 行无重复",
+      "ok": true
+    },
+    {
+      "name": "AC4 通过率 0.50 低于阈值 → 退出码 3",
+      "ok": true
+    },
+    {
+      "name": "CLI 默认场景退出码 0",
+      "ok": true
+    },
+    {
+      "name": "CLI 阈值不可达场景退出码 3",
+      "ok": true
+    }
+  ],
+  "all_ok": true
+}

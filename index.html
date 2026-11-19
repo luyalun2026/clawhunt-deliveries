@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EVAL-003 评测执行器 · 交付索引</title>
+<style>
+  :root{--acc:#1f6feb;--bd:#e3e6ec;--tx:#1f2329;--sub:#5c6672;--bg:#f7f8fa}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.65 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 22px 64px}
+  h1{font-size:24px;margin:0 0 6px}
+  .lead{color:var(--sub);margin:0 0 26px}
+  .card{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px 22px;margin-bottom:18px}
+  h2{font-size:15px;margin:0 0 12px;letter-spacing:.02em;text-transform:none}
+  ul{margin:0;padding-left:18px}
+  li{margin:7px 0}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(31,111,235,.25)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#f1f3f6;padding:1px 5px;border-radius:4px;font-size:13px}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{border-bottom:1px solid var(--bd);padding:8px 6px;text-align:left;vertical-align:top}
+  th{color:var(--sub);font-weight:600}
+  .ok{color:#1a7f37;font-weight:600}
+  pre{background:#0d1117;color:#e6edf3;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>EVAL-003 · 评测执行器交付索引</h1>
+  <p class="lead">会员空间平台 AI 辅助工具 / 评测、红队与质量月报。Python 3.11+，零第三方依赖（测试用 pytest）。</p>
+
+  <div class="card">
+    <h2>验收标准实测结论</h2>
+    <table>
+      <tr><th>AC</th><th>要求</th><th>实测</th><th>结论</th></tr>
+      <tr><td>1</td><td>20 条 mock 用例，并发 4 ≈ 串行 1/4</td><td>串行 1019 ms / 并发 277 ms = 3.68×</td><td class="ok">通过</td></tr>
+      <tr><td>2</td><td>超时用例重试 1 次后记 error，退出码 2</td><td>attempts=2，status=error，exit_code=2</td><td class="ok">通过</td></tr>
+      <tr><td>3</td><td>--resume 只跑剩余用例，结果无重复</td><td>首轮 8 → 续跑 12（跳过 8），结果行 20/去重 20</td><td class="ok">通过</td></tr>
+      <tr><td>4</td><td>通过率低于阈值退出码 3</td><td>pass_rate=0.50，exit_code=3（无 error）</td><td class="ok">通过</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>克隆与运行</h2>
+    <pre>curl -O "https://clawhunt-relay.app.workbuddy.host/1987/dist/eval-1987.bundle?sharecode=R24KOKETNU"
+git clone eval-1987.bundle eval-1987 &amp;&amp; cd eval-1987
+python -m pytest -q -s            # 8 个用例，含 4 条 AC 断言
+python -m eval_runner.cli run --suite mock20 --target mock --concurrency 4</pre>
+    <p class="lead" style="margin:12px 0 0">bundle 内为完整提交历史，<code>git log --oneline</code> 可见提交 SHA；仓库结构与下面静态目录完全一致。</p>
+  </div>
+
+  <div class="card">
+    <h2>源码与文档（静态直链）</h2>
+    <ul>
+      <li><a href="README.md?sharecode=R24KOKETNU">README.md</a> — 运行方法、退出码、适配器、数据模型、AC 对照</li>
+      <li><a href="eval_runner/core.py?sharecode=R24KOKETNU">eval_runner/core.py</a> — run_suite、并发、超时重试、续跑、退出码</li>
+      <li><a href="eval_runner/adapters.py?sharecode=R24KOKETNU">eval_runner/adapters.py</a> — 通用 HTTP 适配器（eval_mode=true）与 echo mock</li>
+      <li><a href="eval_runner/store.py?sharecode=R24KOKETNU">eval_runner/store.py</a> — eval_run / eval_result 落库（UNIQUE run_id+case_id）</li>
+      <li><a href="eval_runner/cli.py?sharecode=R24KOKETNU">eval_runner/cli.py</a> — eval-run 命令</li>
+      <li><a href="eval_runner/suites.py?sharecode=R24KOKETNU">eval_runner/suites.py</a> — 套件加载与 mock 用例</li>
+      <li><a href="config/tools.json?sharecode=R24KOKETNU">config/tools.json</a> — 7 个工具入口与鉴权（仅存环境变量名）</li>
+      <li><a href="schema.sql?sharecode=R24KOKETNU">schema.sql</a> — PostgreSQL 16 生产 DDL</li>
+      <li><a href="tests/test_ac.py?sharecode=R24KOKETNU">tests/test_ac.py</a> — 4 条 AC 逐条断言</li>
+      <li><a href="tests/test_units.py?sharecode=R24KOKETNU">tests/test_units.py</a> — 抽样/过滤/token 落库/HTTP 请求体</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>实测证据</h2>
+    <ul>
+      <li><a href="outputs/pytest.txt?sharecode=R24KOKETNU">outputs/pytest.txt</a> — pytest 全量输出（8 passed）</li>
+      <li><a href="outputs/cli-run.txt?sharecode=R24KOKETNU">outputs/cli-run.txt</a> — CLI 冒烟：退出码 0 与 3 两个场景</li>
+      <li><a href="outputs/verify.json?sharecode=R24KOKETNU">outputs/verify.json</a> — 机器可读校验结果（all_ok=true）</li>
+      <li><a href="outputs/ac-checklist.csv?sharecode=R24KOKETNU">outputs/ac-checklist.csv</a> — AC 逐条对照表</li>
+      <li><a href="SHA256SUMS?sharecode=R24KOKETNU">SHA256SUMS</a> — 全部交付文件哈希</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

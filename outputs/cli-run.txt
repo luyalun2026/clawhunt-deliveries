@@ -1,0 +1,13 @@
+$ python -m eval_runner.cli run --suite mock20 --target mock --concurrency 4
+[eval-run] run_id=f47b0fc9-3cab-4652-b137-f335dd2a81cf target=mock suite=mock20
+[eval-run] 用例 20 条：执行 20 / 跳过 0；passed=20 failed=0 error=0
+[eval-run] 通过率 100.00% 阈值 80% 耗时 121 ms 退出码 0
+
+exit_code=0
+
+$ ... --pass-threshold 1.1   # 阈值不可达，验证退出码 3
+[eval-run] run_id=e5a0cb0e-c6b3-455f-b9d0-149f69c0c61a target=mock suite=mock20
+[eval-run] 用例 20 条：执行 20 / 跳过 0；passed=20 failed=0 error=0
+[eval-run] 通过率 100.00% 阈值 110% 耗时 100 ms 退出码 3
+
+exit_code=3

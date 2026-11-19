@@ -1,0 +1,12 @@
+$ python -m pytest -q -s tests
+
+[AC1] serial=1018ms  concurrency4=274ms  speedup=3.72x
+.
+[AC2] exit_code=2 error=1 attempts(SLOW-01)=2
+.
+[AC3] run_id=59245afb-7c99-43a6-a84d-7ef6011a2686 首轮=8 续跑=12 跳过=8 结果行=20 去重后=20 第二轮调用=12
+.
+[AC4] passed=5 failed=5 error=0 pass_rate=0.50 exit_code=3
+.....
+
+exit=0
