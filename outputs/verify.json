@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-11-22T19:51:31",
+  "pytest_summary": "9 passed, 1 warning in 3.85s",
+  "exit_code": 0,
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "per_group": {
+    "AC1 全流程步骤成功或跳过": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "AC2 重试耗尽置 failed": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "AC3 重跑只跑指定步骤及下游": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "AC4 同项目并发触发 409": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "迁移与模型（SQLAlchemy 2 / Alembic）": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {
+    "happy_path": {
+      "status": "succeeded",
+      "total_jobs": 10,
+      "succeeded": 9,
+      "skipped": 1,
+      "step_calls": {
+        "preprocess": 1,
+        "transcribe": 1,
+        "diarize": 1,
+        "postprocess": 1,
+        "detect_sensitive": 1,
+        "push_review": 1,
+        "generate": 3
+      },
+      "job_statuses": [
+        "skipped",
+        "succeeded"
+      ]
+    },
+    "retry_exhausted": {
+      "status": "failed",
+      "failed_step": "transcribe",
+      "transcribe_attempts": 4,
+      "max_attempts_expected": 4,
+      "backoff_sequence": [
+        30,
+        120,
+        600
+      ],
+      "downstream_calls": {
+        "diarize": 0,
+        "postprocess": 0,
+        "generate": 0,
+        "detect_sensitive": 0,
+        "push_review": 0
+      }
+    },
+    "rerun_delta": {
+      "preprocess": 0,
+      "transcribe": 1,
+      "diarize": 1,
+      "postprocess": 1,
+      "generate": 3,
+      "detect_sensitive": 1,
+      "push_review": 1
+    },
+    "concurrent_conflict": true,
+    "stale_reclaimed": 1,
+    "stale_error_code": "WORKER_RESTARTED"
+  }
+}

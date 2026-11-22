@@ -1,0 +1,15 @@
+{
+  "groups": {
+    "AC1 全流程步骤成功或跳过": ["ac1"],
+    "AC2 重试耗尽置 failed": ["ac2"],
+    "AC3 重跑只跑指定步骤及下游": ["ac3"],
+    "AC4 同项目并发触发 409": ["ac4"],
+    "迁移与模型（SQLAlchemy 2 / Alembic）": ["alembic", "models_schema"]
+  },
+  "notes": [
+    "存储层为 SQLAlchemy 2 模型 + Alembic 迁移；测试与演示跑 SQLite（零外部依赖），生产连接串换 postgresql+psycopg 即可。",
+    "Redis 以进程内 FakeRedis 等价实现（SET NX EX 语义），生产替换 redis-py 命令即可。",
+    "退避用可注入 sleep 记录，测试断言序列为 30/120/600 秒，零等待执行。",
+    "HTTP 接口层（POST retry / GET jobs）经 TestClient 以接口层断言覆盖。"
+  ]
+}
