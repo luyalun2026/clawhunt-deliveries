@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S3-KB-034 知识库权限泄露对抗测试套件 v2</title>
+<style>
+  :root{--acc:#0b6bcb;--ink:#12212f;--mut:#5b6b7b;--bg:#f7f9fc;--line:#dbe4ee}
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.7 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg)}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 22px 60px}
+  h1{font-size:24px;margin:0 0 6px}
+  .sub{color:var(--mut);margin:0 0 26px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:0 0 18px}
+  h2{font-size:16px;margin:0 0 12px}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(11,107,203,.25)}
+  a:hover{border-bottom-color:var(--acc)}
+  ul{margin:8px 0 0;padding-left:20px}
+  li{margin:6px 0}
+  code{background:#eef3f9;padding:1px 5px;border-radius:4px;font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:22px;color:var(--acc)}
+  .kpi span{color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>S3-KB-034 知识库权限泄露对抗测试套件（v2）</h1>
+  <p class="sub">FastAPI 被测入口 · 110 例 pytest · 13 项探测 + 5 轮多轮递进 · 语料全部虚构</p>
+
+  <div class="grid">
+    <div class="kpi"><b>110</b><span>pytest 用例，0 失败</span></div>
+    <div class="kpi"><b>13 / 13</b><span>探测项符合预期</span></div>
+    <div class="kpi"><b>5 轮</b><span>同 session 递进套取全拒答</span></div>
+    <div class="kpi"><b>4 种</b><span>越权情形 404 响应体完全一致</span></div>
+  </div>
+
+  <div class="card">
+    <h2>交付物（可直接打开）</h2>
+    <ul>
+      <li><a href="./README.md">README.md</a> — 运行方法、验收逐条对照、S2-IAM 对接点、已知边界</li>
+      <li><a href="./report/probe_report.md">report/probe_report.md</a> — 13 项探测 + 多轮逐轮结果（实跑生成）</li>
+      <li><a href="./report/junit.xml">report/junit.xml</a> — 110 例、0 失败、累计 1.578s</li>
+      <li><a href="./report/run_output.txt">report/run_output.txt</a> — pytest 端到端输出</li>
+      <li><a href="./app/main.py">app/main.py</a> — FastAPI 路由（OpenAPI 可枚举）</li>
+      <li><a href="./app/kb_api.py">app/kb_api.py</a> — 权限模型、注入检测、输出前泄露校验</li>
+      <li><a href="./corpus/corpus.json">corpus/corpus.json</a> — 唯一语料源（7 文档 9 切片）</li>
+      <li><a href="./tests/conftest.py">tests/</a> — 7 个测试文件，全部经 HTTP 调用</li>
+      <li><a href="./tools/probe_matrix.py">tools/probe_matrix.py</a> — 探测矩阵执行器</li>
+      <li><a href="./1980.bundle">1980.bundle</a> — git 全量包，<code>git clone 1980.bundle</code></li>
+      <li><a href="./repo.git/info/refs">repo.git</a> — 裸仓库，<code>git clone &lt;本页目录&gt;/repo.git</code> 免登录</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>三行复现</h2>
+    <ul>
+      <li><code>python -m pip install -r requirements.txt</code></li>
+      <li><code>python -m pytest tests -q --junitxml=report/junit.xml</code></li>
+      <li><code>python tools/probe_matrix.py</code>（退出码 0 = 无泄露）</li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
