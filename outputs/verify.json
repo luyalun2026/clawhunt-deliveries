@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-11-22T18:48:51",
+  "pytest_summary": "14 passed in 3.00s",
+  "exit_code": 0,
+  "total": 14,
+  "passed": 14,
+  "failed": 0,
+  "per_group": {
+    "AC1 10 种子生成变体覆盖 6 类技术且带溯源（统计输出）": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "AC2 相似度超 0.9 的变体被丢弃": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "AC3 未经抽检标记的变体无法 promote": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "AC4 变体全部通过 eval-lint 与 eval-pii-scan": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "边界：环境变量/多轮拆分/编码绕过/落盘": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {}
+}
