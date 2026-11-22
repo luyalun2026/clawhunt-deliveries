@@ -1,0 +1,25 @@
+name: mini-masking-tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install fastapi httpx pytest
+      - name: Run masking test suite (CI 必过项)
+        run: pytest tests -v --tb=short
+      - name: Negative-evidence suite (expected to FAIL)
+        run: |
+          if pytest tests_negative --tb=long > /tmp/neg.log 2>&1; then
+            echo "负向用例不应通过（断言失效）"; exit 1
+          else
+            echo "负向用例按预期失败：断言有效"; tail -40 /tmp/neg.log
+          fi

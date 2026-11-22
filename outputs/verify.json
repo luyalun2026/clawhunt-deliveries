@@ -1,0 +1,10 @@
+{
+ "endpoint_count": 9,
+ "identity_count": 4,
+ "request_count": 88,
+ "canary_count": 32,
+ "main_passed": 22,
+ "main_failed": 0,
+ "negative_failed": 2,
+ "exit": 0
+}

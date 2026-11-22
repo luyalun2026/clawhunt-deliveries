@@ -1,0 +1,13 @@
+CI 等价命令（本地全量，2026-11-22 复跑）
+$ python -m pytest tests tests_negative -q -rA
+
+—— 正向套件 tests/（CI 中必须全绿）——
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+22 passed, 1 warning in 3.26s
+
+—— 负向套件 tests_negative/（故意注入违规，期望 FAILED）——
+=========================== short test summary info ===========================
+FAILED tests_negative/test_negative_inject.py::test_injected_phone_must_fail
+FAILED tests_negative/test_negative_inject.py::test_precise_coord_must_fail
+2 failed, 1 warning in 1.99s

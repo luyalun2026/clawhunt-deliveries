@@ -1,0 +1,68 @@
+# S3-MINI-045 · 会员端接口联系方式与坐标精度脱敏自动化测试
+
+验证两条硬规则的 CI 必过测试集：
+
+- **R1 联系方式脱敏**：任何 `/api/mini/` 接口响应中不出现联系方式 —— 金丝雀值（{{CANARY}} 个虚构手机号/座机/邮箱/微信号）、禁键（phone / mobile / tel / email / wechat / wx_id / contact）、手机号·邮箱·座机正则，三重递归检查。
+- **R2 坐标街道级**：`/api/mini/map/` 全部响应的 lat/lng 必须与 `map_streets` 中某街道中心点**完全相等**，且小数不超过 4 位。
+
+## 运行方法
+
+```bash
+pip install fastapi httpx pytest
+python verify.py    # 一键复现：主套件必须全过，负向套件必须失败
+pytest tests -v     # 仅跑主套件（CI 同款）
+```
+
+## 本机实测结果（由 verify.py 自动提取，非手写）
+
+| 指标 | 实测值 |
+|---|---|
+| OpenAPI 枚举到的 /api/mini/ GET 接口 | {{ENDPOINTS}} 条 |
+| 身份 | {{IDENTITIES}} 种（guest / none / member / admin） |
+| 接口 × 身份 × 路径填充请求总数 | {{REQUESTS}} 次 |
+| 金丝雀值 | {{CANARY}} 个 |
+| 主套件 | **{{PASSED}} passed / 0 failed** |
+| 负向套件（破坏版注入） | **{{NEGFAIL}} 例按预期失败** |
+
+## 实现结构
+
+```
+app/
+  seed.py          # 金丝雀种子数据（虚构企业与联系人）+ map_streets 街道中心点
+  main.py          # FastAPI 会员端接口桩（9 条 GET，Pydantic 响应模型统一过滤）
+  assertions.py    # ★ assert_no_contact(payload) 可复用断言 + assert_street_level_coord
+  broken_app.py    # 破坏版应用（仅用于产出负向证据，不参与主套件）
+tests/
+  test_response_scan.py       # AC#1：OpenAPI 枚举全接口 × 4 身份逐响应扫描
+  test_model_scan.py          # AC#3 范围③：响应模型禁键扫描
+  test_coord_scan.py          # AC#3 正向：地图接口坐标 = 街道中心点且 ≤4 位小数
+  test_assert_no_contact_unit.py  # AC#4：断言函数独立单测（嵌套对象 + 数组）
+tests_negative/
+  test_negative_inject.py     # AC#2/#3：注入 phone / 高精度坐标后同一套断言必须失败
+.github/workflows/ci.yml      # CI 配置：主套件必过 + 负向套件必须失败（防断言失效）
+outputs/
+  pytest_main.txt             # 主套件完整输出
+  pytest_negative_expected_fail.txt  # 负向失败输出（AC#2/#3 证据）
+  report.md                   # 运行报告（含被扫描接口清单与失败输出节选）
+  verify.json                 # 数字汇总
+```
+
+## 新增接口自动纳入
+
+响应扫描从 `/openapi.json` 枚举 `/api/mini/` 下的 GET 接口，**新增接口无需手写用例即自动纳入**扫描与坐标检查；仅需在 `app/main.py` 的响应模型登记后同步 `tests/test_model_scan.py` 的模型清单（清单数断言会强制提醒）。POST 接口响应由各接口工单自测，本单提供 `assert_no_contact(payload, canary_values)`。
+
+## 与统一技术约定的关系
+
+依赖的其他工单接口以**接口桩**形态提供（内存数据，无外部依赖），README 声明对接点：正式集成时把 `app/seed.py` 的内存数据替换为 SQLAlchemy 查询、`app/main.py` 的路由挂载到主应用即可，测试代码（枚举 + 断言）不需要改动。
+
+## 边界与未测范围
+
+- POST 接口响应不在本单扫描范围（按任务范围说明，由各接口工单复用 `assert_no_contact` 自测）。
+- 身份令牌形态（JWT）由 S2-IAM 系列工单交付，本单桩用 `X-Auth-Role` 头模拟 4 种身份，正式集成时替换为真实鉴权依赖即可，扫描逻辑不变。
+- 座机金丝雀同时受座机正则覆盖；微信号金丝雀无通用正则，依赖「金丝雀值逐值比对」覆盖。
+
+## 验证方式（供审核方）
+
+1. 下载本包（或逐文件直链），`python verify.py` 一键复现；所有输出转录保存在 `outputs/`。
+2. 文件哈希见 `SHA256SUMS`（可用 `sha256sum -c SHA256SUMS` 校验）。
+3. 在线报告：见提交 assets 中的落地页链接（含 `?sharecode=` 参数）。

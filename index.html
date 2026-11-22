@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S3-MINI-045 · 联系方式与坐标精度脱敏自动化测试</title>
+<style>
+:root{--ink:#111827;--sub:#5b6472;--line:#e5e7eb;--acc:#1f3864;--bg:#fbfcfe}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:40px 24px 64px}
+h1{font-size:26px;margin:0 0 6px;color:var(--acc)}
+.sub{color:var(--sub);margin:0 0 24px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+.card b{display:block;font-size:24px;color:var(--acc)}
+.card span{color:var(--sub);font-size:13px}
+h2{font-size:18px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var(--acc)}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#eef2f9;font-weight:600}
+ul{padding-left:22px}li{margin:4px 0}
+a{color:var(--acc)}
+.meta{color:var(--sub);font-size:12px}
+.note{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;color:var(--sub);font-size:13px}
+</style></head><body><div class="wrap">
+<h1>会员端接口脱敏自动化测试（S3-MINI-045）</h1>
+<p class="sub">两条硬规则的 CI 必过测试集：联系方式零泄露 · 坐标街道级（主套件 22 passed / 负向 2 例按预期失败）</p>
+
+<div class="kpi">
+<div class="card"><b>9</b><span>GET 接口全枚举</span></div>
+<div class="card"><b>4</b><span>身份（4 种）</span></div>
+<div class="card"><b>88</b><span>扫描请求数</span></div>
+<div class="card"><b>32</b><span>金丝雀值</span></div>
+</div>
+<h2>交付文件（可直接下载）</h2><ul>
+<li><a href="README.md">README.md</a> <span class="meta">sha256:f8b14c9db4004390 · 4084 bytes</span></li>
+<li><a href="verify.py">verify.py</a> <span class="meta">sha256:69a6fe2559a31764 · 5735 bytes</span></li>
+<li><a href="SHA256SUMS">SHA256SUMS</a> <span class="meta">sha256:1b87d2b3f5b1d17b · 1377 bytes</span></li>
+<li><a href="app/seed.py">app/seed.py</a> <span class="meta">sha256:bfe3a927615558bf · 6082 bytes</span></li>
+<li><a href="app/main.py">app/main.py</a> <span class="meta">sha256:330e4607bedc8c29 · 5572 bytes</span></li>
+<li><a href="app/assertions.py">app/assertions.py</a> <span class="meta">sha256:51ee9922dabf39d8 · 5262 bytes</span></li>
+<li><a href="app/broken_app.py">app/broken_app.py</a> <span class="meta">sha256:82d8e9e2b7a82f28 · 1269 bytes</span></li>
+<li><a href="tests/scan_helper.py">tests/scan_helper.py</a> <span class="meta">sha256:cd35479b16a5b701 · 2566 bytes</span></li>
+<li><a href="tests/test_response_scan.py">tests/test_response_scan.py</a> <span class="meta">sha256:ce90234406b152b0 · 3294 bytes</span></li>
+<li><a href="tests/test_model_scan.py">tests/test_model_scan.py</a> <span class="meta">sha256:0f26318a3a008216 · 1281 bytes</span></li>
+<li><a href="tests/test_coord_scan.py">tests/test_coord_scan.py</a> <span class="meta">sha256:4bfd04acf1854e15 · 1793 bytes</span></li>
+<li><a href="tests/test_assert_no_contact_unit.py">tests/test_assert_no_contact_unit.py</a> <span class="meta">sha256:8a78423941253f46 · 4110 bytes</span></li>
+<li><a href="tests_negative/test_negative_inject.py">tests_negative/test_negative_inject.py</a> <span class="meta">sha256:466d36ce06b52906 · 1491 bytes</span></li>
+<li><a href=".github/workflows/ci.yml">.github/workflows/ci.yml</a> <span class="meta">sha256:785385235fd16a01 · 719 bytes</span></li>
+<li><a href="outputs/report.md">outputs/report.md</a> <span class="meta">sha256:a6356e3b5d6187b8 · 3003 bytes</span></li>
+<li><a href="outputs/pytest_main.txt">outputs/pytest_main.txt</a> <span class="meta">sha256:46f2c90a1a00868a · 3360 bytes</span></li>
+<li><a href="outputs/pytest_negative_expected_fail.txt">outputs/pytest_negative_expected_fail.txt</a> <span class="meta">sha256:b52fee0cdbb49daa · 5000 bytes</span></li>
+<li><a href="outputs/verify.json">outputs/verify.json</a> <span class="meta">sha256:d3ca6018e531ef14 · 172 bytes</span></li>
+</ul>
+<h2>验收标准逐条对照</h2>
+<table><thead><tr><th>AC</th><th>要求</th><th>实测证据</th></tr></thead><tbody><tr><td>AC1</td><td>CI 中运行通过，报告列出被扫描接口数量与 4 种身份</td><td>verify.py 实测 22 passed / 0 failed；outputs/report.md 列出 9 条接口与 4 种身份，请求总数 88</td></tr><tr><td>AC2</td><td>故意加入 phone 字段后测试失败（附失败输出）</td><td>app/broken_app.py 注入金丝雀手机号；tests_negative 按预期 FAILED，完整失败输出见 outputs/pytest_negative_expected_fail.txt</td></tr><tr><td>AC3</td><td>故意返回非街道中心点坐标后测试失败（附失败输出）</td><td>broken_app 返回 raw_lat/raw_lng 高精度坐标；负向套件第 2 例 FAILED，断言报「不等于任何街道中心点」+「小数超过 4 位」</td></tr><tr><td>AC4</td><td>assert_no_contact 独立单测覆盖嵌套对象与数组</td><td>test_assert_no_contact_unit.py 15 例：嵌套对象路径（$.data.profile.phone 等）与数组下标路径（$.items[1].mobile 等）</td></tr></tbody></table>
+<h2>扫描规则</h2>
+<ul><li>R1：任何 /api/mini/ 响应不得出现联系方式 —— 金丝雀值逐值比对（32 个虚构手机号/座机/邮箱/微信号）+ 禁键 7 种（phone/mobile/tel/email/wechat/wx_id/contact）+ 手机号·邮箱·座机正则，三重递归检查（覆盖嵌套对象与数组）。</li><li>R2：/api/mini/map/ 响应 lat/lng 必须与 map_streets 某街道中心点完全相等，且小数不超过 4 位。</li><li>新增会员端 GET 接口自动纳入：扫描从 /openapi.json 枚举，无需手写用例。</li><li>POST 接口响应由各接口工单复用 assert_no_contact(payload) 自测（任务范围说明）。</li></ul>
+<h2>结构</h2>
+<ul><li>app/seed.py：金丝雀种子数据 + map_streets 街道中心点（全部虚构）</li><li>app/main.py：FastAPI 会员端接口桩（内存数据，正式集成时替换为 SQLAlchemy 查询即可，测试不变）</li><li>app/assertions.py：★ assert_no_contact 与 assert_street_level_coord 可复用断言</li><li>app/broken_app.py：破坏版应用（仅产负向证据）</li><li>.github/workflows/ci.yml：主套件必过 + 负向套件必须失败（防断言失效）</li></ul>
+<h2>说明</h2><div class="note">全部数字由 verify.py 实测自动提取；本机无 Docker/Postgres，接口桩形态交付（任务允许 mock/桩先行），运行与复现：pip install fastapi httpx pytest && python verify.py</div>
+<p class="meta">生成于 2026-11-21 06:24 · 工单 S3-MINI-045 · 联系方式与坐标精度脱敏自动化测试</p>
+</div></body></html>

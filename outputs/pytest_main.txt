@@ -1,0 +1,42 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2185
+plugins: anyio-4.16.0, hypothesis-6.170.15
+collecting ... collected 22 items
+
+tests/test_assert_no_contact_unit.py::test_nested_object_banned_key_detected PASSED
+tests/test_assert_no_contact_unit.py::test_deeply_nested_object_clean_passes PASSED
+tests/test_assert_no_contact_unit.py::test_nested_object_canary_value_detected PASSED
+tests/test_assert_no_contact_unit.py::test_nested_object_mobile_regex_detected PASSED
+tests/test_assert_no_contact_unit.py::test_nested_object_email_regex_detected PASSED
+tests/test_assert_no_contact_unit.py::test_nested_object_clean_phone_like_text_not_flagged PASSED
+tests/test_assert_no_contact_unit.py::test_array_of_objects_banned_key_detected PASSED
+tests/test_assert_no_contact_unit.py::test_array_of_strings_canary_detected PASSED
+tests/test_assert_no_contact_unit.py::test_nested_array_in_object_multiple_violations_counted PASSED
+tests/test_assert_no_contact_unit.py::test_empty_containers_pass PASSED
+tests/test_assert_no_contact_unit.py::test_coord_non_center_detected PASSED
+tests/test_assert_no_contact_unit.py::test_coord_over_four_decimals_detected PASSED
+tests/test_assert_no_contact_unit.py::test_coord_exact_center_passes PASSED
+tests/test_coord_scan.py::test_map_endpoints_street_level_coords 
+COORD-CHECK checked_responses=24
+PASSED
+tests/test_coord_scan.py::test_street_centers_have_at_most_4_decimals PASSED
+tests/test_coord_scan.py::test_nearby_streets_reject_mismatched_pair_shape PASSED
+tests/test_model_scan.py::test_no_response_model_contains_banned_field PASSED
+tests/test_model_scan.py::test_all_mini_response_models_are_registered PASSED
+tests/test_model_scan.py::test_profile_contact_visible_is_bool_only PASSED
+tests/test_response_scan.py::test_scan_all_mini_get_endpoints_four_identities 
+SCAN-REPORT {"endpoints": ["/api/mini/companies", "/api/mini/companies/{company_id}", "/api/mini/companies/{company_id}/contacts", "/api/mini/map/nearby", "/api/mini/map/streets", "/api/mini/map/streets/{street_id}/points", "/api/mini/notices", "/api/mini/notices/{notice_id}", "/api/mini/profile"], "endpoint_count": 9, "identities": ["guest", "none", "member", "admin"], "request_count": 88, "auth_rejected_count": 2}
+PASSED
+tests/test_response_scan.py::test_banned_keys_never_appear_anywhere PASSED
+tests/test_response_scan.py::test_guest_and_unauthenticated_get_401_on_profile PASSED
+
+============================== warnings summary ===============================
+..\..\..\..\.workbuddy\binaries\python\versions\3.13.12\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 22 passed, 1 warning in 3.29s ========================
