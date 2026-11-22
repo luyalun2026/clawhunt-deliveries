@@ -1,0 +1,748 @@
+{
+ "docs": 30,
+ "doc_correct": 30,
+ "accuracy": 1.0,
+ "label_recall": 1.0,
+ "threshold": 0.9,
+ "pass": true,
+ "detail": [
+  {
+   "id": "E01",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-02-24"
+    ],
+    [
+     "submission",
+     "2026-02-04"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-02-24"
+    ],
+    [
+     "submission",
+     "2026-02-04"
+    ]
+   ],
+   "earliest_got": "2026-02-04",
+   "earliest_want": "2026-02-04",
+   "dropped": 0
+  },
+  {
+   "id": "E02",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-03-08"
+    ],
+    [
+     "submission",
+     "2026-02-16"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-03-08"
+    ],
+    [
+     "submission",
+     "2026-02-16"
+    ]
+   ],
+   "earliest_got": "2026-02-16",
+   "earliest_want": "2026-02-16",
+   "dropped": 0
+  },
+  {
+   "id": "E03",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-03-20"
+    ],
+    [
+     "submission",
+     "2026-02-28"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-03-20"
+    ],
+    [
+     "submission",
+     "2026-02-28"
+    ]
+   ],
+   "earliest_got": "2026-02-28",
+   "earliest_want": "2026-02-28",
+   "dropped": 0
+  },
+  {
+   "id": "E04",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-04-01"
+    ],
+    [
+     "submission",
+     "2026-03-12"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-04-01"
+    ],
+    [
+     "submission",
+     "2026-03-12"
+    ]
+   ],
+   "earliest_got": "2026-03-12",
+   "earliest_want": "2026-03-12",
+   "dropped": 0
+  },
+  {
+   "id": "E05",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-04-13"
+    ],
+    [
+     "submission",
+     "2026-03-24"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-04-13"
+    ],
+    [
+     "submission",
+     "2026-03-24"
+    ]
+   ],
+   "earliest_got": "2026-03-24",
+   "earliest_want": "2026-03-24",
+   "dropped": 0
+  },
+  {
+   "id": "E06",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-04-25"
+    ],
+    [
+     "submission",
+     "2026-04-05"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-04-25"
+    ],
+    [
+     "submission",
+     "2026-04-05"
+    ]
+   ],
+   "earliest_got": "2026-04-05",
+   "earliest_want": "2026-04-05",
+   "dropped": 0
+  },
+  {
+   "id": "E07",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-05-07"
+    ],
+    [
+     "submission",
+     "2026-04-17"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-05-07"
+    ],
+    [
+     "submission",
+     "2026-04-17"
+    ]
+   ],
+   "earliest_got": "2026-04-17",
+   "earliest_want": "2026-04-17",
+   "dropped": 0
+  },
+  {
+   "id": "E08",
+   "ok": true,
+   "got": [
+    [
+     "event_date",
+     "2026-05-19"
+    ],
+    [
+     "submission",
+     "2026-04-29"
+    ]
+   ],
+   "want": [
+    [
+     "event_date",
+     "2026-05-19"
+    ],
+    [
+     "submission",
+     "2026-04-29"
+    ]
+   ],
+   "earliest_got": "2026-04-29",
+   "earliest_want": "2026-04-29",
+   "dropped": 0
+  },
+  {
+   "id": "E09",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-02-12"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-02-12"
+    ]
+   ],
+   "earliest_got": "2026-02-12",
+   "earliest_want": "2026-02-12",
+   "dropped": 0
+  },
+  {
+   "id": "E10",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-02-23"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-02-23"
+    ]
+   ],
+   "earliest_got": "2026-02-23",
+   "earliest_want": "2026-02-23",
+   "dropped": 0
+  },
+  {
+   "id": "E11",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-03-06"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-03-06"
+    ]
+   ],
+   "earliest_got": "2026-03-06",
+   "earliest_want": "2026-03-06",
+   "dropped": 0
+  },
+  {
+   "id": "E12",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-03-17"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-03-17"
+    ]
+   ],
+   "earliest_got": "2026-03-17",
+   "earliest_want": "2026-03-17",
+   "dropped": 0
+  },
+  {
+   "id": "E13",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-03-28"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-03-28"
+    ]
+   ],
+   "earliest_got": "2026-03-28",
+   "earliest_want": "2026-03-28",
+   "dropped": 0
+  },
+  {
+   "id": "E14",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-04-08"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-04-08"
+    ]
+   ],
+   "earliest_got": "2026-04-08",
+   "earliest_want": "2026-04-08",
+   "dropped": 0
+  },
+  {
+   "id": "E15",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-03-23"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-03-23"
+    ]
+   ],
+   "earliest_got": "2026-03-23",
+   "earliest_want": "2026-03-23",
+   "dropped": 0
+  },
+  {
+   "id": "E16",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-04-06"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-04-06"
+    ]
+   ],
+   "earliest_got": "2026-04-06",
+   "earliest_want": "2026-04-06",
+   "dropped": 0
+  },
+  {
+   "id": "E17",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-04-20"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-04-20"
+    ]
+   ],
+   "earliest_got": "2026-04-20",
+   "earliest_want": "2026-04-20",
+   "dropped": 0
+  },
+  {
+   "id": "E18",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-05-04"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2027-12-31"
+    ],
+    [
+     "submission",
+     "2026-05-04"
+    ]
+   ],
+   "earliest_got": "2026-05-04",
+   "earliest_want": "2026-05-04",
+   "dropped": 0
+  },
+  {
+   "id": "E19",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-04-21"
+    ],
+    [
+     "submission",
+     "2026-05-06"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-04-21"
+    ],
+    [
+     "submission",
+     "2026-05-06"
+    ]
+   ],
+   "earliest_got": "2026-04-21",
+   "earliest_want": "2026-04-21",
+   "dropped": 0
+  },
+  {
+   "id": "E20",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-04-29"
+    ],
+    [
+     "submission",
+     "2026-05-14"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-04-29"
+    ],
+    [
+     "submission",
+     "2026-05-14"
+    ]
+   ],
+   "earliest_got": "2026-04-29",
+   "earliest_want": "2026-04-29",
+   "dropped": 0
+  },
+  {
+   "id": "E21",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-05-07"
+    ],
+    [
+     "submission",
+     "2026-05-22"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-05-07"
+    ],
+    [
+     "submission",
+     "2026-05-22"
+    ]
+   ],
+   "earliest_got": "2026-05-07",
+   "earliest_want": "2026-05-07",
+   "dropped": 0
+  },
+  {
+   "id": "E22",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-05-15"
+    ],
+    [
+     "submission",
+     "2026-05-30"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-05-15"
+    ],
+    [
+     "submission",
+     "2026-05-30"
+    ]
+   ],
+   "earliest_got": "2026-05-15",
+   "earliest_want": "2026-05-15",
+   "dropped": 0
+  },
+  {
+   "id": "E23",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-05-23"
+    ],
+    [
+     "submission",
+     "2026-06-07"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-05-23"
+    ],
+    [
+     "submission",
+     "2026-06-07"
+    ]
+   ],
+   "earliest_got": "2026-05-23",
+   "earliest_want": "2026-05-23",
+   "dropped": 0
+  },
+  {
+   "id": "E24",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-05-31"
+    ],
+    [
+     "submission",
+     "2026-06-15"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-05-31"
+    ],
+    [
+     "submission",
+     "2026-06-15"
+    ]
+   ],
+   "earliest_got": "2026-05-31",
+   "earliest_want": "2026-05-31",
+   "dropped": 0
+  },
+  {
+   "id": "E25",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-05-29"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-05-29"
+    ]
+   ],
+   "earliest_got": null,
+   "earliest_want": null,
+   "dropped": 0
+  },
+  {
+   "id": "E26",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-06-08"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-06-08"
+    ]
+   ],
+   "earliest_got": null,
+   "earliest_want": null,
+   "dropped": 0
+  },
+  {
+   "id": "E27",
+   "ok": true,
+   "got": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-06-18"
+    ]
+   ],
+   "want": [
+    [
+     "effective_until",
+     "2026-12-31"
+    ],
+    [
+     "event_date",
+     "2026-06-18"
+    ]
+   ],
+   "earliest_got": null,
+   "earliest_want": null,
+   "dropped": 0
+  },
+  {
+   "id": "E28",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-06-19"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-06-19"
+    ]
+   ],
+   "earliest_got": "2026-06-19",
+   "earliest_want": "2026-06-19",
+   "dropped": 0
+  },
+  {
+   "id": "E29",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-06-28"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-06-28"
+    ]
+   ],
+   "earliest_got": "2026-06-28",
+   "earliest_want": "2026-06-28",
+   "dropped": 0
+  },
+  {
+   "id": "E30",
+   "ok": true,
+   "got": [
+    [
+     "submission",
+     "2026-07-07"
+    ]
+   ],
+   "want": [
+    [
+     "submission",
+     "2026-07-07"
+    ]
+   ],
+   "earliest_got": "2026-07-07",
+   "earliest_want": "2026-07-07",
+   "dropped": 0
+  }
+ ]
+}

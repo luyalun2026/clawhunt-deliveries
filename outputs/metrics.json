@@ -1,0 +1,11 @@
+{
+  "eval_docs": 30,
+  "accuracy": 1.0,
+  "label_recall": 1.0,
+  "threshold_pass": true,
+  "clause_typed_smoke": {
+    "2026年2月4日前": "submission",
+    "2026年3月8日": "event_date"
+  },
+  "smoke_ok": true
+}

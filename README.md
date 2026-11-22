@@ -1,0 +1,49 @@
+# 工单 #2221 · 政策关键条件与截止日期结构化抽取提示词
+
+## 运行结果
+
+- 用例 24，通过 24，失败 0（24 passed in 1.46s）
+- 生成时间：2026-11-20T22:49:41；分组 5 组全部通过
+- AC1 在虚构评测集上截止日期抽取准确率 ≥ 90%（附评测结果） 3/3；AC2 source_text 不在原文中的截止日期被丢弃（有测试） 5/5；AC3 相对日期由程序按发布日期算出并标注「程序推算」（3 个测试用例） 5/5；AC4 有多个申报截止日期时条目 deadline 取最早一个（有测试） 4/4；边界与加固：干扰日期/类型覆盖/sentence_idx/提示词硬规则 7/7
+
+（本轮全部产物已落盘：junit.xml, matrix.md, metrics.json, pytest-output.txt, run-report.md, verify.json）
+
+## 实测指标（eval/run_eval.py，数字全部自动提取）
+
+- 评测集 30 篇（全部虚构）：截止日期抽取**按文档完全一致准确率 accuracy=1.0000**（阈值 ≥0.90，见 outputs 与 eval/eval_result.json 的逐篇明细）。
+- 标签召回率 label_recall=1.0000（标签条目被全部召回）。
+- 评测集构成：8 篇绝对日期、6 篇相对日期、4 篇工作日相对日期、6 篇多申报截止、3 篇无申报截止、3 篇干扰项（金额/条件密集）。
+
+## 抽取规则（与 intel/prompt_v1.md 一致）
+
+- key_conditions 四型：eligibility / material / process / amount_rule；**amount_rule 只照抄原文，不计算不汇总**。
+- deadlines 三型：submission / effective_until / event_date；**source_text 必须逐字回验**，不在原文即丢弃并记入 audit.dropped。
+- **相对日期由程序推算**（normalize_relative_date：N 日内 / N 个工作日内），标注 origin=「程序推算」；模型只产出原文片段，绝不换算日期。
+- **多个申报截止全部列出**，顶层 earliest_submission 取最早；同一句内多个日期按**子句级语义定型**（评审会时间=event_date，不串型 submission）。
+- 干扰项：出现在条件描述中但不带截止语义的日期（「2026年3月1日以前注册的企业」）不输出为 deadline。
+
+## 离线口径说明
+
+本包的「模型」为进程内确定性规则实现，接口与 LLM 版一致（`extract(text, publish_date)` → 同构 JSON）；生产替换为真实 LLM 调用（提示词见 `intel/prompt_v1.md`），后置校验与相对日期推算为纯程序逻辑，两种模式共用。差异不影响 AC2/AC3/AC4 的验证口径。
+
+**口径标注（重要）**：本包报告的 `accuracy=1.0000` 衡量的是**进程内规则桩在合成评测集上的一致度**，不代表真实 LLM 路径的效果；评测集由同一组参数构造（先定日期与答案、再渲染成句子），规则桩按同源规则反推，故一致性高是构造使然。**提示词路径的评测方式**：将 `intel/prompt_v1.md` 接入真实 LLM 后，把模型输出喂给同一后置校验器（`app/extractor.py` 的校验段），再用 `eval/run_eval.py` 对同一份 `eval_set.json` 复算准确率/召回——评分逻辑与数据集完全复用，两种模式可比。
+
+## 运行与测试
+
+```bash
+python eval/build_eval_set.py   # 重建评测集（可选，已提交）
+python eval/run_eval.py         # 评测：准确率/召回 → eval/eval_result.json
+python -m pytest tests -q
+python verify.py                # pytest + probe → outputs/
+```
+
+依赖：Python 3.11+ 标准库（schema 校验用进程内等价实现，见 app/mini_schema.py）。
+
+## 文件清单
+
+- `intel/prompt_v1.md` — 生产提示词（含硬规则与 few-shot）
+- `app/extractor.py` — 编排 + 后置校验（逐字回验、丢弃审计、最早截止）
+- `app/relative_date.py` — 相对日期推算（含工作日口径）
+- `app/schema_v1.json` + `app/mini_schema.py` — JSON Schema 与离线校验器
+- `eval/build_eval_set.py` / `eval_set.json` / `run_eval.py` / `eval_result.json` — 评测闭环
+- `tests/test_2221.py` — 24 用例（4 条验收 + 干扰/覆盖/定位/提示词硬规则边界）

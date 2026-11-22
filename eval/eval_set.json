@@ -1,0 +1,450 @@
+{
+ "description": "虚构评测集（30 篇，全部虚构，无真实个人信息或企业信息）",
+ "publish_note": "相对日期类条目，抽取时以 publish_date 为程序推算基准",
+ "docs": [
+  {
+   "id": "E01",
+   "text": "江城科技创新协会关于开展专精特新培育补贴的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年2月4日前提交申报材料至受理窗口。本次活动评审会时间为2026年2月24日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-01-05",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-02-04"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-02-24"
+    }
+   ],
+   "expected_earliest_submission": "2026-02-04"
+  },
+  {
+   "id": "E02",
+   "text": "临湖产业发展局关于开展中小企业数字化改造资助的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年2月16日前提交申报材料至受理窗口。本次活动评审会时间为2026年3月8日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-01-12",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-02-16"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-03-08"
+    }
+   ],
+   "expected_earliest_submission": "2026-02-16"
+  },
+  {
+   "id": "E03",
+   "text": "南岭商务联合会关于开展绿色工厂奖励的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年2月28日前提交申报材料至受理窗口。本次活动评审会时间为2026年3月20日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-01-19",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-02-28"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-03-20"
+    }
+   ],
+   "expected_earliest_submission": "2026-02-28"
+  },
+  {
+   "id": "E04",
+   "text": "云溪数字经济园区关于开展研发投入奖补的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年3月12日前提交申报材料至受理窗口。本次活动评审会时间为2026年4月1日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-01-26",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-12"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-04-01"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-12"
+  },
+  {
+   "id": "E05",
+   "text": "江城科技创新协会关于开展专精特新培育补贴的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年3月24日前提交申报材料至受理窗口。本次活动评审会时间为2026年4月13日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-02-02",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-24"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-04-13"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-24"
+  },
+  {
+   "id": "E06",
+   "text": "临湖产业发展局关于开展中小企业数字化改造资助的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年4月5日前提交申报材料至受理窗口。本次活动评审会时间为2026年4月25日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-02-09",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-05"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-04-25"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-05"
+  },
+  {
+   "id": "E07",
+   "text": "南岭商务联合会关于开展绿色工厂奖励的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年4月17日前提交申报材料至受理窗口。本次活动评审会时间为2026年5月7日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-02-16",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-17"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-05-07"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-17"
+  },
+  {
+   "id": "E08",
+   "text": "云溪数字经济园区关于开展研发投入奖补的通知。申报条件：在本地注册满两年的独立法人企业。申报材料：营业执照复印件、上年度审计报告。请各单位于2026年4月29日前提交申报材料至受理窗口。本次活动评审会时间为2026年5月19日。办理流程：线上提交、部门联审、公示。",
+   "publish_date": "2026-02-23",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-29"
+    },
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-05-19"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-29"
+  },
+  {
+   "id": "E09",
+   "text": "临湖产业发展局关于印发中小企业数字化改造资助实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起10日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-02-02",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-02-12"
+    }
+   ],
+   "expected_earliest_submission": "2026-02-12"
+  },
+  {
+   "id": "E10",
+   "text": "南岭商务联合会关于印发绿色工厂奖励实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起15日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-02-08",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-02-23"
+    }
+   ],
+   "expected_earliest_submission": "2026-02-23"
+  },
+  {
+   "id": "E11",
+   "text": "云溪数字经济园区关于印发研发投入奖补实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起20日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-02-14",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-06"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-06"
+  },
+  {
+   "id": "E12",
+   "text": "江城科技创新协会关于印发专精特新培育补贴实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起25日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-02-20",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-17"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-17"
+  },
+  {
+   "id": "E13",
+   "text": "临湖产业发展局关于印发中小企业数字化改造资助实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起30日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-02-26",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-28"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-28"
+  },
+  {
+   "id": "E14",
+   "text": "南岭商务联合会关于印发绿色工厂奖励实施细则的通知。支持对象为园区内规上企业。企业需提交近三年研发费用清单。本通知自发布之日起35日内完成申报。资助标准为不超过200万元。",
+   "publish_date": "2026-03-04",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-08"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-08"
+  },
+  {
+   "id": "E15",
+   "text": "南岭商务联合会关于组织绿色工厂奖励申报的工作方案。申报范围包括规下转规上企业。材料包括申请表与佐证材料。请自印发之日起15个工作日内报送。有效期至2027年12月31日。",
+   "publish_date": "2026-03-02",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-03-23"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2027-12-31"
+    }
+   ],
+   "expected_earliest_submission": "2026-03-23"
+  },
+  {
+   "id": "E16",
+   "text": "云溪数字经济园区关于组织研发投入奖补申报的工作方案。申报范围包括规下转规上企业。材料包括申请表与佐证材料。请自印发之日起20个工作日内报送。有效期至2027年12月31日。",
+   "publish_date": "2026-03-09",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-06"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2027-12-31"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-06"
+  },
+  {
+   "id": "E17",
+   "text": "江城科技创新协会关于组织专精特新培育补贴申报的工作方案。申报范围包括规下转规上企业。材料包括申请表与佐证材料。请自印发之日起25个工作日内报送。有效期至2027年12月31日。",
+   "publish_date": "2026-03-16",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-20"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2027-12-31"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-20"
+  },
+  {
+   "id": "E18",
+   "text": "临湖产业发展局关于组织中小企业数字化改造资助申报的工作方案。申报范围包括规下转规上企业。材料包括申请表与佐证材料。请自印发之日起30个工作日内报送。有效期至2027年12月31日。",
+   "publish_date": "2026-03-23",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-04"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2027-12-31"
+    }
+   ],
+   "expected_earliest_submission": "2026-05-04"
+  },
+  {
+   "id": "E19",
+   "text": "云溪数字经济园区关于研发投入奖补第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年4月21日；因场地受限，第二阶段受理截止顺延至2026年5月6日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-01",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-21"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-06"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-21"
+  },
+  {
+   "id": "E20",
+   "text": "江城科技创新协会关于专精特新培育补贴第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年4月29日；因场地受限，第二阶段受理截止顺延至2026年5月14日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-06",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-04-29"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-14"
+    }
+   ],
+   "expected_earliest_submission": "2026-04-29"
+  },
+  {
+   "id": "E21",
+   "text": "临湖产业发展局关于中小企业数字化改造资助第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年5月7日；因场地受限，第二阶段受理截止顺延至2026年5月22日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-11",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-07"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-22"
+    }
+   ],
+   "expected_earliest_submission": "2026-05-07"
+  },
+  {
+   "id": "E22",
+   "text": "南岭商务联合会关于绿色工厂奖励第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年5月15日；因场地受限，第二阶段受理截止顺延至2026年5月30日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-16",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-15"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-30"
+    }
+   ],
+   "expected_earliest_submission": "2026-05-15"
+  },
+  {
+   "id": "E23",
+   "text": "云溪数字经济园区关于研发投入奖补第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年5月23日；因场地受限，第二阶段受理截止顺延至2026年6月7日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-21",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-23"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-06-07"
+    }
+   ],
+   "expected_earliest_submission": "2026-05-23"
+  },
+  {
+   "id": "E24",
+   "text": "江城科技创新协会关于专精特新培育补贴第二批申报的公告。申报条件：上年度营收不低于5000万元。第一阶段申报截止日期为2026年5月31日；因场地受限，第二阶段受理截止顺延至2026年6月15日。申报材料：项目可行性报告。",
+   "publish_date": "2026-04-26",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-05-31"
+    },
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-06-15"
+    }
+   ],
+   "expected_earliest_submission": "2026-05-31"
+  },
+  {
+   "id": "E25",
+   "text": "江城科技创新协会关于举办供需对接会的预通知。适用于园区注册企业。活动日期为2026年5月29日。本通知有效期至2026年12月31日。",
+   "publish_date": "2026-05-04",
+   "expected_deadlines": [
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-05-29"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2026-12-31"
+    }
+   ],
+   "expected_earliest_submission": null
+  },
+  {
+   "id": "E26",
+   "text": "临湖产业发展局关于举办供需对接会的预通知。适用于园区注册企业。活动日期为2026年6月8日。本通知有效期至2026年12月31日。",
+   "publish_date": "2026-05-14",
+   "expected_deadlines": [
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-06-08"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2026-12-31"
+    }
+   ],
+   "expected_earliest_submission": null
+  },
+  {
+   "id": "E27",
+   "text": "南岭商务联合会关于举办供需对接会的预通知。适用于园区注册企业。活动日期为2026年6月18日。本通知有效期至2026年12月31日。",
+   "publish_date": "2026-05-24",
+   "expected_deadlines": [
+    {
+     "deadline_type": "event_date",
+     "deadline": "2026-06-18"
+    },
+    {
+     "deadline_type": "effective_until",
+     "deadline": "2026-12-31"
+    }
+   ],
+   "expected_earliest_submission": null
+  },
+  {
+   "id": "E28",
+   "text": "临湖产业发展局关于中小企业数字化改造资助的补充说明。金额规则：单个企业补贴不超过150万元，比例为实际投资的30%。2026年3月1日以前注册的企业适用于本条。请于2026年6月19日前提交材料。流程如下：初审、复审、拨付。",
+   "publish_date": "2026-06-01",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-06-19"
+    }
+   ],
+   "expected_earliest_submission": "2026-06-19"
+  },
+  {
+   "id": "E29",
+   "text": "南岭商务联合会关于绿色工厂奖励的补充说明。金额规则：单个企业补贴不超过150万元，比例为实际投资的30%。2026年3月1日以前注册的企业适用于本条。请于2026年6月28日前提交材料。流程如下：初审、复审、拨付。",
+   "publish_date": "2026-06-10",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-06-28"
+    }
+   ],
+   "expected_earliest_submission": "2026-06-28"
+  },
+  {
+   "id": "E30",
+   "text": "云溪数字经济园区关于研发投入奖补的补充说明。金额规则：单个企业补贴不超过150万元，比例为实际投资的30%。2026年3月1日以前注册的企业适用于本条。请于2026年7月7日前提交材料。流程如下：初审、复审、拨付。",
+   "publish_date": "2026-06-19",
+   "expected_deadlines": [
+    {
+     "deadline_type": "submission",
+     "deadline": "2026-07-07"
+    }
+   ],
+   "expected_earliest_submission": "2026-07-07"
+  }
+ ]
+}

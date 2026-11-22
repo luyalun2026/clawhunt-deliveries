@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-11-21T12:17:57",
+  "pytest_summary": "24 passed in 1.44s",
+  "exit_code": 0,
+  "total": 24,
+  "passed": 24,
+  "failed": 0,
+  "per_group": {
+    "AC1 在虚构评测集上截止日期抽取准确率 ≥ 90%（附评测结果）": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "AC2 source_text 不在原文中的截止日期被丢弃（有测试）": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "AC3 相对日期由程序按发布日期算出并标注「程序推算」（3 个测试用例）": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "AC4 有多个申报截止日期时条目 deadline 取最早一个（有测试）": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "边界与加固：干扰日期/类型覆盖/sentence_idx/提示词硬规则": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {
+    "eval_docs": 30,
+    "accuracy": 1.0,
+    "label_recall": 1.0,
+    "threshold_pass": true,
+    "clause_typed_smoke": {
+      "2026年2月4日前": "submission",
+      "2026年3月8日": "event_date"
+    },
+    "smoke_ok": true
+  }
+}

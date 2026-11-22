@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "intel.conditions.v1",
+  "type": "object",
+  "required": ["key_conditions", "deadlines", "meta"],
+  "properties": {
+    "key_conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "type", "sentence_idx"],
+        "properties": {
+          "text": {"type": "string", "maxLength": 50},
+          "type": {"enum": ["eligibility", "material", "process", "amount_rule"]},
+          "sentence_idx": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "deadlines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["deadline_type", "source_text", "sentence_idx", "deadline", "origin"],
+        "properties": {
+          "deadline_type": {"enum": ["submission", "effective_until", "event_date"]},
+          "source_text": {"type": "string", "minLength": 1},
+          "sentence_idx": {"type": "integer", "minimum": 0},
+          "deadline": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "origin": {"enum": ["原文", "程序推算"]}
+        }
+      }
+    },
+    "earliest_submission": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "audit": {
+      "type": "object",
+      "properties": {
+        "dropped": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {"enum": ["condition", "deadline"]},
+              "reason": {"type": "string"},
+              "item": {"type": "object"}
+            }
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": {"const": "intel.conditions.v1"},
+        "publish_date": {"type": "string"},
+        "sentence_count": {"type": "integer"},
+        "engine": {"type": "string"}
+      }
+    }
+  }
+}
