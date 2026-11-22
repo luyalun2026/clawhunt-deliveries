@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>2436 · 多会所数据隔离越权测试集</title>
+<style>
+ body{font:15px/1.7 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;max-width:920px;margin:40px auto;padding:0 18px;color:#1f2328}
+ h1{font-size:26px;margin:0 0 6px} .sub{color:#57606a;margin-bottom:24px}
+ h2{font-size:18px;margin-top:32px;border-left:4px solid #0969da;padding-left:10px}
+ table{border-collapse:collapse;width:100%;font-size:14px} td,th{border:1px solid #d0d7de;padding:6px 10px;text-align:left}
+ th{background:#f6f8fa} code,pre{background:#f6f8fa;padding:2px 6px;border-radius:6px;font-size:13px}
+ pre{padding:12px;overflow:auto;white-space:pre-wrap} ul.files{list-style:none;padding:0}
+ ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e5e7eb;padding:6px 0}
+ a{color:#0969da;text-decoration:none} a:hover{text-decoration:underline}
+ .tag{display:inline-block;background:#ddf4ff;color:#0969da;border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
+</style></head><body>
+<h1>多会所数据隔离越权测试集</h1>
+<div class="sub">2436 · 7 类资源 × 3 类账号 × 5 场景 = 105 格矩阵，129 个用例全通过</div>
+<span class="tag">离线可复现</span><span class="tag">全部数字由脚本生成</span>
+
+<h2>验证结果（outputs/verify.json）</h2>
+<pre>{
+ "tests_total": 129,
+ "tests_failed": 0,
+ "junit_suite_tests": 129,
+ "matrix_cells": 105,
+ "matrix_blank_cells": 0,
+ "bypass_groups": {
+  "A_参数伪造": 6,
+  "B_间接读取": 6,
+  "C_批量导出": 6,
+  "D_边界补充": 6
+ },
+ "oracle_cases": 18,
+ "resources": 7,
+ "actors": 3
+}</pre>
+
+<h2>运行报告</h2>
+<pre># 多会所数据隔离越权测试 · 运行报告
+
+- 用例总数：**129**（失败 0）
+- 期望矩阵：105 格，空格 0 格；资源 7 类 × 账号 3 类 × 场景 5 个
+- 绕过用例：A 参数伪造 6、B 间接读取 6、C 批量导出 6、边界 6
+
+## 分组结果
+
+| 组 | 用例数 | 说明 |
+| --- | --- | --- |
+| 矩阵 | 105 | 7 资源 × 3 账号 × 5 场景，逐格断言 allow/deny/filtered |
+| A_参数伪造 | 6 | query/body/header 伪造 site_id |
+| B_间接读取 | 6 | 经关联对象 ID 越界 |
+| C_批量导出 | 6 | 导出接口全量/筛选/ids 混入 |
+| D_边界补充 | 6 | 软删除、分页、鉴权、本会所写入 |
+
+## 问题清单
+
+本轮全部用例通过，未发现越权缺陷。
+</pre>
+
+<h2>文件清单（12 个，52,306 字节）</h2>
+<ul class="files"><li><a href="README.md">README.md</a><span>1,895 B</span></li><li><a href="access_matrix.yaml">access_matrix.yaml</a><span>5,006 B</span></li><li><a href="make_matrix.py">make_matrix.py</a><span>2,599 B</span></li><li><a href="outputs/run-report.md">outputs/run-report.md</a><span>747 B</span></li><li><a href="outputs/verify.json">outputs/verify.json</a><span>300 B</span></li><li><a href="reports/junit.xml">reports/junit.xml</a><span>15,293 B</span></li><li><a href="run_all.py">run_all.py</a><span>4,030 B</span></li><li><a href="seed.py">seed.py</a><span>3,452 B</span></li><li><a href="service.py">service.py</a><span>9,400 B</span></li><li><a href="tests/conftest.py">tests/conftest.py</a><span>429 B</span></li><li><a href="tests/test_bypass.py">tests/test_bypass.py</a><span>6,426 B</span></li><li><a href="tests/test_matrix.py">tests/test_matrix.py</a><span>2,729 B</span></li></ul>
+
+<h2>复现方式</h2>
+<pre># 离线复现（只需 Python 3.11+ 与标准库；2757 另需 openpyxl）
+python run_all.py</pre>
+<p>校验文件完整性：对照 <a href="SHA256SUMS">SHA256SUMS</a>（每行 sha256 + 相对路径）。</p>
+</body></html>

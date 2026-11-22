@@ -1,0 +1,16 @@
+{
+ "tests_total": 129,
+ "tests_failed": 0,
+ "junit_suite_tests": 129,
+ "matrix_cells": 105,
+ "matrix_blank_cells": 0,
+ "bypass_groups": {
+  "A_参数伪造": 6,
+  "B_间接读取": 6,
+  "C_批量导出": 6,
+  "D_边界补充": 6
+ },
+ "oracle_cases": 18,
+ "resources": 7,
+ "actors": 3
+}
