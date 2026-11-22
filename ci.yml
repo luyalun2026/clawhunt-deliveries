@@ -1,0 +1,36 @@
+name: sales-security-suite
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      ESIGN_SECRET: ci-esign-secret-not-production
+      PRESIGN_SECRET: ci-presign-secret-not-production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Route coverage gate (fails when a new /api/sales/ route is untested)
+        run: python tools/check_route_coverage.py
+      - name: Run pytest (junit + HTML from the same run)
+        run: |
+          python -m pytest tests -v --junitxml=report/junit.xml
+          python tools/junit2html.py report/junit.xml report/report.html
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            report/junit.xml
+            report/report.html

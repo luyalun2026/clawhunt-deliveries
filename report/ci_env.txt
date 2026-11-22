@@ -1,0 +1,12 @@
+python: 3.11.16 (main, Sep  1 2026, 14:15:24) [MSC v.1944 64 bit (AMD64)]
+platform: Windows-10-10.0.19045-SP0
+implementation: CPython 3.11.16
+fastapi 0.115.6
+pydantic 2.10.4
+starlette 0.41.3
+httpx 0.28.1
+pytest 8.3.4
+pluggy 1.7.0
+pydantic-core 2.27.2
+typing-extensions 4.16.0
+anyio 4.16.0

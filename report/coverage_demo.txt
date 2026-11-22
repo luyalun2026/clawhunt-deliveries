@@ -1,0 +1,6 @@
+命令：python tools/route_coverage.py
+场景：模拟新增路由 POST /api/sales/leads/{id}/restore 但未在用例登记表登记
+输出：
+registered=18 covered=17
+FAIL 未纳入测试的路由：POST /api/sales/leads/{id}/restore
+退出码：1

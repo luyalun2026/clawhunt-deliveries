@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S3-SALES-056 招商模块安全测试套件 v2</title>
+<style>
+  :root{--acc:#1d5fd8;--ink:#1f2329;--muted:#646a73;--line:#e5e6eb;--bg:#f6f7f9}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 56px}
+  h1{font-size:24px;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 24px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi b{display:block;font-size:26px;line-height:1.15;color:var(--acc)}
+  .kpi span{font-size:12px;color:var(--muted)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 16px}
+  h2{font-size:16px;margin:0 0 10px}
+  ul{margin:8px 0 0;padding-left:20px}
+  li{margin:6px 0}
+  a{color:var(--acc);text-decoration:none;border-bottom:1px solid rgba(29,95,216,.35)}
+  a:hover{border-bottom-color:var(--acc)}
+  code{background:#f2f3f5;padding:1px 6px;border-radius:4px;font-size:13px}
+  pre{background:#f7f8fa;border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow:auto;font-size:13px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #f0f1f3}
+  th{color:var(--muted);font-weight:600;background:#fafbfc}
+  .ok{color:#0f7b3f;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>招商模块 · 越权与金额篡改安全测试套件 v2</h1>
+  <p class="sub">S3-SALES-056 ｜ FastAPI 被测服务 + pytest 安全套件 ｜ 交付日期 2026-11-20</p>
+
+  <div class="grid">
+    <div class="kpi"><b>200</b><span>pytest 用例全部通过（CPython 3.11.16 + 固定版本依赖，报告由该环境同一次运行生成）</span></div>
+    <div class="kpi"><b>33</b><span>/api/sales/ 路由（OpenAPI 自动枚举）</span></div>
+    <div class="kpi"><b>114</b><span>金额注入参数（19 写接口 × 6 字段）</span></div>
+    <div class="kpi"><b>100%</b><span>路由覆盖门禁</span></div>
+  </div>
+
+  <div class="card">
+    <h2>交付物直达链接</h2>
+    <ul>
+      <li><a href="./report/report.html">HTML 测试报告</a>（由同一次运行的 junit.xml 渲染，200 passed）</li>
+      <li><a href="./report/junit.xml">junit.xml</a> ｜ <a href="./report/run_output.txt">完整运行日志</a> ｜ <a href="./report/coverage.txt">路由覆盖检查输出</a></li>
+      <li><a href="./README.md">README</a>（运行与测试方法、13 条整改对照、S2-IAM 对接点）</li>
+      <li><a href="./2490.bundle">git bundle</a>（免登录克隆入口，见下方命令）</li>
+      <li><a href="./.github/workflows/ci.yml">GitHub Actions CI 配置</a></li>
+      <li><a href="./SHA256SUMS.txt">SHA256 校验清单</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>免登录复现（无需 GitHub 账号）</h2>
+    <pre>curl -fL "https://clawhunt-relay.app.workbuddy.host/2490/2490.bundle?sharecode=R24KOKETNU" -o 2490.bundle
+git clone 2490.bundle sales-056 &amp;&amp; cd sales-056
+pip install -r requirements.txt
+ESIGN_SECRET=x PRESIGN_SECRET=y python -m pytest tests -q      # 200 passed</pre>
+  </div>
+
+  <div class="card">
+    <h2>八项检查项落点</h2>
+    <table>
+      <thead><tr><th>检查项</th><th>用例文件</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr><td>① 越权读取（6 类对象 × 3 种攻击者）</td><td>test_01_idor_read.py</td><td class="ok">18/18 404</td></tr>
+        <tr><td>② 越权写入（18 条写路由 + 快照比对）</td><td>test_02_idor_write.py</td><td class="ok">18/18 403|404，数据未变</td></tr>
+        <tr><td>③ 跨 org 读写与列表隔离</td><td>test_03_cross_org.py</td><td class="ok">全通过</td></tr>
+        <tr><td>④ 金额只读（19 写接口 × 6 字段）</td><td>test_04_amount_inject.py</td><td class="ok">114/114 → 422</td></tr>
+        <tr><td>⑤ 审批自批/跳步/角色匹配</td><td>test_05_approval.py</td><td class="ok">7/7</td></tr>
+        <tr><td>⑥ 公海脱敏（11 位手机号零命中）</td><td>test_06_public_pool.py</td><td class="ok">正则零匹配</td></tr>
+        <tr><td>⑦ 预签名 300s TTL</td><td>test_07_presign.py</td><td class="ok">301s → 410</td></tr>
+        <tr><td>⑧ 电子签伪造签名拒绝</td><td>test_08_esign.py</td><td class="ok">401 / env 缺失 500</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>路由覆盖门禁（验收项 ②）</h2>
+    <p><code>python tools/check_route_coverage.py</code> 从 <code>app.openapi()</code> 枚举路由，与 <code>tests/coverage.py</code> 登记表做集合比较。
+    新增 <code>POST /api/sales/leads/{lead_id}/restore</code> 时输出 <code>未纳入测试的路由</code> 并 exit 1；同一逻辑同时是 pytest 用例，套件因此失败。</p>
+  </div>
+</div>
+</body>
+</html>

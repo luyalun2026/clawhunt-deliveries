@@ -1,0 +1,35 @@
+OpenAPI 枚举 /api/sales/ 路由 33 条，登记表 33 条
+  [OK  ] GET    /api/sales/attachments
+  [OK  ] GET    /api/sales/attachments/download
+  [OK  ] GET    /api/sales/attachments/{item_id}
+  [OK  ] GET    /api/sales/contracts
+  [OK  ] GET    /api/sales/contracts/{item_id}
+  [OK  ] GET    /api/sales/followups
+  [OK  ] GET    /api/sales/followups/{item_id}
+  [OK  ] GET    /api/sales/leads
+  [OK  ] GET    /api/sales/leads/{lead_id}
+  [OK  ] GET    /api/sales/public-pool
+  [OK  ] GET    /api/sales/quotes
+  [OK  ] GET    /api/sales/quotes/{item_id}
+  [OK  ] GET    /api/sales/visits
+  [OK  ] GET    /api/sales/visits/{item_id}
+  [OK  ] PATCH  /api/sales/contracts/{item_id}
+  [OK  ] PATCH  /api/sales/followups/{item_id}
+  [OK  ] PATCH  /api/sales/leads/{lead_id}
+  [OK  ] PATCH  /api/sales/quotes/{item_id}
+  [OK  ] PATCH  /api/sales/visits/{item_id}
+  [OK  ] POST   /api/sales/attachments
+  [OK  ] POST   /api/sales/attachments/presign
+  [OK  ] POST   /api/sales/contracts/{item_id}/sign
+  [OK  ] POST   /api/sales/esign/callback
+  [OK  ] POST   /api/sales/followups
+  [OK  ] POST   /api/sales/leads/{lead_id}/assign
+  [OK  ] POST   /api/sales/quotes
+  [OK  ] POST   /api/sales/quotes/{item_id}/approve
+  [OK  ] POST   /api/sales/quotes/{item_id}/submit
+  [OK  ] POST   /api/sales/visits
+  [OK  ] PUT    /api/sales/followups/{item_id}
+  [OK  ] PUT    /api/sales/leads/{lead_id}
+  [OK  ] PUT    /api/sales/quotes/{item_id}
+  [OK  ] PUT    /api/sales/visits/{item_id}
+PASS 覆盖 100%，无未登记路由

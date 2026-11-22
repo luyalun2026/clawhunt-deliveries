@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>测试报告 · S3-SALES-056</title>
+<style>
+ body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;margin:0;background:#f6f7f9;color:#1f2329}
+ .wrap{max-width:1040px;margin:0 auto;padding:28px}
+ h1{font-size:22px;margin:0 0 6px}
+ .meta{color:#646a73;font-size:13px;margin-bottom:18px}
+ .cards{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+ .card{background:#fff;border:1px solid #e5e6eb;border-radius:10px;padding:14px 18px;min-width:120px}
+ .card b{display:block;font-size:24px;line-height:1.2}
+ .ok b{color:#0f7b3f} .bad b{color:#c4314b} .neu b{color:#1f2329}
+ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e5e6eb;border-radius:10px;overflow:hidden}
+ th,td{text-align:left;padding:8px 12px;font-size:13px;border-bottom:1px solid #f0f1f3}
+ th{background:#fafbfc;color:#646a73;font-weight:600}
+ tr:last-child td{border-bottom:none}
+ .pass{color:#0f7b3f;font-weight:600} .fail{color:#c4314b;font-weight:600}
+ code{font-size:12px;color:#4e5969}
+</style></head><body><div class="wrap">
+<h1>招商模块安全测试套件 · HTML 报告</h1>
+<div class="meta">来源：<code>report/junit.xml</code>（同一次运行）｜生成时间（UTC）：2026-11-20 12:00:13Z｜总耗时：9.86s</div>
+<div class="cards">
+ <div class="card neu"><b>200</b>用例总数</div>
+ <div class="card ok"><b>200</b>通过</div>
+ <div class="card bad"><b>0</b>失败</div>
+ <div class="card bad"><b>0</b>错误</div>
+ <div class="card neu"><b>0</b>跳过</div>
+</div>
+<table><thead><tr><th>#</th><th>用例</th><th>类</th><th>耗时(s)</th><th>结果</th></tr></thead><tbody>
+<tr><td>1</td><td><code>test_sixteen_site_users_two_orgs_two_sites_each</code></td><td>tests.test_00_fixtures</td><td>0.002</td><td class="pass">PASS</td></tr>
+<tr><td>2</td><td><code>test_user_ids_unique_and_org_scoped</code></td><td>tests.test_00_fixtures</td><td>0.001</td><td class="pass">PASS</td></tr>
+<tr><td>3</td><td><code>test_finance_approvers_are_org_level</code></td><td>tests.test_00_fixtures</td><td>0.001</td><td class="pass">PASS</td></tr>
+<tr><td>4</td><td><code>test_each_consultant_owns_all_six_object_types</code></td><td>tests.test_00_fixtures</td><td>0.039</td><td class="pass">PASS</td></tr>
+<tr><td>5</td><td><code>test_quote_amounts_equal_engine_result</code></td><td>tests.test_00_fixtures</td><td>0.037</td><td class="pass">PASS</td></tr>
+<tr><td>6</td><td><code>test_read_other_consultant_object_404[same_site_consultant-lead]</code></td><td>tests.test_01_idor_read</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>7</td><td><code>test_read_other_consultant_object_404[same_site_consultant-followup]</code></td><td>tests.test_01_idor_read</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>8</td><td><code>test_read_other_consultant_object_404[same_site_consultant-visit]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>9</td><td><code>test_read_other_consultant_object_404[same_site_consultant-quote]</code></td><td>tests.test_01_idor_read</td><td>0.074</td><td class="pass">PASS</td></tr>
+<tr><td>10</td><td><code>test_read_other_consultant_object_404[same_site_consultant-contract]</code></td><td>tests.test_01_idor_read</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>11</td><td><code>test_read_other_consultant_object_404[same_site_consultant-attachment]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>12</td><td><code>test_read_other_consultant_object_404[same_org_other_site-lead]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>13</td><td><code>test_read_other_consultant_object_404[same_org_other_site-followup]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>14</td><td><code>test_read_other_consultant_object_404[same_org_other_site-visit]</code></td><td>tests.test_01_idor_read</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>15</td><td><code>test_read_other_consultant_object_404[same_org_other_site-quote]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>16</td><td><code>test_read_other_consultant_object_404[same_org_other_site-contract]</code></td><td>tests.test_01_idor_read</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>17</td><td><code>test_read_other_consultant_object_404[same_org_other_site-attachment]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>18</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-lead]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>19</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-followup]</code></td><td>tests.test_01_idor_read</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>20</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-visit]</code></td><td>tests.test_01_idor_read</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>21</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-quote]</code></td><td>tests.test_01_idor_read</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>22</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-contract]</code></td><td>tests.test_01_idor_read</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>23</td><td><code>test_read_other_consultant_object_404[other_site_supervisor-attachment]</code></td><td>tests.test_01_idor_read</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>24</td><td><code>test_owner_can_read_own_objects</code></td><td>tests.test_01_idor_read</td><td>0.060</td><td class="pass">PASS</td></tr>
+<tr><td>25</td><td><code>test_missing_object_is_404_not_500</code></td><td>tests.test_01_idor_read</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>26</td><td><code>test_write_other_object_rejected[PUT /api/sales/leads/{lead_id}]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>27</td><td><code>test_write_other_object_rejected[PATCH /api/sales/leads/{lead_id}]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>28</td><td><code>test_write_other_object_rejected[POST /api/sales/leads/{lead_id}/assign]</code></td><td>tests.test_02_idor_write</td><td>0.083</td><td class="pass">PASS</td></tr>
+<tr><td>29</td><td><code>test_write_other_object_rejected[POST /api/sales/followups]</code></td><td>tests.test_02_idor_write</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>30</td><td><code>test_write_other_object_rejected[PUT /api/sales/followups/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>31</td><td><code>test_write_other_object_rejected[PATCH /api/sales/followups/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>32</td><td><code>test_write_other_object_rejected[POST /api/sales/visits]</code></td><td>tests.test_02_idor_write</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>33</td><td><code>test_write_other_object_rejected[PUT /api/sales/visits/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>34</td><td><code>test_write_other_object_rejected[PATCH /api/sales/visits/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>35</td><td><code>test_write_other_object_rejected[POST /api/sales/quotes]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>36</td><td><code>test_write_other_object_rejected[PUT /api/sales/quotes/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>37</td><td><code>test_write_other_object_rejected[PATCH /api/sales/quotes/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>38</td><td><code>test_write_other_object_rejected[POST /api/sales/quotes/{item_id}/submit]</code></td><td>tests.test_02_idor_write</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>39</td><td><code>test_write_other_object_rejected[POST /api/sales/quotes/{item_id}/approve]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>40</td><td><code>test_write_other_object_rejected[PATCH /api/sales/contracts/{item_id}]</code></td><td>tests.test_02_idor_write</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>41</td><td><code>test_write_other_object_rejected[POST /api/sales/contracts/{item_id}/sign]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>42</td><td><code>test_write_other_object_rejected[POST /api/sales/attachments]</code></td><td>tests.test_02_idor_write</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>43</td><td><code>test_write_other_object_rejected[POST /api/sales/attachments/presign]</code></td><td>tests.test_02_idor_write</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>44</td><td><code>test_supervisor_can_write_within_site_but_not_other_site</code></td><td>tests.test_02_idor_write</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>45</td><td><code>test_finance_role_is_read_only</code></td><td>tests.test_02_idor_write</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>46</td><td><code>test_anonymous_is_401</code></td><td>tests.test_02_idor_write</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>47</td><td><code>test_cross_org_read_404[lead]</code></td><td>tests.test_03_cross_org</td><td>0.086</td><td class="pass">PASS</td></tr>
+<tr><td>48</td><td><code>test_cross_org_read_404[followup]</code></td><td>tests.test_03_cross_org</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>49</td><td><code>test_cross_org_read_404[visit]</code></td><td>tests.test_03_cross_org</td><td>0.051</td><td class="pass">PASS</td></tr>
+<tr><td>50</td><td><code>test_cross_org_read_404[quote]</code></td><td>tests.test_03_cross_org</td><td>0.064</td><td class="pass">PASS</td></tr>
+<tr><td>51</td><td><code>test_cross_org_read_404[contract]</code></td><td>tests.test_03_cross_org</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>52</td><td><code>test_cross_org_read_404[attachment]</code></td><td>tests.test_03_cross_org</td><td>0.051</td><td class="pass">PASS</td></tr>
+<tr><td>53</td><td><code>test_list_endpoints_are_org_scoped[leads]</code></td><td>tests.test_03_cross_org</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>54</td><td><code>test_list_endpoints_are_org_scoped[followups]</code></td><td>tests.test_03_cross_org</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>55</td><td><code>test_list_endpoints_are_org_scoped[visits]</code></td><td>tests.test_03_cross_org</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>56</td><td><code>test_list_endpoints_are_org_scoped[quotes]</code></td><td>tests.test_03_cross_org</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>57</td><td><code>test_list_endpoints_are_org_scoped[contracts]</code></td><td>tests.test_03_cross_org</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>58</td><td><code>test_list_endpoints_are_org_scoped[attachments]</code></td><td>tests.test_03_cross_org</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>59</td><td><code>test_cross_org_write_404_and_no_change</code></td><td>tests.test_03_cross_org</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>60</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>61</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>62</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>63</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>64</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>65</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/contracts/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>66</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.083</td><td class="pass">PASS</td></tr>
+<tr><td>67</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>68</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>69</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>70</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>71</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/followups/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>72</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>73</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>74</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>75</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>76</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>77</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/leads/{lead_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>78</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>79</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>80</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>81</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>82</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>83</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/quotes/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>84</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>85</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>86</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.081</td><td class="pass">PASS</td></tr>
+<tr><td>87</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>88</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>89</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PATCH /api/sales/visits/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>90</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>91</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>92</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>93</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>94</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>95</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>96</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>97</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>98</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.051</td><td class="pass">PASS</td></tr>
+<tr><td>99</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>100</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>101</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/attachments/presign-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>102</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>103</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>104</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>105</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>106</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>107</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/contracts/{item_id}/sign-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.085</td><td class="pass">PASS</td></tr>
+<tr><td>108</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>109</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>110</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>111</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>112</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>113</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/esign/callback-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>114</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>115</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>116</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>117</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>118</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>119</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/followups-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>120</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>121</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>122</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>123</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>124</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.050</td><td class="pass">PASS</td></tr>
+<tr><td>125</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/leads/{lead_id}/assign-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>126</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>127</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.086</td><td class="pass">PASS</td></tr>
+<tr><td>128</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>129</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.067</td><td class="pass">PASS</td></tr>
+<tr><td>130</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>131</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>132</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>133</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>134</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>135</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>136</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>137</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/approve-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>138</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.050</td><td class="pass">PASS</td></tr>
+<tr><td>139</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>140</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>141</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>142</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>143</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/quotes/{item_id}/submit-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>144</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>145</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>146</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>147</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.080</td><td class="pass">PASS</td></tr>
+<tr><td>148</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>149</td><td><code>test_write_endpoints_reject_readonly_amount_fields[POST /api/sales/visits-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>150</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>151</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>152</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>153</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>154</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>155</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/followups/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>156</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>157</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>158</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>159</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>160</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>161</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/leads/{lead_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>162</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>163</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>164</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>165</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>166</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>167</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/quotes/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>168</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-final_monthly_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.081</td><td class="pass">PASS</td></tr>
+<tr><td>169</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-contract_total_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.042</td><td class="pass">PASS</td></tr>
+<tr><td>170</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-first_year_amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>171</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-deposit_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>172</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-concession_bps]</code></td><td>tests.test_04_amount_inject</td><td>0.043</td><td class="pass">PASS</td></tr>
+<tr><td>173</td><td><code>test_write_endpoints_reject_readonly_amount_fields[PUT /api/sales/visits/{item_id}-amount_cents]</code></td><td>tests.test_04_amount_inject</td><td>0.044</td><td class="pass">PASS</td></tr>
+<tr><td>174</td><td><code>test_write_route_count_matches_openapi</code></td><td>tests.test_04_amount_inject</td><td>0.001</td><td class="pass">PASS</td></tr>
+<tr><td>175</td><td><code>test_quote_amounts_come_from_engine</code></td><td>tests.test_04_amount_inject</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>176</td><td><code>test_out_of_range_concession_is_422</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>177</td><td><code>test_legit_body_with_smuggled_amount_field_is_422</code></td><td>tests.test_04_amount_inject</td><td>0.050</td><td class="pass">PASS</td></tr>
+<tr><td>178</td><td><code>test_nested_amount_in_create_body_is_ignored</code></td><td>tests.test_04_amount_inject</td><td>0.049</td><td class="pass">PASS</td></tr>
+<tr><td>179</td><td><code>test_nested_amount_in_esign_payload_is_ignored</code></td><td>tests.test_04_amount_inject</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>180</td><td><code>test_happy_path_two_steps</code></td><td>tests.test_05_approval</td><td>0.055</td><td class="pass">PASS</td></tr>
+<tr><td>181</td><td><code>test_self_approval_rejected</code></td><td>tests.test_05_approval</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>182</td><td><code>test_skip_step_rejected</code></td><td>tests.test_05_approval</td><td>0.054</td><td class="pass">PASS</td></tr>
+<tr><td>183</td><td><code>test_role_step_mismatch_rejected</code></td><td>tests.test_05_approval</td><td>0.054</td><td class="pass">PASS</td></tr>
+<tr><td>184</td><td><code>test_other_consultant_cannot_approve</code></td><td>tests.test_05_approval</td><td>0.050</td><td class="pass">PASS</td></tr>
+<tr><td>185</td><td><code>test_finance_cannot_submit_for_owner</code></td><td>tests.test_05_approval</td><td>0.054</td><td class="pass">PASS</td></tr>
+<tr><td>186</td><td><code>test_locked_quote_cannot_be_edited_after_submit</code></td><td>tests.test_05_approval</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>187</td><td><code>test_public_pool_has_no_full_phone</code></td><td>tests.test_06_public_pool</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>188</td><td><code>test_public_pool_is_org_scoped</code></td><td>tests.test_06_public_pool</td><td>0.090</td><td class="pass">PASS</td></tr>
+<tr><td>189</td><td><code>test_public_pool_hides_owner_and_budget</code></td><td>tests.test_06_public_pool</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>190</td><td><code>test_presigned_link_expires_after_5_minutes</code></td><td>tests.test_07_presign</td><td>0.054</td><td class="pass">PASS</td></tr>
+<tr><td>191</td><td><code>test_tampered_token_rejected</code></td><td>tests.test_07_presign</td><td>0.050</td><td class="pass">PASS</td></tr>
+<tr><td>192</td><td><code>test_presign_other_consultant_attachment_is_404</code></td><td>tests.test_07_presign</td><td>0.052</td><td class="pass">PASS</td></tr>
+<tr><td>193</td><td><code>test_forged_signature_rejected</code></td><td>tests.test_08_esign</td><td>0.046</td><td class="pass">PASS</td></tr>
+<tr><td>194</td><td><code>test_valid_signature_marks_contract_signed</code></td><td>tests.test_08_esign</td><td>0.048</td><td class="pass">PASS</td></tr>
+<tr><td>195</td><td><code>test_valid_signature_cannot_smuggle_amount</code></td><td>tests.test_08_esign</td><td>0.045</td><td class="pass">PASS</td></tr>
+<tr><td>196</td><td><code>test_secret_must_come_from_env</code></td><td>tests.test_08_esign</td><td>0.047</td><td class="pass">PASS</td></tr>
+<tr><td>197</td><td><code>test_every_sales_route_is_registered</code></td><td>tests.test_09_route_coverage</td><td>0.073</td><td class="pass">PASS</td></tr>
+<tr><td>198</td><td><code>test_registered_coverage_points_to_real_tests</code></td><td>tests.test_09_route_coverage</td><td>0.002</td><td class="pass">PASS</td></tr>
+<tr><td>199</td><td><code>test_new_uncovered_route_makes_suite_fail</code></td><td>tests.test_09_route_coverage</td><td>0.071</td><td class="pass">PASS</td></tr>
+<tr><td>200</td><td><code>test_removed_route_is_detected_as_stale</code></td><td>tests.test_09_route_coverage</td><td>0.069</td><td class="pass">PASS</td></tr>
+</tbody></table>
+<p class="meta">本报告由 <code>tools/junit2html.py</code> 从同一次 pytest 运行产出的 junit.xml 渲染，数字与 junit.xml 完全一致。</p>
+</div></body></html>
