@@ -1,0 +1,86 @@
+{
+  "generated_at": "2026-11-23T22:15:53",
+  "pytest_summary": "48 passed, 1 skipped in 3.62s",
+  "exit_code": 0,
+  "total": 49,
+  "passed": 48,
+  "failed": 0,
+  "skipped": 1,
+  "per_group": {
+    "AC1 A 的线索列表接口恰好返回 8 条": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "AC2 6 类越权访问全部被拒（状态码断言）": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    "AC3 A 导出的线索文件行数为 8": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "AC4 审计记录条数等于越权尝试次数": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "边界与加固：主管 13 条/站点隔离/URL 变体/未认证/双向越权/软删除/矩阵完整": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "其他（边界与加固）": {
+      "total": 20,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {
+    "cells_total": 80,
+    "cells_consistent": 80,
+    "cells_mismatch": 0,
+    "denials_expected": 42,
+    "audit_denied_records": 42,
+    "list_totals": {
+      "A": {
+        "status": 200,
+        "total": 8
+      },
+      "B": {
+        "status": 200,
+        "total": 8
+      },
+      "supervisor": {
+        "status": 200,
+        "total": 13
+      },
+      "site_lead": {
+        "status": 200,
+        "total": 13
+      }
+    },
+    "export_rows": {
+      "A": 8,
+      "B": 8
+    },
+    "export_leaks": {
+      "A_has_B": false,
+      "B_has_A": false
+    },
+    "search_cross_tenant_hits": {
+      "A_searches_B": 0,
+      "B_searches_A": 0
+    }
+  }
+}

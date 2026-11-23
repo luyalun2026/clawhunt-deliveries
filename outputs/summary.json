@@ -1,0 +1,37 @@
+{
+ "cells_total": 80,
+ "cells_consistent": 80,
+ "cells_mismatch": 0,
+ "denials_expected": 42,
+ "audit_denied_records": 42,
+ "list_totals": {
+  "A": {
+   "status": 200,
+   "total": 8
+  },
+  "B": {
+   "status": 200,
+   "total": 8
+  },
+  "supervisor": {
+   "status": 200,
+   "total": 13
+  },
+  "site_lead": {
+   "status": 200,
+   "total": 13
+  }
+ },
+ "export_rows": {
+  "A": 8,
+  "B": 8
+ },
+ "export_leaks": {
+  "A_has_B": false,
+  "B_has_A": false
+ },
+ "search_cross_tenant_hits": {
+  "A_searches_B": 0,
+  "B_searches_A": 0
+ }
+}

@@ -1,0 +1,642 @@
+{
+ "generated_by": "_gen_matrix.py（声明式规则，不调用被测系统）",
+ "ops": [
+  "list",
+  "detail",
+  "quote",
+  "contract",
+  "change_owner",
+  "export",
+  "search"
+ ],
+ "roles": [
+  "A",
+  "B",
+  "supervisor",
+  "site_lead",
+  "anonymous"
+ ],
+ "resources": [
+  "L-A1",
+  "L-B1",
+  "L-P1",
+  "L-DEL",
+  "L-NOT-EXIST"
+ ],
+ "cells": [
+  {
+   "role": "A",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "change_owner",
+   "expect": "deny"
+  },
+  {
+   "role": "A",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "A",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "change_owner",
+   "expect": "deny"
+  },
+  {
+   "role": "A",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "A",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "change_owner",
+   "expect": "deny"
+  },
+  {
+   "role": "B",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "B",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "change_owner",
+   "expect": "deny"
+  },
+  {
+   "role": "B",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "B",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "supervisor",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-A1",
+   "kind": "own_or_team",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-B1",
+   "kind": "other",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "detail",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "quote",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "contract",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-P1",
+   "kind": "pool",
+   "op": "change_owner",
+   "expect": "allow"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-DEL",
+   "kind": "deleted",
+   "op": "change_owner",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "detail",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "quote",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "contract",
+   "expect": "not_found"
+  },
+  {
+   "role": "site_lead",
+   "lead": "L-NOT-EXIST",
+   "kind": "missing",
+   "op": "change_owner",
+   "expect": "not_found"
+  }
+ ],
+ "list_expectations": {
+  "A": {
+   "total": 8,
+   "note": "5 条本人 + 3 条公海；不含 B、不含软删除、不含他站"
+  },
+  "B": {
+   "total": 8,
+   "note": "同上"
+  },
+  "supervisor": {
+   "total": 13,
+   "note": "团队 10 条 + 公海 3 条"
+  },
+  "site_lead": {
+   "total": 13,
+   "note": "本站 13 条（含 B 的 5 条），不含他站"
+  },
+  "anonymous": {
+   "status": 401
+  }
+ },
+ "export_expectations": {
+  "A": {
+   "rows": 8,
+   "exclude_prefixes": [
+    "L-B",
+    "L-DEL",
+    "L-OTHER"
+   ]
+  },
+  "B": {
+   "rows": 8,
+   "exclude_prefixes": [
+    "L-A",
+    "L-DEL",
+    "L-OTHER"
+   ]
+  }
+ },
+ "search_expectations": {
+  "A": {
+   "q": "乙企业",
+   "total": 0
+  },
+  "B": {
+   "q": "甲企业",
+   "total": 0
+  }
+ },
+ "summary": {
+  "cells_total": 80,
+  "deny_or_not_found": 42,
+  "allow": 38
+ }
+}
