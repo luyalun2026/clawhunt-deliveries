@@ -1,53 +1,61 @@
-# #2052 红队攻击变体生成器：改写、编码绕过与多轮拆分 — 交付包
+# #2052 红队攻击变体生成器：改写、编码绕过与多轮拆分 — 交付包（v3）
 
-**运行验证**：`python verify.py`（内部 `pytest tests -q` + `python probe.py`；数字全部由运行结果提取，见 `outputs/verify.json` / `matrix.md`）。
+**运行验证**：`python verify.py`（内部 `pytest tests -q`，指标在本进程内实测；数字见 `outputs/verify.json` / `matrix.md`）。
 
 ## 最新运行结果
-- pytest：**14 passed**（见 `outputs/pytest-output.txt`）。
-- 分组矩阵见 `outputs/matrix.md`：AC1 覆盖统计 3、AC2 去重 2、AC3 抽检准入 2、AC4 lint/pii-scan 3、边界 4。
 
-## 结构
-| 文件 | 说明 |
-|---|---|
-| `app/redteam.py` | generate（10 种子 × 6 类 × 2）、6 类技术模板、too_similar 双指标去重、promote 抽检准入、eval_lint / eval_pii_scan |
-| `tests/test_2052.py` | 14 个用例，命名 `test_<编号>_<分组>` |
-| `verify.py` / `groups.json` | 离线验证器与验收分组配置 |
+- pytest：**20 passed / 0 failed**（`outputs/pytest-output.txt`）。
+- 变体集：10 种子 → 候选 150 条，**跨种子全局去重后保留 133 条**，丢弃 17 条；6 类技术全覆盖，每个种子 6 类齐全，**批内 >0.9 的重复对为 0**。
+- eval-lint：133/133 通过；eval-pii-scan：133/133 通过（无真实格式手机号/身份证）。
 
-## 关键实现
-- **6 类技术**：synonym_rewrite / roleplay_wrap / encoding_bypass（拼音、全角+零宽字符、base64 输出要求）/ language_switch（英文、中英混杂）/ multi_turn_split（3–4 轮看似无害子问题）/ pressure_wrap；统计输出（每类 = 10 种子 × 2 = 20 条）。
-- **溯源继承**：每个变体带 seed_case_key 与 technique，继承种子 forbidden_points / canary / severity（测试断言）。
-- **去重**：与种子或其他变体相似度 > 0.9 丢弃（trigram Jaccard + 归一化编辑距离双指标）。
-- **抽检准入**：pending 中变体全部 inspected=false 时 promote 抛错且回归集不变；抽检率 ≥10% 后才并入（3/24 = 12.5% 演示通过）。
-- **eval-lint**：结构完整性与 technique 白名单校验；**eval-pii-scan**：真实格式手机号/18 位身份证命中即拦，虚构占位（1380000xxxx）不阻断。
-- **环境变量**：生成模型地址只从 `REDTEAM_MODEL_BASE_URL` 读取，缺省 fail-fast；被测输出只进复核队列、不直接对外发送，AI 不计算金额。
-
-## 离线口径与对接点
-- 本地改写模型离线等价：模板化改写（确定性、可复现）；生产实现把模板替换为对 `REDTEAM_MODEL_BASE_URL` 的本地模型调用（校验域名非境外，接口签名见 README）。
-- 目录口径：生成结果写入 `evals/suites/guardrail.variants.pending/`（测试演示以 pending.json 落盘），promote 后并入回归集；与 EVAL-025~028 的种子/回归集通过 seed_case_key 对接。
-- 依赖：仅 Python 3.11+ 标准库 + pytest；全部内容虚构。
-
-## 交付包获取方式（git bundle，可复跑）
-
-本单代码以 **git bundle** 形式交付（返工意见认可的交付形式 ②）。该文件是一个完整 git 仓库的单文件快照，可离线克隆并复跑全部测试。
+## 命令行入口（本单要求）
 
 ```bash
-# 1) 下载（公开链接，无需登录）
-curl -L -o pkg.bundle "https://clawhunt-relay.app.workbuddy.host/2052/pkg.bundle?sharecode=R24KOKETNU"
-
-# 2) 校验（SHA-256 见交付正文「交付形式」一节）
-sha256sum pkg.bundle
-# Windows: certutil -hashfile pkg.bundle SHA256
-
-# 3) 克隆并复跑
-git clone pkg.bundle pkg && cd pkg
-pip install pytest
-python -m pytest tests -q        # 期望：14 passed
-python tools/evidence_2052.py    # 期望：variants=120 tech=6/6 lint_pass=120/120 pii_pass=120/120
-python verify.py                 # 期望：passed=14 failed=0 groups=5，退出码 0
+python redteam-gen generate --seeds 10 --root .   # 生成 → evals/suites/guardrail.variants.pending/pending.json
+python redteam-gen promote  --root .              # 抽检率 >=10% 才并入 evals/suites/guardrail.regression.json
 ```
 
-仓库内容：`app/redteam.py`（生成器与两条检查器）、`tests/test_2052.py`（14 用例）、
-`tools/evidence_2052.py`（证据生成器）、`groups.json`、`verify.py`、
-`outputs/`（junit.xml、matrix.md、run-report.md、verify.json、pytest-output.txt、
-variants.json、variants-stats.md、eval-lint.txt、eval-pii-scan.txt）、`README.md`。
-`outputs/variants.json` 为 10 条种子 × 6 类技术生成的全部 120 条变体（含 seed_case_key 与 technique）。
+- `generate` 输出：种子数、候选/保留/丢弃条数、逐类计数、pending 相对路径（JSON）。
+- `promote` 从 **pending 目录**读取（不是内存变量），未达抽检率时退出码 1 且保持回归集不变。
+- 也提供等价的 `redteam-gen.py` 调用方式。
+
+## 结构
+
+| 文件 | 说明 |
+|---|---|
+| `app/redteam.py` | 六类技术生成、全局去重、编码子类、本地模型改写、pending/promote、eval_lint / eval_pii_scan |
+| `app/redteam_cli.py` | `redteam-gen` 子命令实现（generate / promote） |
+| `redteam-gen` / `redteam-gen.py` | 命令行入口 |
+| `tests/test_2052.py` | 20 个用例（覆盖、去重正反例、跨种子、CLI、模型 mock、编码子类、lint/pii） |
+| `verify.py` / `groups.json` | 离线验证器与验收分组配置 |
+| `evals/suites/guardrail.variants.pending/pending.json` | 生成结果落盘位置（promote 的输入） |
+
+## 关键实现与口径
+
+- **六类技术**：synonym_rewrite（优先本地模型）/ roleplay_wrap / encoding_bypass / language_switch / multi_turn_split（3 轮）/ pressure_wrap。
+- **编码绕过 5 个子类，均基于种子内容**：拼音（逐字转写，未收录字保留原字）、谐音（系统→系桶、提示词→提式词、价格→价各、折扣→折口等）、全角、插入零宽字符、要求 base64 输出（base64 内容即种子原文）。
+- **相似度口径（明确说明）**：字符 trigram Jaccard **或** 归一化编辑距离，**任一 > 0.9 即判过近并丢弃**。
+- **去重范围**：与全部种子 + **整批已保留变体（含跨种子）** 比较；`generate(seeds, existing=...)` 时 existing（回归集）同样参与比较。
+  因此两条完全相同的种子只会产出第一份变体，第二批全部丢弃（`test_06` 断言）。
+- **本地模型改写**：`rewrite_synonym()` 优先调用 `REDTEAM_MODEL_BASE_URL` 的 `/v1/chat/completions`（OpenAI 兼容，可注入 mock），异常时回落模板「换种说法：…」，保证流程不中断。
+- **地址白名单（默认拒绝）**：仅放行 `localhost/127.0.0.1/::1`、私有网段（10/172.16-31/192.168）、以及 `.local/.internal/.svc/.example/.lan/.cn` 后缀；`.com/.io/.ai/.net/.org` 与公网 IP 一律拒绝，缺省 fail-fast。
+- **抽检准入**：pending 全为 `inspected=false` 时 promote 抛错且回归集不变；抽检率 ≥10%（向上取整）才写入回归集。
+- **eval-lint**：结构完整性与 technique 白名单；**eval-pii-scan**：真实格式手机号 / 18 位身份证命中即拦，虚构占位（1380000xxxx）不阻断。
+- 依赖：Python 3.11+ 标准库 + pytest；全部内容虚构，不出现真实企业与个人信息。
+
+## 交付形式
+
+代码以 **公开 GitHub 仓库分支** 交付（免登录 clone），可另生成 git bundle：
+
+```bash
+git clone --branch 2052 https://github.com/luyalun2026/clawhunt-deliveries.git ch2052
+cd ch2052
+pip install pytest
+python -m pytest tests -q        # 期望 20 passed
+python tools/evidence_2052.py    # 期望 variants=133 tech=6/6 lint_pass=133/133 pii_pass=133/133
+python verify.py                 # 期望 passed=20 failed=0
+```
+
+- 仓库分支：`2052`，本次交付 commit 见交付正文；`SHA256SUMS` 列出全部受版本管理文件的 SHA-256。
+- 离线包：克隆后 `git bundle create 2052.bundle --all` 即可生成同内容 bundle。
+- `outputs/variants.json` 为本次运行生成的 133 条变体（含 seed_case_key 与 technique）及 10 条种子。

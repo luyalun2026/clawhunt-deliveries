@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """离线验证器：跑 pytest → 解析 junit → 按验收分组 → 生成 verify.json / matrix.md / run-report.md。
 
-数字全部来自运行结果（junit 用例名与 probe.py 的实测指标），不接受手写。
+数字全部来自运行结果（junit 用例名与本进程内实测指标），不接受手写。
 用法：python verify.py
 """
 import json
@@ -32,18 +32,25 @@ def group_of(name, groups):
     return "其他（边界与加固）"
 
 
-def run_probe():
-    path = os.path.join(PKG, "probe.py")
-    if not os.path.exists(path):
-        return {}
-    proc = subprocess.run([sys.executable, "probe.py"], cwd=PKG, capture_output=True, text=True,
-                          encoding="utf-8", errors="replace")
-    if proc.returncode != 0:
-        return {"probe_error": (proc.stderr or "")[-500:]}
-    try:
-        return json.loads(proc.stdout.strip().splitlines()[-1])
-    except Exception:
-        return {"probe_error": "probe 输出非 JSON"}
+def compute_metrics():
+    """在进程内实测变体集指标（不依赖外部脚本）。"""
+    sys.path.insert(0, PKG)
+    from app.redteam import eval_lint, eval_pii_scan, generate, load_seeds, too_similar
+
+    seeds = load_seeds()
+    variants = generate(seeds)
+    per_tech = {}
+    for v in variants:
+        per_tech[v["technique"]] = per_tech.get(v["technique"], 0) + 1
+    lint_ok = sum(1 for v in variants if eval_lint(v)[0])
+    pii_ok = sum(1 for v in variants if eval_pii_scan(v["variant_prompt"])[0])
+    texts = [v["variant_prompt"] for v in variants]
+    dups = sum(1 for i in range(len(texts)) for j in range(i + 1, len(texts))
+               if too_similar(texts[i], texts[j]))
+    return {"seed_count": len(seeds), "variant_count": len(variants),
+            "dropped_by_dedupe": getattr(generate, "last_dropped", 0),
+            "per_technique": per_tech, "lint_passed": lint_ok, "pii_passed": pii_ok,
+            "duplicate_pairs_over_0_9": dups}
 
 
 def main():
@@ -61,6 +68,7 @@ def main():
     root = ET.parse(JUNIT).getroot()
     cases = list(root.iter("testcase"))
     bad = [c for c in cases if c.find("failure") is not None or c.find("error") is not None]
+    skipped = [c for c in cases if c.find("skipped") is not None]
 
     per = {}
     for c in cases:
@@ -69,13 +77,15 @@ def main():
         d["total"] += 1
         if c in bad:
             d["failed"] += 1
+        elif c in skipped:
+            d["skipped"] = d.get("skipped", 0) + 1
         else:
             d["passed"] += 1
 
     order = list(groups) + ["其他（边界与加固）"]
     per = {k: per[k] for k in order if k in per}
 
-    metrics = run_probe()
+    metrics = compute_metrics()
     verify = {
         "generated_at": subprocess.run(
             [sys.executable, "-c", "import time;print(time.strftime('%Y-%m-%dT%H:%M:%S'))"],
@@ -83,8 +93,9 @@ def main():
         "pytest_summary": summary_line,
         "exit_code": proc.returncode,
         "total": len(cases),
-        "passed": len(cases) - len(bad),
+        "passed": len(cases) - len(bad) - len(skipped),
         "failed": len(bad),
+        "skipped": len(skipped),
         "per_group": per,
         "all_groups_passed": all(v["failed"] == 0 for v in per.values()),
         "failed_cases": [c.get("name") for c in bad],
@@ -110,14 +121,14 @@ def main():
     report = [
         "# 运行报告（自动生成）", "",
         "- 生成时间：%s" % verify["generated_at"],
-        "- 命令：`python verify.py`（内部 `pytest tests -q` + `python probe.py`）",
+        "- 命令：`python verify.py`（内部 `pytest tests -q`，指标在本进程内实测）",
         "- pytest 汇总：`%s`；退出码 %d" % (summary_line, proc.returncode),
-        "- 用例 %d，通过 %d，失败 %d" % (len(cases), verify["passed"], verify["failed"]), "",
+        "- 用例 %d，通过 %d，失败 %d，跳过 %d" % (len(cases), verify["passed"], verify["failed"], verify["skipped"]), "",
         "## 用例 × 结果矩阵", "", matrix,
-        "## 实测指标（probe.py 运行期提取）", "", "\n".join(metric_lines) or "- 无", "",
+        "## 实测指标（本进程内实测）", "", "\n".join(metric_lines) or "- 无", "",
         "## 口径说明", "",
         "- 用例数与通过率由 junit.xml 解析得到，未人工填写。",
-        "- 指标由 probe.py 在真实执行路径中采集，写入 outputs/metrics.json 后并入本报告。",
+        "- 指标由 verify.py 在真实执行路径中采集，写入 outputs/metrics.json 后并入本报告。",
     ]
     if cfg.get("notes"):
         report += ["- " + n for n in cfg["notes"]]

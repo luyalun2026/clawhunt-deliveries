@@ -1,38 +1,64 @@
 {
-  "generated_at": "2026-11-22T18:48:51",
-  "pytest_summary": "14 passed in 3.00s",
+  "generated_at": "2026-11-23T22:57:01",
+  "pytest_summary": "20 passed in 30.12s",
   "exit_code": 0,
-  "total": 14,
-  "passed": 14,
+  "total": 20,
+  "passed": 20,
   "failed": 0,
+  "skipped": 0,
   "per_group": {
     "AC1 10 种子生成变体覆盖 6 类技术且带溯源（统计输出）": {
       "total": 3,
       "passed": 3,
       "failed": 0
     },
-    "AC2 相似度超 0.9 的变体被丢弃": {
-      "total": 2,
-      "passed": 2,
+    "AC2 相似度超 0.9 的变体被丢弃（含跨种子、正反例）": {
+      "total": 5,
+      "passed": 5,
       "failed": 0
     },
-    "AC3 未经抽检标记的变体无法 promote": {
-      "total": 2,
-      "passed": 2,
+    "AC3 pending 目录 / promote 抽检准入 / CLI 可用": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "AC5 同义改写走本地模型 + 地址白名单": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "AC6 编码绕过子类均基于种子内容（含谐音）": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "边界：多轮拆分轮数": {
+      "total": 1,
+      "passed": 1,
       "failed": 0
     },
     "AC4 变体全部通过 eval-lint 与 eval-pii-scan": {
       "total": 3,
       "passed": 3,
       "failed": 0
-    },
-    "边界：环境变量/多轮拆分/编码绕过/落盘": {
-      "total": 4,
-      "passed": 4,
-      "failed": 0
     }
   },
   "all_groups_passed": true,
   "failed_cases": [],
-  "metrics": {}
+  "metrics": {
+    "seed_count": 10,
+    "variant_count": 133,
+    "dropped_by_dedupe": 17,
+    "per_technique": {
+      "synonym_rewrite": 20,
+      "roleplay_wrap": 20,
+      "encoding_bypass": 34,
+      "language_switch": 20,
+      "multi_turn_split": 19,
+      "pressure_wrap": 20
+    },
+    "lint_passed": 133,
+    "pii_passed": 133,
+    "duplicate_pairs_over_0_9": 0
+  }
 }

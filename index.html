@@ -1,98 +1,30 @@
-<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8">
-<title>2052 · #2052 红队攻击变体生成器</title>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>#2052 红队变体生成器 · 交付说明</title>
 <style>
- body{font:15px/1.7 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;max-width:920px;margin:40px auto;padding:0 18px;color:#1f2328}
- h1{font-size:26px;margin:0 0 6px} .sub{color:#57606a;margin-bottom:24px}
- h2{font-size:18px;margin-top:32px;border-left:4px solid #0969da;padding-left:10px}
- table{border-collapse:collapse;width:100%;font-size:14px} td,th{border:1px solid #d0d7de;padding:6px 10px;text-align:left}
- th{background:#f6f8fa} code,pre{background:#f6f8fa;padding:2px 6px;border-radius:6px;font-size:13px}
- pre{padding:12px;overflow:auto;white-space:pre-wrap} ul.files{list-style:none;padding:0}
- ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e5e7eb;padding:6px 0}
- a{color:#0969da;text-decoration:none} a:hover{text-decoration:underline}
- .tag{display:inline-block;background:#ddf4ff;color:#0969da;border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
-</style></head><body>
-<h1>#2052 红队攻击变体生成器</h1>
-<div class="sub">2052 · 10 种子×6 类×2=120 条变体；去重+抽检准入+lint/pii-scan；14 例全过</div>
-<span class="tag">离线可复现</span><span class="tag">全部数字由脚本生成</span>
-
-<h2>验证结果（outputs/verify.json）</h2>
-<pre>{
- "generated_at": "2026-11-20T09:44:26",
- "pytest_summary": "14 passed in 1.69s",
- "exit_code": 0,
- "total": 14,
- "passed": 14,
- "failed": 0,
- "per_group": {
-  "AC1 10 种子生成变体覆盖 6 类技术且带溯源（统计输出）": {
-   "total": 3,
-   "passed": 3,
-   "failed": 0
-  },
-  "AC2 相似度超 0.9 的变体被丢弃": {
-   "total": 2,
-   "passed": 2,
-   "failed": 0
-  },
-  "AC3 未经抽检标记的变体无法 promote": {
-   "total": 2,
-   "passed": 2,
-   "failed": 0
-  },
-  "AC4 变体全部通过 eval-lint 与 eval-pii-scan": {
-   "total": 3,
-   "passed": 3,
-   "failed": 0
-  },
-  "边界：环境变量/多轮拆分/编码绕过/落盘": {
-   "total": 4,
-   "passed": 4,
-   "failed": 0
-  }
- },
- "all_groups_passed": true,
- "failed_cases": [],
- "metrics": {}
-}</pre>
-
-<h2>运行报告</h2>
-<pre># 运行报告（自动生成）
-
-- 生成时间：2026-11-20T09:44:26
-- 命令：`python verify.py`（内部 `pytest tests -q` + `python probe.py`）
-- pytest 汇总：`14 passed in 1.69s`；退出码 0
-- 用例 14，通过 14，失败 0
-
-## 用例 × 结果矩阵
-
-| 验收分组 | 用例数 | 通过 | 失败 | 结论 |
-|---|---|---|---|---|
-| AC1 10 种子生成变体覆盖 6 类技术且带溯源（统计输出） | 3 | 3 | 0 | 通过 |
-| AC2 相似度超 0.9 的变体被丢弃 | 2 | 2 | 0 | 通过 |
-| AC3 未经抽检标记的变体无法 promote | 2 | 2 | 0 | 通过 |
-| AC4 变体全部通过 eval-lint 与 eval-pii-scan | 3 | 3 | 0 | 通过 |
-| 边界：环境变量/多轮拆分/编码绕过/落盘 | 4 | 4 | 0 | 通过 |
-| **合计** | **14** | **14** | **0** | **全部通过** |
-
-## 实测指标（probe.py 运行期提取）
-
-- 无
-
-## 口径说明
-
-- 用例数与通过率由 junit.xml 解析得到，未人工填写。
-- 指标由 probe.py 在真实执行路径中采集，写入 outputs/metrics.json 后并入本报告。
-- 全部内容虚构；种子为演示护栏用例（GUARD-001~010，对应 EVAL-025~028 系列口径）。
-- 生成模型地址从 REDTEAM_MODEL_BASE_URL 读取，缺省/境外 fail-fast（测试断言）。
-- 相似度 >0.9 判定用字符 trigram Jaccard + 归一化编辑距离双指标。
-</pre>
-
-<h2>文件清单（10 个，25,622 字节）</h2>
-<ul class="files"><li><a href="README.md">README.md</a><span>2,450 B</span></li><li><a href="app/redteam.py">app/redteam.py</a><span>6,980 B</span></li><li><a href="groups.json">groups.json</a><span>705 B</span></li><li><a href="outputs/junit.xml">outputs/junit.xml</a><span>1,766 B</span></li><li><a href="outputs/matrix.md">outputs/matrix.md</a><span>537 B</span></li><li><a href="outputs/pytest-output.txt">outputs/pytest-output.txt</a><span>101 B</span></li><li><a href="outputs/run-report.md">outputs/run-report.md</a><span>1,366 B</span></li><li><a href="outputs/verify.json">outputs/verify.json</a><span>896 B</span></li><li><a href="tests/test_2052.py">tests/test_2052.py</a><span>5,550 B</span></li><li><a href="verify.py">verify.py</a><span>5,271 B</span></li></ul>
-
-<h2>复现方式</h2>
-<pre># 离线复现（只需 Python 3.11+ 与标准库；2757 另需 openpyxl）
-python run_all.py</pre>
-<p>校验文件完整性：对照 <a href="SHA256SUMS">SHA256SUMS</a>（每行 sha256 + 相对路径）。</p>
-</body></html>
+body{margin:0;background:#fff;color:#1a1a1a;font:15px/1.7 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+main{max-width:900px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:23px;margin:0 0 8px}h2{font-size:17px;margin:26px 0 10px;border-left:3px solid #0b63c5;padding-left:8px}
+.mut{color:#5b6470;font-size:13px}table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border:1px solid #e3e7ec;padding:6px 8px;text-align:left}code{background:#f4f6f8;padding:1px 4px;border-radius:3px}
+ul.files{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:13px}
+ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e3e7ec;padding:2px 0}
+ul.files a{color:#0b63c5;text-decoration:none}ul.files span{color:#5b6470}
+</style></head><body><main>
+<h1>#2052 红队攻击变体生成器（v3）</h1>
+<p class="mut">生成时间 2026-11-23T22:57:01｜主交付形式：公开 GitHub 仓库分支 <code>2052</code></p>
+<h2>实测数字（verify.json）</h2>
+<table>
+<tr><td>pytest</td><td><code>20 passed in 30.12s</code></td></tr>
+<tr><td>用例 通过/失败/跳过</td><td>20 / 20 / 0 / 0</td></tr>
+<tr><td>种子数</td><td>10</td></tr>
+<tr><td>候选→保留</td><td>去重丢弃 17 条，保留 <b>133</b> 条</td></tr>
+<tr><td>批内 &gt;0.9 重复对</td><td>0</td></tr>
+<tr><td>eval-lint / eval-pii-scan</td><td>133/133 · 133/133</td></tr>
+</table>
+<h2>逐类计数</h2><table><tr><th>技术</th><th>条数</th></tr><tr><td>synonym_rewrite</td><td>20</td></tr><tr><td>roleplay_wrap</td><td>20</td></tr><tr><td>encoding_bypass</td><td>34</td></tr><tr><td>language_switch</td><td>20</td></tr><tr><td>multi_turn_split</td><td>19</td></tr><tr><td>pressure_wrap</td><td>20</td></tr></table>
+<h2>分组结果</h2><table><tr><th>分组</th><th>用例</th><th>通过</th><th>失败</th></tr><tr><td>AC1 10 种子生成变体覆盖 6 类技术且带溯源（统计输出）</td><td>3</td><td>3</td><td>0</td></tr><tr><td>AC2 相似度超 0.9 的变体被丢弃（含跨种子、正反例）</td><td>5</td><td>5</td><td>0</td></tr><tr><td>AC3 pending 目录 / promote 抽检准入 / CLI 可用</td><td>4</td><td>4</td><td>0</td></tr><tr><td>AC5 同义改写走本地模型 + 地址白名单</td><td>3</td><td>3</td><td>0</td></tr><tr><td>AC6 编码绕过子类均基于种子内容（含谐音）</td><td>1</td><td>1</td><td>0</td></tr><tr><td>边界：多轮拆分轮数</td><td>1</td><td>1</td><td>0</td></tr><tr><td>AC4 变体全部通过 eval-lint 与 eval-pii-scan</td><td>3</td><td>3</td><td>0</td></tr></table>
+<h2>命令</h2>
+<p><code>python redteam-gen generate</code> → 写 <code>evals/suites/guardrail.variants.pending/pending.json</code>；
+<code>python redteam-gen promote</code> 抽检率 ≥10% 后并入 <code>evals/suites/guardrail.regression.json</code>。</p>
+<h2>文件清单（21 个，167,613 字节）</h2><ul class="files"><li><a href="README.md">README.md</a><span>4,508 B</span></li><li><a href="SHA256SUMS">SHA256SUMS</a><span>1,356 B</span></li><li><a href="app/redteam.py">app/redteam.py</a><span>14,018 B</span></li><li><a href="app/redteam_cli.py">app/redteam_cli.py</a><span>2,616 B</span></li><li><a href="evals/suites/guardrail.variants.pending/pending.json">evals/suites/guardrail.variants.pending/pending.json</a><span>46,067 B</span></li><li><a href="groups.json">groups.json</a><span>1,377 B</span></li><li><a href="index.html">index.html</a><span>4,712 B</span></li><li><a href="outputs/eval-lint.txt">outputs/eval-lint.txt</a><span>4,631 B</span></li><li><a href="outputs/eval-pii-scan.txt">outputs/eval-pii-scan.txt</a><span>7,369 B</span></li><li><a href="outputs/junit.xml">outputs/junit.xml</a><span>2,410 B</span></li><li><a href="outputs/matrix.md">outputs/matrix.md</a><span>710 B</span></li><li><a href="outputs/pytest-output.txt">outputs/pytest-output.txt</a><span>102 B</span></li><li><a href="outputs/run-report.md">outputs/run-report.md</a><span>2,174 B</span></li><li><a href="outputs/variants-stats.md">outputs/variants-stats.md</a><span>388 B</span></li><li><a href="outputs/variants.json">outputs/variants.json</a><span>51,583 B</span></li><li><a href="outputs/verify.json">outputs/verify.json</a><span>1,563 B</span></li><li><a href="redteam-gen">redteam-gen</a><span>297 B</span></li><li><a href="redteam-gen.py">redteam-gen.py</a><span>297 B</span></li><li><a href="tests/test_2052.py">tests/test_2052.py</a><span>11,305 B</span></li><li><a href="tools/evidence_2052.py">tools/evidence_2052.py</a><span>4,017 B</span></li><li><a href="verify.py">verify.py</a><span>6,113 B</span></li></ul>
+</main></body></html>
