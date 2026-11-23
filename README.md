@@ -1,31 +1,28 @@
-# #2288 v2 · IP 处理流水线状态机与失败重试编排（SQLAlchemy 2 + FastAPI + Alembic）
+# #2288 v3 · IP 处理流水线状态机与失败重试编排（SQLAlchemy 2 + FastAPI + Alembic）
 
-> 本版按返工意见整改：① 交付形式改为 **公开 GitHub 仓库分支（免登录 clone，可直接复跑）**，
-> 同时另附 git bundle + SHA-256 作为离线备份形式；
-> ② 存储层从 sqlite3 直连改为 **SQLAlchemy 2 模型 + Alembic 迁移**；
-> ③ 补齐 **HTTP 接口层**：`POST /api/ip/projects/{id}/jobs/{step}/retry` 与
-> `GET /api/ip/projects/{id}/jobs`；④ 全部 4 条验收标准的测试随包交付。
+> 本版按第 2 轮返工意见整改：统一表字段与时间类型、Redis 队列 + worker（启动回收）、
+> 重跑与运行共用同一把项目锁、失败步骤短路下游。交付形式为 **公开 GitHub 仓库分支（免登录 clone）**，
+> 另可生成 git bundle 作离线备份。
 
 ## 一条命令跑完
 
 ```bash
-python verify.py          # 内部：pytest tests -q（junitxml）+ python probe.py
+python verify.py          # 内部：pytest tests -q（junitxml）→ 分组统计 → 进程内实测指标 → 报告
 ```
 
 ## 运行与测试方法
 
 ```bash
 pip install fastapi sqlalchemy alembic httpx pytest   # 依赖
-pytest tests/ -v                                      # 9 例全过
+pytest tests/ -v                                      # 19 例全过
 alembic upgrade head                                  # 建表 ip_project / ip_jobs
 alembic downgrade base                                # 反向删除（可逆性有测试覆盖）
 
 # 连接串用环境变量 IP_DB_URL 覆盖 alembic.ini（生产 = PostgreSQL 16）：
 #   IP_DB_URL=postgresql+psycopg://user:pass@host:5432/db alembic upgrade head
-# 本地已实测：upgrade head → downgrade base → upgrade head 三步均成功（SQLite 与 PG 通用 DDL）
 ```
 
-### 最小启动示例（生产 = PostgreSQL 16）
+### 最小启动示例
 
 ```python
 from sqlalchemy import create_engine
@@ -40,70 +37,45 @@ pipeline = Pipeline(sessionmaker(bind=engine, expire_on_commit=False))
 app = create_app(pipeline)
 ```
 
-## 状态图
+## 本轮（v3）整改对照
 
-```
-ip_jobs.status：
-pending ──► running ──► succeeded            （attempt ≤ 4，退避 30s/120s/600s）
-   ▲           │
-   │           ├─► failed（重试耗尽）──► 项目 status=failed，failed_step 记录失败步骤
-   │           └─► running 超 3600s ──► reclaim_stale 回收为 pending（WORKER_RESTARTED）
-   │
-   └─ generate.clips 未授权 clips ──► skipped（保持 skip，重跑不复活）
-
-ip_project.status：pending ──► running ──► succeeded / failed
-```
-
-## 接口层
-
-| 方法 | 路径 | 行为 |
+| 返工意见 | 实现 | 测试 |
 |---|---|---|
-| POST | `/api/ip/projects/{id}/jobs` | 触发整条流水线；锁冲突返回 **409** `PIPELINE_ALREADY_RUNNING` |
-| POST | `/api/ip/projects/{id}/jobs/{step}/retry` | 只重跑指定步骤及下游；上游不重复执行；未知步骤 404 |
-| GET | `/api/ip/projects/{id}/jobs` | 返回 ip_jobs 逐步状态（status / attempt / error_code） |
+| 1 [major] 缺表通用字段、时间列是字符串 | `ip_project` / `ip_jobs` 主键改 **UUID**（`sa.Uuid`，PG 原生 uuid / SQLite CHAR(32)）；两表均含 `org_id`、`site_id`、`created_at`、`created_by`、`updated_at`、`deleted_at`；`started_at`/`finished_at`/审计列全部 `DateTime(timezone=True)`；迁移 `0001_initial.py` 同步且可逆 | `test_columns01`、`test_columns02`、迁移用例 |
+| 2 [major] 没有队列与 worker | `worker.py`：`JobQueue`（Redis 列表 `RPUSH`/`LPOP`，进程内 `FakeRedis` 等价）+ `Worker.start()/run_once()`；`POST` 只入队并返回 202，由 worker 执行；`start()` 启动时先 `reclaim_stale()` 把 running 超 1 小时的 job 回收为 pending | `test_queue01`–`test_queue04`、回收用例 |
+| 3 [major] 重跑不取同一把项目锁，可与运行中流水线并发 | `rerun_failed()` 与 `run()` 共用 `ip:lock:<project_id>`（`SET NX EX 7200`）；抢不到抛 `AlreadyRunning` → HTTP 409，且**零步骤执行** | 锁用例 4 组、重跑增量用例 |
+| 4 [major] 重跑遇失败仍继续执行下游 | `rerun_failed()` 内 `failed_step` 一旦置位即 `break`，下游保持 pending 且 handler 调用计数为 0；项目置 `failed` 并记录失败步骤 | `test_stopfail01`、重试耗尽用例 |
 
-锁实现：`SET ip:lock:<project_id> <owner> NX EX 7200`。**生产替换点**：
-`FakeRedis` 换成 redis-py 客户端即可（`set(key, val, nx=True, ex=7200)` / `delete(key)` 调用点无需改动）。
+## 实测（`outputs/verify.json`，本次运行）
 
-## 验收对照（数字由 verify.py 从 junit.xml 自动提取，见 outputs/matrix.md）
+- pytest：**19 passed / 0 failed**；分组：AC1 1/1、AC2 1/1、AC3 3/3、AC4 4/4、迁移与模型 2/2、边界与加固 8/8。
+- happy path：10 个 job（9 succeeded + 1 skipped），6 个主步骤各执行 1 次、generate 3 个子步骤。
+- 重试耗尽：transcribe 尝试 4 次（退避 30s/120s/600s），下游 5 个步骤调用计数均为 **0**。
+- 重跑增量：preprocess 0 次，transcribe 及下游各 1 次（generate 3 个子步骤），`rerun_status=succeeded`。
+- 并发：锁被占时 4 组用例均返回 409 且零执行；worker 启动回收 running 超 1 小时 job 为 pending。
 
-| 验收标准 | 测试 | 断言要点 |
-|---|---|---|
-| 1 全流程每步 succeeded/skipped | `test_ac1_happy_path_all_succeeded_or_skipped` | 全部 job ∈ {succeeded, skipped}；未授权 clips=skipped；DB 复核无其他状态 |
-| 2 transcribe 连续失败 4 次 → failed | `test_ac2_retry_exhausted_four_attempts_and_backoff_sequence` | 共尝试 **4** 次；退避序列 [30,120,600]（注入 sleep 记录）；下游调用数 **0** |
-| 3 retry 只重跑指定步骤及下游 | `test_ac3_retry_endpoint_reruns_only_step_and_downstream`（接口层） | preprocess 调用数不变；transcribe +1；下游各 +1 |
-| 4 并发触发第二次 409 | `test_ac4_concurrent_trigger_returns_409`（接口层） | HTTP 409 + `PIPELINE_ALREADY_RUNNING`；编排器直调抛 AlreadyRunning |
-
-另附：Alembic 迁移可逆性（upgrade head → downgrade base）、失败修复重跑、未知步骤 404、锁释放后可再触发。
-
-## 目录
+## 结构
 
 ```
-models.py                  # SQLAlchemy 2 模型（ip_project / ip_jobs）
-pipeline.py                # 编排器：状态机 + 重试 + 重跑 + stale 回收（SQLAlchemy 会话版）
-app.py                     # FastAPI 接口层（触发 / retry / jobs）
-migrations/versions/0001_initial.py   # 可逆迁移
-alembic.ini                # 迁移配置（测试里 programmatic 覆盖 sqlalchemy.url）
-probe.py / verify.py / groups.json    # 实测与自动报告
-tests/test_ip_pipeline_v2.py          # 9 例
+app.py                    # FastAPI：POST /jobs（入队 202）、GET /jobs、retry、rerun
+models.py                 # SQLAlchemy 2 模型（UUID 主键 + 通用审计列 + DateTime(timezone=True)）
+pipeline.py               # 状态机：步骤执行、重试退避、锁、reset_from、rerun_failed、reclaim_stale
+worker.py                 # JobQueue（Redis 列表）+ Worker（启动回收 / 出队执行）
+migrations/versions/0001_initial.py   # 可逆迁移（upgrade/downgrade）
+tests/test_ip_pipeline_v2.py          # 19 例：AC1–AC4 + queue/lock/stopfail/columns/migration
+verify.py / probe.py / groups.json    # 离线验证器、指标采集、分组配置
 ```
 
-## 复跑四步（推荐：公开仓库，无需登录）
+## 交付形式
 
 ```bash
-git clone --branch 2288 https://github.com/luyalun2026/clawhunt-deliveries.git repo
-cd repo
-pip install fastapi sqlalchemy alembic httpx pytest
-pytest tests/ -v              # 期望 9 passed
+git clone --branch 2288 https://github.com/luyalun2026/clawhunt-deliveries.git ch2288
+cd ch2288 && pip install fastapi sqlalchemy alembic httpx pytest
+python -m pytest tests -q        # 期望 19 passed
+python verify.py                 # 期望 passed=19 failed=0
 ```
 
-离线备用形式（git bundle，同样可复跑）：
-
-```bash
-curl -LO "https://clawhunt-relay.app.workbuddy.host/2288/pkg.bundle?sharecode=R24KOKETNU"
-sha256sum pkg.bundle          # 与交付正文给出的 SHA-256 对照
-git clone pkg.bundle repo && cd repo && pytest tests/ -v
-```
-
-> 说明：`ci/workflows/` 下的工作流文件原始路径为 `.github/workflows/`，
-> 因推送所用令牌无 workflow 权限而改放此处，见 `CI_NOTE.md`；本地 `pytest tests -q` 与 CI 等价。
+- 仓库分支 `2288`，本次 commit 见交付正文；`SHA256SUMS` 列全量哈希。
+- 离线包：克隆后 `git bundle create 2288.bundle --all`。
+- 说明：令牌无 GitHub `workflow` scope，CI 文件原样放在 `ci/workflows/`（见 `CI_NOTE.md`）。
+- 全部数据虚构，不含真实企业与个人信息。

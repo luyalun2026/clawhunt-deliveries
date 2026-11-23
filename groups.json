@@ -1,15 +1,35 @@
 {
   "groups": {
-    "AC1 全流程步骤成功或跳过": ["ac1"],
-    "AC2 重试耗尽置 failed": ["ac2"],
-    "AC3 重跑只跑指定步骤及下游": ["ac3"],
-    "AC4 同项目并发触发 409": ["ac4"],
-    "迁移与模型（SQLAlchemy 2 / Alembic）": ["alembic", "models_schema"]
+    "AC1 全流程步骤成功或跳过": [
+      "ac1"
+    ],
+    "AC2 重试耗尽置 failed": [
+      "ac2"
+    ],
+    "AC3 重跑只跑指定步骤及下游": [
+      "ac3"
+    ],
+    "AC4 队列化触发：入队即返回 / worker 执行 / 并发锁 409": [
+      "ac4",
+      "queue",
+      "lock"
+    ],
+    "AC5 重跑失败即停（下游保持 pending 不被调用）": [
+      "stopfail"
+    ],
+    "统一列约定（UUID 主键 / org_id / site_id / 审计列 / 时间类型）": [
+      "columns"
+    ],
+    "迁移与模型（SQLAlchemy 2 / Alembic）": [
+      "alembic",
+      "models_schema"
+    ]
   },
   "notes": [
-    "存储层为 SQLAlchemy 2 模型 + Alembic 迁移；测试与演示跑 SQLite（零外部依赖），生产连接串换 postgresql+psycopg 即可。",
-    "Redis 以进程内 FakeRedis 等价实现（SET NX EX 语义），生产替换 redis-py 命令即可。",
+    "v3 整改（对应第 2 轮返工 5 条）：POST 入队即返回由 worker 执行；worker 启动执行 reclaim_stale（running>1h 回收 pending）；retry 与 run 取同一把 ip:lock:<project_id>（SET NX EX 7200），锁被占 409；重跑失败即停、下游保持 pending；两表统一 UUID 主键 + org_id/site_id + created_at/created_by/updated_at/deleted_at，时间列 DateTime(timezone=True)。",
+    "存储层为 SQLAlchemy 2 模型 + Alembic 迁移；测试与演示跑 SQLite（零外部依赖），生产连接串换 postgresql+psycopg 即可（Uuid 类型 PG 上为原生 uuid 列）。",
+    "Redis 以进程内 FakeRedis 等价实现（SET NX EX / RPUSH / LPOP 语义），生产替换 redis-py 同名命令即可；队列与 worker 见 worker.py。",
     "退避用可注入 sleep 记录，测试断言序列为 30/120/600 秒，零等待执行。",
-    "HTTP 接口层（POST retry / GET jobs）经 TestClient 以接口层断言覆盖。"
+    "接口说明只写已实现且有测试覆盖的行为（POST /jobs 入队 202、retry 加锁 409、GET jobs、POST /api/ip/worker/tick）。"
   ]
 }

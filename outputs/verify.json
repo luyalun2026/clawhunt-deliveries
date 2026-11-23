@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-22T19:51:31",
-  "pytest_summary": "9 passed, 1 warning in 3.85s",
+  "generated_at": "2026-11-23T23:00:10",
+  "pytest_summary": "19 passed, 1 warning in 2.61s",
   "exit_code": 0,
-  "total": 9,
-  "passed": 9,
+  "total": 19,
+  "passed": 19,
   "failed": 0,
   "per_group": {
     "AC1 全流程步骤成功或跳过": {
@@ -21,14 +21,24 @@
       "passed": 3,
       "failed": 0
     },
-    "AC4 同项目并发触发 409": {
+    "AC4 队列化触发：入队即返回 / worker 执行 / 并发锁 409": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "AC5 重跑失败即停（下游保持 pending 不被调用）": {
       "total": 2,
       "passed": 2,
       "failed": 0
     },
+    "统一列约定（UUID 主键 / org_id / site_id / 审计列 / 时间类型）": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
     "迁移与模型（SQLAlchemy 2 / Alembic）": {
-      "total": 2,
-      "passed": 2,
+      "total": 1,
+      "passed": 1,
       "failed": 0
     }
   },
@@ -81,8 +91,35 @@
       "detect_sensitive": 1,
       "push_review": 1
     },
-    "concurrent_conflict": true,
+    "rerun_status": "succeeded",
+    "stop_on_failure": {
+      "status": "failed",
+      "failed_step": "diarize",
+      "downstream_delta": {
+        "postprocess": 0,
+        "generate": 0,
+        "detect_sensitive": 0,
+        "push_review": 0
+      }
+    },
+    "lock_conflicts": {
+      "run": true,
+      "rerun": true
+    },
     "stale_reclaimed": 1,
-    "stale_error_code": "WORKER_RESTARTED"
+    "stale_error_code": "WORKER_RESTARTED",
+    "queue_worker": {
+      "depth_after_enqueue": 1,
+      "handled_called_before_worker": 0,
+      "worker_outcome_status": "succeeded",
+      "handled_calls_after_worker": 9,
+      "depth_after_worker": 0
+    },
+    "schema_convention": {
+      "job_pk_type": "CHAR(32)",
+      "project_pk_type": "CHAR(32)",
+      "started_at_type": "DATETIME",
+      "common_columns_present": true
+    }
   }
 }

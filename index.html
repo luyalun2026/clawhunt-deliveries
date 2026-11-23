@@ -1,110 +1,33 @@
-<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8">
-<title>#2288 v2 · IP 处理流水线状态机与失败重试编排（SQLAlchemy 2 + FastAPI + Alembic）</title>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>#2288 交付说明 · IP 处理流水线</title>
 <style>
- body{font:15px/1.7 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;max-width:920px;margin:40px auto;padding:0 18px;color:#1f2328}
- h1{font-size:24px;margin:0 0 6px} .sub{color:#57606a;margin-bottom:24px}
- h2{font-size:18px;margin-top:32px;border-left:4px solid #0969da;padding-left:10px}
- table{border-collapse:collapse;width:100%;font-size:14px} td,th{border:1px solid #d0d7de;padding:6px 10px;text-align:left}
- th{background:#f6f8fa} code,pre{background:#f6f8fa;padding:2px 6px;border-radius:6px;font-size:13px}
- pre{padding:12px;overflow:auto;white-space:pre-wrap} ul.files{list-style:none;padding:0}
- ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e5e7eb;padding:6px 0}
- a{color:#0969da;text-decoration:none} a:hover{text-decoration:underline}
- .tag{display:inline-block;background:#ddf4ff;color:#0969da;border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
-</style></head><body>
-<h1>#2288 v2 · IP 处理流水线状态机与失败重试编排</h1>
-<div class="sub">2288 · 交付包（v2：SQLAlchemy 2 + Alembic + FastAPI 接口层）</div>
-<span class="tag">git bundle 交付</span><span class="tag">全部数字由脚本生成</span>
-
-<h2>v2 整改对照（回应返工意见）</h2>
-<table><tr><th>返工意见</th><th>整改</th></tr>
-<tr><td>[blocker] 代码未以可核对形式交付</td><td>git bundle（SHA-256 见提交正文与 SHA256SUMS）+ README 运行方法 + 逐文件 SHA256SUMS</td></tr>
-<tr><td>[blocker] 缺 SQLAlchemy 模型与 Alembic 迁移、缺两个 HTTP 接口</td><td>models.py（SQLAlchemy 2）+ migrations/versions/0001_initial.py（可逆，有测试）+ app.py（POST retry / GET jobs）</td></tr>
-<tr><td>[major] 测试与报告不可核对</td><td>tests/ 随包交付 9 例；verify.py 一键复跑，junit 自动统计</td></tr></table>
-
-<h2>验证结果（outputs/verify.json 自动生成）</h2>
-<table><tr><th>验收分组</th><th>用例</th><th>通过</th><th>失败</th><th>结论</th></tr>
-<tr><td>AC1 全流程步骤成功或跳过</td><td>1</td><td>1</td><td>0</td><td>通过</td></tr>
-<tr><td>AC2 重试耗尽置 failed</td><td>1</td><td>1</td><td>0</td><td>通过</td></tr>
-<tr><td>AC3 重跑只跑指定步骤及下游</td><td>3</td><td>3</td><td>0</td><td>通过</td></tr>
-<tr><td>AC4 同项目并发触发 409</td><td>2</td><td>2</td><td>0</td><td>通过</td></tr>
-<tr><td>迁移与模型（SQLAlchemy 2 / Alembic）</td><td>2</td><td>2</td><td>0</td><td>通过</td></tr>
-<tr><th>合计</th><th>9</th><th>9</th><th>0</th><th>全部通过</th></tr></table>
-<pre>pytest_summary: 9 passed, 1 warning in 3.05s | exit_code: 0 | generated_at: 2026-11-22T19:18:58</pre>
-
-<h2>实测指标（probe.py 运行期提取）</h2>
-<pre>{
- "happy_path": {
-  "status": "succeeded",
-  "total_jobs": 10,
-  "succeeded": 9,
-  "skipped": 1,
-  "step_calls": {
-   "preprocess": 1,
-   "transcribe": 1,
-   "diarize": 1,
-   "postprocess": 1,
-   "detect_sensitive": 1,
-   "push_review": 1,
-   "generate": 3
-  },
-  "job_statuses": [
-   "skipped",
-   "succeeded"
-  ]
- },
- "retry_exhausted": {
-  "status": "failed",
-  "failed_step": "transcribe",
-  "transcribe_attempts": 4,
-  "max_attempts_expected": 4,
-  "backoff_sequence": [
-   30,
-   120,
-   600
-  ],
-  "downstream_calls": {
-   "diarize": 0,
-   "postprocess": 0,
-   "generate": 0,
-   "detect_sensitive": 0,
-   "push_review": 0
-  }
- },
- "rerun_delta": {
-  "preprocess": 0,
-  "transcribe": 1,
-  "diarize": 1,
-  "postprocess": 1,
-  "generate": 3,
-  "detect_sensitive": 1,
-  "push_review": 1
- },
- "concurrent_conflict": true,
- "stale_reclaimed": 1,
- "stale_error_code": "WORKER_RESTARTED"
-}</pre>
-
-<h2>交付物清单</h2>
-<ul class="files">
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/pkg.bundle?sharecode=R24KOKETNU">pkg.bundle</a><span>git bundle 交付包（推荐复跑入口）</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/README.md?sharecode=R24KOKETNU">README.md</a><span>运行与测试方法、状态图、接口层说明</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/models.py?sharecode=R24KOKETNU">models.py</a><span>SQLAlchemy 2 模型（ip_project / ip_jobs）</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/pipeline.py?sharecode=R24KOKETNU">pipeline.py</a><span>编排器：状态机 + 重试 + 重跑 + stale 回收</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/app.py?sharecode=R24KOKETNU">app.py</a><span>FastAPI 接口层（触发 / retry / jobs）</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/alembic.ini?sharecode=R24KOKETNU">alembic.ini</a><span>Alembic 配置</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/migrations/versions/0001_initial.py?sharecode=R24KOKETNU">migrations/versions/0001_initial.py</a><span>可逆迁移</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/probe.py?sharecode=R24KOKETNU">probe.py</a><span>运行期实测指标采集</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/verify.py?sharecode=R24KOKETNU">verify.py</a><span>一键复跑：pytest + junit 解析 + 报告</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/tests/test_ip_pipeline_v2.py?sharecode=R24KOKETNU">tests/test_ip_pipeline_v2.py</a><span>9 例验收测试</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/outputs/run-report.md?sharecode=R24KOKETNU">outputs/run-report.md</a><span>自动运行报告</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/outputs/matrix.md?sharecode=R24KOKETNU">outputs/matrix.md</a><span>用例 × 结果矩阵</span></li>
-<li><a href="https://clawhunt-relay.app.workbuddy.host/2288/SHA256SUMS?sharecode=R24KOKETNU">SHA256SUMS</a><span>逐文件 SHA-256 清单</span></li>
+body{margin:0;background:#fff;color:#1a1a1a;font:15px/1.7 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+main{max-width:900px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:23px;margin:0 0 8px}h2{font-size:17px;margin:26px 0 10px;border-left:3px solid #0b63c5;padding-left:8px}
+.mut{color:#5b6470;font-size:13px}table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{border:1px solid #e3e7ec;padding:6px 8px;text-align:left}code{background:#f4f6f8;padding:1px 4px;border-radius:3px}
+ul.files{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:13px}
+ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e3e7ec;padding:2px 0}
+ul.files a{color:#0b63c5;text-decoration:none}ul.files span{color:#5b6470}
+</style></head><body><main>
+<h1>#2288 IP 处理流水线状态机与失败重试编排（v3）</h1>
+<p class="mut">生成时间 2026-11-23T23:00:10｜主交付形式：公开 GitHub 仓库分支 <code>2288</code></p>
+<h2>实测数字</h2>
+<table>
+<tr><td>pytest</td><td><code>19 passed, 1 warning in 2.61s</code></td></tr>
+<tr><td>用例</td><td>19（通过 19 / 失败 0 / 跳过 0）</td></tr>
+<tr><td>happy path</td><td>job 10 个：succeeded 9 + skipped 1</td></tr>
+<tr><td>重试耗尽</td><td>transcribe 尝试 4 次，下游调用 0 次，最终 failed</td></tr>
+</table>
+<h2>分组结果</h2><table><tr><th>分组</th><th>用例</th><th>通过</th><th>失败</th></tr><tr><td>AC1 全流程步骤成功或跳过</td><td>1</td><td>1</td><td>0</td></tr><tr><td>AC2 重试耗尽置 failed</td><td>1</td><td>1</td><td>0</td></tr><tr><td>AC3 重跑只跑指定步骤及下游</td><td>3</td><td>3</td><td>0</td></tr><tr><td>AC4 队列化触发：入队即返回 / worker 执行 / 并发锁 409</td><td>8</td><td>8</td><td>0</td></tr><tr><td>AC5 重跑失败即停（下游保持 pending 不被调用）</td><td>2</td><td>2</td><td>0</td></tr><tr><td>统一列约定（UUID 主键 / org_id / site_id / 审计列 / 时间类型）</td><td>3</td><td>3</td><td>0</td></tr><tr><td>迁移与模型（SQLAlchemy 2 / Alembic）</td><td>1</td><td>1</td><td>0</td></tr></table>
+<h2>本轮整改</h2>
+<ul>
+<li>UUID 主键 + org_id/site_id/created_at/created_by/updated_at/deleted_at；时间列 DateTime(timezone=True)</li>
+<li>JobQueue（Redis 列表）+ Worker：POST 入队 202，worker 执行；start() 回收 running 超 1 小时任务</li>
+<li>rerun_failed 与 run 共用 ip:lock:&lt;project_id&gt;，抢不到返回 409 且零执行</li>
+<li>失败步骤短路：下游保持 pending，handler 调用计数 0，项目 status=failed 且记录 failed_step</li>
 </ul>
-
-<h2>复跑四步</h2>
-<pre>curl -LO "https://clawhunt-relay.app.workbuddy.host/2288/pkg.bundle?sharecode=R24KOKETNU"
-sha256sum pkg.bundle        # 对照上方 SHA-256
-git clone pkg.bundle repo && cd repo
-pytest tests/ -v</pre>
-</body></html>
+<h2>复现</h2>
+<p><code>python -m pytest tests -q</code> → 19 passed；<code>python verify.py</code> 生成 outputs/verify.json。</p>
+<h2>文件清单（24 个，102,520 字节）</h2><ul class="files"><li><a href=".github/workflows/ci.yml">.github/workflows/ci.yml</a><span>651 B</span></li><li><a href="README.md">README.md</a><span>4,897 B</span></li><li><a href="README.tpl.md">README.tpl.md</a><span>3,296 B</span></li><li><a href="SHA256SUMS">SHA256SUMS</a><span>1,754 B</span></li><li><a href="alembic.ini">alembic.ini</a><span>554 B</span></li><li><a href="app.py">app.py</a><span>4,305 B</span></li><li><a href="groups.json">groups.json</a><span>1,680 B</span></li><li><a href="index.html">index.html</a><span>7,895 B</span></li><li><a href="migrations/__init__.py">migrations/__init__.py</a><span>98 B</span></li><li><a href="migrations/env.py">migrations/env.py</a><span>1,489 B</span></li><li><a href="migrations/script.py.mako">migrations/script.py.mako</a><span>466 B</span></li><li><a href="migrations/versions/0001_initial.py">migrations/versions/0001_initial.py</a><span>3,210 B</span></li><li><a href="models.py">models.py</a><span>3,579 B</span></li><li><a href="outputs/junit.xml">outputs/junit.xml</a><span>2,517 B</span></li><li><a href="outputs/matrix.md">outputs/matrix.md</a><span>678 B</span></li><li><a href="outputs/pytest-output.txt">outputs/pytest-output.txt</a><span>663 B</span></li><li><a href="outputs/run-report.md">outputs/run-report.md</a><span>3,564 B</span></li><li><a href="outputs/verify.json">outputs/verify.json</a><span>3,012 B</span></li><li><a href="pipeline.py">pipeline.py</a><span>16,659 B</span></li><li><a href="probe.py">probe.py</a><span>7,001 B</span></li><li><a href="tests/test_ip_pipeline_v2.py">tests/test_ip_pipeline_v2.py</a><span>21,318 B</span></li><li><a href="tools/make_index.py">tools/make_index.py</a><span>4,573 B</span></li><li><a href="verify.py">verify.py</a><span>5,182 B</span></li><li><a href="worker.py">worker.py</a><span>3,479 B</span></li></ul>
+</main></body></html>
