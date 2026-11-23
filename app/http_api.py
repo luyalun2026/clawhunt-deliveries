@@ -13,6 +13,8 @@
 """
 from __future__ import annotations
 
+import csv
+import io
 from typing import Annotated
 
 from fastapi import Depends, FastAPI, Header, Request
@@ -49,7 +51,28 @@ def list_leads(actor: ActorDep):
 
 @app.get("/api/leads/export")
 def export_leads(actor: ActorDep, page: int = 1, size: int = 100):
+    """导出为真实 CSV 文件（附件），行数即 A 可见线索条数。"""
     code, body = API.export_leads(actor, page, size)  # type: ignore[arg-type]
+    if code != 200:
+        return _json(code, body)
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=["id", "ent_name", "site_id", "owner_id"])
+    writer.writeheader()
+    for row in body["rows"]:
+        writer.writerow({k: ("" if row.get(k) is None else row.get(k))
+                         for k in writer.fieldnames})
+    payload = "\ufeff" + buf.getvalue()          # BOM：Excel 直接打开不乱码
+    return Response(
+        content=payload.encode("utf-8"),
+        media_type="text/csv; charset=utf-8",
+        headers={"Content-Disposition": "attachment; filename=leads-export.csv",
+                 "X-Export-Rows": str(len(body["rows"]))},
+    )
+
+
+@app.get("/api/search")
+def search_leads(actor: ActorDep, q: str = ""):
+    code, body = API.search(actor, q)                # type: ignore[arg-type]
     return _json(code, body)
 
 
@@ -112,6 +135,39 @@ def page_lead(lead_id: str, actor: ActorDep):
         "<!doctype html><meta charset='utf-8'><title>线索详情</title>"
         f"<h1 id='name'>{body['ent_name']}</h1>"
         f"<p id='owner'>{body['owner_id']}</p>"
+    )
+    return HTMLResponse(status_code=200, content=html)
+
+
+@app.get("/search", response_class=HTMLResponse)
+def page_search(actor: ActorDep, q: str = ""):
+    code, body = API.search(actor, q)                # type: ignore[arg-type]
+    if code != 200:
+        return HTMLResponse(status_code=code, content=_deny_page(code))
+    rows = "".join(
+        f'<li class="lead" data-id="{r["id"]}">{r["ent_name"]}'
+        f'<a class="open" href="/leads/{r["id"]}">详情</a></li>'
+        for r in body["items"]
+    )
+    html = (
+        "<!doctype html><meta charset='utf-8'><title>搜索线索</title>"
+        "<h1>全局搜索</h1>"
+        f"<p id='q'>{body['q']}</p><p id='count'>{body['total']}</p>"
+        f"<ul id='results'>{rows}</ul>"
+    )
+    return HTMLResponse(status_code=200, content=html)
+
+
+@app.get("/export", response_class=HTMLResponse)
+def page_export(actor: ActorDep):
+    code, body = API.export_leads(actor)             # type: ignore[arg-type]
+    if code != 200:
+        return HTMLResponse(status_code=code, content=_deny_page(code))
+    html = (
+        "<!doctype html><meta charset='utf-8'><title>导出线索</title>"
+        "<h1>导出线索</h1>"
+        f"<p id='rows'>{len(body['rows'])}</p>"
+        "<a id='download' href='/api/leads/export' download>下载 CSV</a>"
     )
     return HTMLResponse(status_code=200, content=html)
 

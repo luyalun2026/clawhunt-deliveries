@@ -125,3 +125,60 @@ def test_page_anonymous_denied(server, page_as):
     resp = pg.goto(server + "/leads", wait_until="load")
     assert resp.status == 401
     assert pg.inner_text("#deny").strip() == "未登录"
+
+
+def test_page_search_does_not_return_other_tenant(server, page_as):
+    """页面层：以 A 身份全局搜索 B 的企业名，结果 0 条、不出现对方任何线索。"""
+    pg = page_as("A")
+    resp = pg.goto(server + "/search?q=%E8%99%9A%E6%9E%84%E4%B9%99%E4%BC%81%E4%B8%9A", wait_until="load")
+    assert resp.status == 200
+    assert pg.inner_text("#count").strip() == "0"
+    assert pg.locator("li.lead").count() == 0
+    assert "虚构乙企业1" not in pg.content()
+
+
+def test_page_search_returns_own_scope(server, page_as):
+    """页面层：A 搜索「虚构」返回 8 条，全部为本人/公海。"""
+    pg = page_as("A")
+    pg.goto(server + "/search?q=%E8%99%9A%E6%9E%84", wait_until="load")
+    assert pg.inner_text("#count").strip() == "8"
+    assert pg.locator("li.lead").count() == 8
+    ids = pg.eval_on_selector_all("li.lead", "els => els.map(e => e.dataset.id)")
+    assert all(not i.startswith("L-B") for i in ids)
+
+
+def test_page_export_downloads_csv_with_8_rows(server, page_as):
+    """页面层：导出页显示 8 行，并给出真实 CSV 文件链接；用页面所在浏览器上下文取回文件核对。
+
+    说明：Edge headless 在本环境会把 download 事件标记为 canceled，故用
+    `page.context.request`（同一浏览器上下文、携带同一 X-Actor）读取文件本体，
+    既验证了链接指向真实文件，也避免依赖浏览器的下载落盘行为。
+    """
+    pg = page_as("A")
+    resp = pg.goto(server + "/export", wait_until="load")
+    assert resp.status == 200
+    assert pg.inner_text("#rows").strip() == "8"
+    href = pg.get_attribute("#download", "href")
+    assert href == "/api/leads/export"
+    file_resp = pg.context.request.get(server + href)
+    assert file_resp.status == 200
+    assert file_resp.headers.get("content-type", "").startswith("text/csv")
+    text = file_resp.text().lstrip("﻿")
+    lines = [ln for ln in text.strip().splitlines() if ln.strip()]
+    assert len(lines) == 9            # 表头 + 8 行数据
+    assert "L-B" not in text
+    assert "虚构乙企业" not in text
+
+
+def test_page_export_anonymous_denied(server, page_as):
+    pg = page_as(None)
+    resp = pg.goto(server + "/export", wait_until="load")
+    assert resp.status == 401
+    assert pg.inner_text("#deny").strip() == "未登录"
+
+
+def test_page_search_anonymous_denied(server, page_as):
+    pg = page_as(None)
+    resp = pg.goto(server + "/search?q=x", wait_until="load")
+    assert resp.status == 401
+    assert pg.inner_text("#deny").strip() == "未登录"

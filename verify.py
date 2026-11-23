@@ -96,6 +96,9 @@ def main():
     }
     with open(os.path.join(OUT, "verify.json"), "w", encoding="utf-8") as f:
         json.dump(verify, f, ensure_ascii=False, indent=2)
+    # probe 的运行期指标单独落一份，README 中承诺的 outputs/metrics.json 必须真实存在
+    with open(os.path.join(OUT, "metrics.json"), "w", encoding="utf-8") as f:
+        json.dump(metrics, f, ensure_ascii=False, indent=2)
 
     lines = ["| 验收分组 | 用例数 | 通过 | 失败 | 跳过 | 结论 |", "|---|---|---|---|---|---|"]
     for g, v in per.items():

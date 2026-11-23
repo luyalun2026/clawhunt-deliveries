@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-11-23T22:15:53",
-  "pytest_summary": "48 passed, 1 skipped in 3.62s",
+  "generated_at": "2026-11-23T22:40:17",
+  "pytest_summary": "67 passed in 38.68s",
   "exit_code": 0,
-  "total": 49,
-  "passed": 48,
+  "total": 67,
+  "passed": 67,
   "failed": 0,
-  "skipped": 1,
+  "skipped": 0,
   "per_group": {
     "AC1 A 的线索列表接口恰好返回 8 条": {
       "total": 3,
@@ -38,10 +38,10 @@
       "skipped": 0
     },
     "其他（边界与加固）": {
-      "total": 20,
-      "passed": 19,
+      "total": 38,
+      "passed": 38,
       "failed": 0,
-      "skipped": 1
+      "skipped": 0
     }
   },
   "all_groups_passed": true,

@@ -108,14 +108,20 @@ class Api:
         return 200, {"lead_id": lead_id, "owner_id": new_owner}
 
     def export_leads(self, actor: Actor, page: int = 1, size: int = 100) -> tuple[int, Any]:
+        if actor.role == "unauthenticated":
+            self._deny(actor, "export", "*", "/api/leads/export")
+            return 401, {"error": "unauthorized"}
         rows = [self._row(l) for l in self.leads.values() if self._in_scope(actor, l)]
         start = (page - 1) * size
         return 200, {"rows": rows[start:start + size], "total": len(rows), "page": page}
 
     def search(self, actor: Actor, q: str) -> tuple[int, Any]:
+        if actor.role == "unauthenticated":
+            self._deny(actor, "search", q or "*", "/api/search")
+            return 401, {"error": "unauthorized"}
         res = [self._row(l) for l in self.leads.values()
-               if self._in_scope(actor, l) and q.lower() in l.ent_name.lower()]
-        return 200, {"items": res, "total": len(res)}
+               if self._in_scope(actor, l) and (q or "").lower() in l.ent_name.lower()]
+        return 200, {"items": res, "total": len(res), "q": q}
 
     # ------------------------------------------------------------ 辅助
     @staticmethod
