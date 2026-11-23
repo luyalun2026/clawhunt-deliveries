@@ -49,7 +49,15 @@ outputs/
 
 ## 新增接口自动纳入
 
-响应扫描从 `/openapi.json` 枚举 `/api/mini/` 下的 GET 接口，**新增接口无需手写用例即自动纳入**扫描与坐标检查；仅需在 `app/main.py` 的响应模型登记后同步 `tests/test_model_scan.py` 的模型清单（清单数断言会强制提醒）。POST 接口响应由各接口工单自测，本单提供 `assert_no_contact(payload, canary_values)`。
+响应扫描从 `/openapi.json` 枚举 `/api/mini/` 下的 GET 接口，**新增接口无需手写用例即自动纳入**扫描与坐标检查。
+
+模型扫描的实现：`app/model_scan.py` 直接遍历 FastAPI 路由对象，取 `/api/mini/` 下 GET 接口的 `response_model`，
+并剥掉 `list[...]` / `Optional[...]` 包装、递归下钻嵌套 `BaseModel` 字段——**不再维护手工模型清单**。
+新增接口只在 `app/main.py` 声明 `response_model` 即被扫描；`tests/test_model_scan.py` 里有一条
+「临时新增含禁键的 GET 接口、不登记任何东西也应被发现」的用例来守住这条约定。
+
+POST 接口响应由各接口工单自测，本单提供 `assert_no_contact(payload)`（金丝雀值默认取种子数据全集，
+亦可显式传第二参数）。
 
 ## 与统一技术约定的关系
 

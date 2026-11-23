@@ -1,6 +1,6 @@
 # S3-MINI-045 脱敏自动化测试 · 运行报告
 
-- 生成时间：2026-11-21 07:09:59
+- 生成时间：2026-11-23 22:45:23
 - Python：3.13.14 / FastAPI + httpx TestClient
 
 ## 扫描规模（AC #1）
@@ -10,7 +10,7 @@
 - 每个响应递归检查：金丝雀值（32 个）× 禁键 7 种 × 手机号/邮箱/座机正则
 
 ## 结果
-- 主套件：**22 passed，0 failed**（outputs/pytest_main.txt）
+- 主套件：**25 passed，0 failed**（outputs/pytest_main.txt）
 - 负向套件：**2 个用例按预期失败**（outputs/pytest_negative_expected_fail.txt）
 
 ## 被扫描接口清单
@@ -35,7 +35,7 @@ E           $.phone: 禁键「phone」出现在响应中
 E           $.phone: 金丝雀值泄露
 E           $.phone: 字符串命中手机号正则
 
-app\assertions.py:80: AssertionError
+app\assertions.py:87: AssertionError
 ________________________ test_precise_coord_must_fail _________________________
 
     def test_precise_coord_must_fail():
@@ -49,7 +49,7 @@ E           $[0]: 坐标小数位数 7 超过 4 位
 E           $[1]: 坐标 (30.5123461, 114.3123461) 不等于任何街道中心点
 E           $[1]: 坐标小数位数 7 超过 4 位
 
-app\assertions.py:121: AssertionError
+app\assertions.py:128: AssertionError
 ============================== warnings summary ===============================
 ..\..\..\..\.workbuddy\binaries\python\versions\3.13.12\Lib\site-packages\fastapi\testc
 ----

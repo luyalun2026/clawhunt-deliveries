@@ -24,6 +24,17 @@ def test_nested_object_banned_key_detected():
     assert "$.data.profile.phone" in str(e.value)
 
 
+def test_callable_with_payload_only():
+    """按本单原文可直接 assert_no_contact(payload) 调用（金丝雀值取默认全集）。"""
+    assert_no_contact({"data": {"name": "正常文本"}})          # 干净数据：不抛
+    with pytest.raises(AssertionError):
+        assert_no_contact({"data": {"phone": "000-0000"}})     # 禁键仍被拦
+    canary = CANARY[0]
+    with pytest.raises(AssertionError) as e:
+        assert_no_contact({"data": {"note": canary}})           # 默认全集包含该金丝雀
+    assert "金丝雀值泄露" in str(e.value)
+
+
 def test_deeply_nested_object_clean_passes():
     payload = {"a": {"b": {"c": [{"d": "普通文本"}]}}}
     assert_no_contact(payload, CANARY)  # 不抛即通过

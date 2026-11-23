@@ -71,8 +71,15 @@ def find_contact_violations(payload: Any, canary_values: list[str]) -> list[str]
     return violations
 
 
-def assert_no_contact(payload: Any, canary_values: list[str]) -> None:
-    """★ 可复用断言函数（本单交付物之一）。任何违规即 AssertionError。"""
+def assert_no_contact(payload: Any, canary_values: list[str] | None = None) -> None:
+    """★ 可复用断言函数（本单交付物之一）。任何违规即 AssertionError。
+
+    按本单原文可直接 `assert_no_contact(payload)` 调用：不传金丝雀值时，
+    默认取种子数据中的全部金丝雀值（手机号/座机/邮箱/微信号）。
+    """
+    if canary_values is None:
+        from app.seed import all_canary_values
+        canary_values = all_canary_values()
     violations = find_contact_violations(payload, canary_values)
     if violations:
         # 不输出金丝雀原值，避免证据文件本身成为泄露源

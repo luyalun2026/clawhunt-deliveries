@@ -4,9 +4,10 @@ cachedir: .pytest_cache
 hypothesis profile 'default'
 rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2185
 plugins: anyio-4.16.0, hypothesis-6.170.15
-collecting ... collected 22 items
+collecting ... collected 25 items
 
 tests/test_assert_no_contact_unit.py::test_nested_object_banned_key_detected PASSED
+tests/test_assert_no_contact_unit.py::test_callable_with_payload_only PASSED
 tests/test_assert_no_contact_unit.py::test_deeply_nested_object_clean_passes PASSED
 tests/test_assert_no_contact_unit.py::test_nested_object_canary_value_detected PASSED
 tests/test_assert_no_contact_unit.py::test_nested_object_mobile_regex_detected PASSED
@@ -24,8 +25,10 @@ COORD-CHECK checked_responses=24
 PASSED
 tests/test_coord_scan.py::test_street_centers_have_at_most_4_decimals PASSED
 tests/test_coord_scan.py::test_nearby_streets_reject_mismatched_pair_shape PASSED
+tests/test_model_scan.py::test_discovery_finds_expected_models PASSED
 tests/test_model_scan.py::test_no_response_model_contains_banned_field PASSED
-tests/test_model_scan.py::test_all_mini_response_models_are_registered PASSED
+tests/test_model_scan.py::test_new_route_without_registration_is_scanned PASSED
+tests/test_model_scan.py::test_nested_model_is_scanned PASSED
 tests/test_model_scan.py::test_profile_contact_visible_is_bool_only PASSED
 tests/test_response_scan.py::test_scan_all_mini_get_endpoints_four_identities 
 SCAN-REPORT {"endpoints": ["/api/mini/companies", "/api/mini/companies/{company_id}", "/api/mini/companies/{company_id}/contacts", "/api/mini/map/nearby", "/api/mini/map/streets", "/api/mini/map/streets/{street_id}/points", "/api/mini/notices", "/api/mini/notices/{notice_id}", "/api/mini/profile"], "endpoint_count": 9, "identities": ["guest", "none", "member", "admin"], "request_count": 88, "auth_rejected_count": 2}
@@ -39,4 +42,4 @@ tests/test_response_scan.py::test_guest_and_unauthenticated_get_401_on_profile P
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================== 22 passed, 1 warning in 3.29s ========================
+======================== 25 passed, 1 warning in 2.41s ========================
