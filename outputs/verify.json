@@ -1,0 +1,45 @@
+{
+  "generated_at": "2026-11-23T21:48:39",
+  "pytest_summary": "17 passed in 0.96s",
+  "exit_code": 0,
+  "total": 17,
+  "passed": 17,
+  "failed": 0,
+  "skipped": 0,
+  "per_group": {
+    "AC1 四类差异检出": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "AC2 一致时退出 0 且仅表头": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "AC3 只发 GET": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "AC4 出租率重算对拍": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "边界 5 例 + CLI": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    }
+  },
+  "failed_cases": [],
+  "diff_csv_rows": 5,
+  "diff_types": [
+    "contract_space_not_leased",
+    "expired_contract_room_leased",
+    "leased_without_contract",
+    "occupancy_mismatch",
+    "seat_sum_mismatch"
+  ]
+}

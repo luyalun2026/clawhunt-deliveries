@@ -1,0 +1,6 @@
+﻿type,room,contract,expected,actual
+leased_without_contract,R-201,,有效合同,无
+expired_contract_room_leased,R-201,C-OLD,vacant,leased
+contract_space_not_leased,R-202,C-202,leased,vacant
+seat_sum_mismatch,Z-01,,112,118
+occupancy_mismatch,,,6500,9250

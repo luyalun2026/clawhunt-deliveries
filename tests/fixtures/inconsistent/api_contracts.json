@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "C-101",
+      "status": "active",
+      "tenant_id": "T-1",
+      "space_id": "R-101",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2027-06-30"
+    },
+    {
+      "id": "C-OLD",
+      "status": "expired",
+      "tenant_id": "T-9",
+      "space_id": "R-201",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2026-10-31"
+    },
+    {
+      "id": "C-202",
+      "status": "active",
+      "tenant_id": "T-8",
+      "space_id": "R-202",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2027-09-30"
+    },
+    {
+      "id": "C-203",
+      "status": "active",
+      "tenant_id": "T-4",
+      "space_id": "R-203",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2027-05-31"
+    },
+    {
+      "id": "C-Z01A",
+      "status": "active",
+      "tenant_id": "T-5",
+      "space_id": "Z-01",
+      "seats": 60,
+      "start_date": "2026-01-01",
+      "end_date": "2027-12-31"
+    },
+    {
+      "id": "C-Z01B",
+      "status": "active",
+      "tenant_id": "T-6",
+      "space_id": "Z-01",
+      "seats": 52,
+      "start_date": "2026-01-01",
+      "end_date": "2027-12-31"
+    }
+  ]
+}

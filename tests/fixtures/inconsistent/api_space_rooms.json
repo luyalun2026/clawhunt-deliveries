@@ -1,0 +1,54 @@
+{
+  "items": [
+    {
+      "id": "R-101",
+      "kind": "office",
+      "status": "leased",
+      "tenant_id": "T-1",
+      "expire_date": "2027-06-30",
+      "seat_total": 10,
+      "seat_leased": null,
+      "deleted_at": null
+    },
+    {
+      "id": "R-201",
+      "kind": "office",
+      "status": "leased",
+      "tenant_id": "T-9",
+      "expire_date": "2027-01-31",
+      "seat_total": 10,
+      "seat_leased": null,
+      "deleted_at": null
+    },
+    {
+      "id": "R-202",
+      "kind": "office",
+      "status": "vacant",
+      "tenant_id": null,
+      "expire_date": null,
+      "seat_total": 10,
+      "seat_leased": null,
+      "deleted_at": null
+    },
+    {
+      "id": "R-203",
+      "kind": "office",
+      "status": "leased",
+      "tenant_id": "T-4",
+      "expire_date": "2027-05-31",
+      "seat_total": 10,
+      "seat_leased": null,
+      "deleted_at": null
+    },
+    {
+      "id": "Z-01",
+      "kind": "workstation_zone",
+      "status": "leased",
+      "tenant_id": null,
+      "expire_date": null,
+      "seat_total": 120,
+      "seat_leased": 118,
+      "deleted_at": null
+    }
+  ]
+}

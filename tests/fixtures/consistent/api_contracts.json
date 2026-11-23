@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "id": "C-101",
+      "status": "active",
+      "tenant_id": "T-1",
+      "space_id": "R-101",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2027-06-30"
+    },
+    {
+      "id": "C-102",
+      "status": "active",
+      "tenant_id": "T-2",
+      "space_id": "R-102",
+      "seats": 10,
+      "start_date": "2026-01-01",
+      "end_date": "2027-03-31"
+    },
+    {
+      "id": "C-Z01",
+      "status": "active",
+      "tenant_id": "T-3",
+      "space_id": "Z-01",
+      "seats": 100,
+      "start_date": "2026-01-01",
+      "end_date": "2027-12-31"
+    }
+  ]
+}
