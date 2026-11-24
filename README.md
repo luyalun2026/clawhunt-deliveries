@@ -1,41 +1,50 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S6-CAL-001 健康分校准特征快照表与数据字典
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+交付 `calib.health_snapshot`（22 列 = 业务 18 + 汇总/系统 4）、Alembic 迁移、字典单源生成与三项校验脚本。
 
 ## 运行
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt
+CALIB_SCHEMA="" python -m pytest tests -q            # 本地 SQLite，13 passed
+CALIB_SCHEMA="" python tools/check_dictionary.py     # 业务字段匹配 18/18
+CALIB_SCHEMA="" python tools/check_dictionary.py --render   # 生成 dictionary.md / dictionary.csv
+CALIB_SCHEMA="" python tools/forbid_sensitive.py     # 敏感列 0 命中
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+生产：`DATABASE_URL=postgresql+psycopg://... alembic upgrade head`（迁移内含 `CREATE SCHEMA IF NOT EXISTS calib`），随后 `python build_snapshot.py --date 2026-12-01`。
+
+## 字段分组
+
+| 组 | 数量 | 字段 |
+|---|---|---|
+| 维度 | 8 | snapshot_date、company_pid、site_code、industry_code、stage、membership_level、tenure_days、days_to_expiry |
+| 原始值 | 5 | event_raw(90d)、interaction_raw(30d)、resource_raw(30d)、opportunity_raw(90d)、space_raw(30d) |
+| 标准化分 | 5 | event_score、interaction_score、resource_score、opportunity_score、space_score（0–100） |
+| 汇总/系统 | 4 | health_score、health_level、computed_at、algorithm_version |
+
+`dictionary/fields.py` 是唯一事实源：每字段含定义、来源表/口径、取值范围、可空、单位、窗口天数；`dictionary.md`/`csv` 由脚本渲染，不手工维护，因此不会出现文档与实现不一致。
+
+## 关键口径
+
+- `company_pid = HMAC-SHA256(uscc)[:32]`，快照内不存 uscc / name / mobile。
+- 任一子项原始值为 NULL → 该子项分与 `health_score`/`health_level` 均为 NULL，**不按 0 补齐**（0 会被误读为最差）。
+- `tenure_days = 0` 时，依赖单位天数的派生比率返回 NULL，无除零。
+- 标准化函数与生产健康分同一套（`normalize(value, p10, p95)` 截断 0–100），标定表见 `build_snapshot.CALIB`。
+
+## 约束分层
+
+- 数据库 CHECK：数值区间（0–100）、`health_level ∈ {A,B,C,D}`、`tenure_days >= 0`。
+- 业务校验 `validate_row()`：`snapshot_date` 必须每月 1 日、`industry_code` 匹配 `^[A-Z][0-9]{2}$`（GB/T 4754-2017 门类+大类）。跨库一致，错误信息可读。
+
+## 验收对照
+
+| 验收项 | 证据 |
+|---|---|
+| 迁移后表存在、字段与字典一致 | `tools/check_dictionary.py` 输出「业务字段匹配 18/18、缺文档 无、文档多出 无」 |
+| 字典覆盖全部字段（定义/来源/取值范围） | `dictionary.md` 22 行 + 测试断言三要素非空 |
+| 无 name/uscc/mobile 类字段 | `tools/forbid_sensitive.py` 输出「0 命中」 |
+
+## 边界另测
+
+health_score 101/-1 与 health_level=Z 被 CHECK 拒绝、同日同 pid 重复插入冲突、子项缺失总分 NULL、日期非 1 日与行业码小写/位数不足被业务校验拒绝、tenure_days=0 无除零。
