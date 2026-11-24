@@ -1,0 +1,83 @@
+{
+  "top5": [
+    {
+      "rank": 1,
+      "cluster_id": 1,
+      "name": "工具参数类型错误",
+      "size": 50,
+      "score": 150.0,
+      "representatives": [
+        "C2-018",
+        "C2-001",
+        "C2-036"
+      ]
+    },
+    {
+      "rank": 2,
+      "cluster_id": 2,
+      "name": "越权问句未拒答",
+      "size": 50,
+      "score": 150.0,
+      "representatives": [
+        "C3-008",
+        "C3-007",
+        "C3-005"
+      ]
+    },
+    {
+      "rank": 3,
+      "cluster_id": 0,
+      "name": "阈值边界未命中",
+      "size": 50,
+      "score": 100.0,
+      "representatives": [
+        "C1-007",
+        "C1-002",
+        "C1-003"
+      ]
+    },
+    {
+      "rank": 4,
+      "cluster_id": 3,
+      "name": "引用悬空无出处",
+      "size": 50,
+      "score": 50.0,
+      "representatives": [
+        "C4-006",
+        "C4-005",
+        "C4-001"
+      ]
+    }
+  ],
+  "alignment_summary": {
+    "new": [
+      "阈值边界未命中",
+      "工具参数类型错误",
+      "越权问句未拒答",
+      "引用悬空无出处"
+    ],
+    "ongoing": [],
+    "vanished": []
+  },
+  "noise_cases": [
+    "N-001",
+    "N-002",
+    "N-003",
+    "N-004",
+    "N-005",
+    "N-006",
+    "N-007",
+    "N-008"
+  ],
+  "metrics": {
+    "cases": 208,
+    "clusters": 4,
+    "noise_cases": 8,
+    "noise_ratio": 0.0385,
+    "cut_weight": 0.240732,
+    "ari_all": 1.0,
+    "ari_non_noise": 1.0
+  },
+  "review_status": "pending",
+  "review_level": "人工复核（月报审阅人确认或改写后方可发布）"
+}

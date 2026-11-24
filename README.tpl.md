@@ -1,0 +1,69 @@
+# 工单 #2084 · 失败用例聚类与月度 Top 失败模式归因
+
+## 运行结果
+
+- 用例 {{TOTAL}}，通过 {{PASSED}}，失败 {{FAILED}}（{{SUMMARY}}）
+- 生成时间：{{GEN_AT}}
+
+{{MATRIX}}
+
+## 实测指标（probe.py 在 200+8 条虚构数据上跑完整流水线后采集）
+
+{{METRICS}}
+
+## 流水线与职责边界
+
+```
+失败描述(≤300字) → 向量化 → 互达距离+MST 聚类 → 代表用例(程序选) → 名称/说明(LLM)
+                → 排序(程序) → 月度对齐(程序) → 草稿(pending) → 人工复核
+```
+
+| 环节 | 谁做 | 产物 |
+|---|---|---|
+| 失败描述构建 | 程序 | `[tool] tags | 未命中：… | 违规：… | 输出摘要：…`（摘要硬截断 300 字，test_27） |
+| 向量化 | 程序 | 本地嵌入模型（`EVAL_EMBED_BASE_URL`）；缺省用字符 3-gram 哈希 + TF + L2 归一化（512 维，test_28） |
+| 聚类 | 程序 | 互达距离 + MST + 单链 + 切点，`min_cluster_size=5`、cosine |
+| 代表用例 | 程序 | 距中心最近 1 条 + max-min 贪心补 2 条（不由模型挑） |
+| 模式名称/说明 | 模型 | ≤40 字 / ≤120 字，超限截断 + 一次纠正重试（test_07–11） |
+| 得分与排名 | 程序 | `簇大小 × 严重度权重(critical 3/high 2/medium 1/low 0.5)`；模型输出完全不参与（test_18） |
+| 月度对齐 | 程序 | 簇中心余弦 ≥0.85 视为同模式，输出 new/ongoing/vanished（test_13–16） |
+| 发布 | 人 | `review_status=pending`，月报审阅人确认或改写后才可对外（test_31） |
+
+## 聚类算法的可实现细节
+
+- 互达距离 `max(core_k(i), core_k(j), d(i,j))`，`k = min_cluster_size`，与 HDBSCAN 的密度定义一致。
+- 在 MST 合并序列上，只把「两侧分量都已 ≥ min_cluster_size」的合并视为候选切点（`candidate_merges`）。
+- 切点取候选里「与下一次合并的间隔最大」者（`choose_cut`）：两个已成形簇开始粘连时，下一次合并代价陡增，此处即自然分界。噪声点在「小分量」阶段就被并入，不会成为候选。
+- 没有出现任何候选合并时，视整份数据为一个密度连通块：样本量够则返回单一簇并标 `degenerate=True`，不强行切分（test_25）。
+
+与 HDBSCAN 的差异：完整实现用 `excess of mass` 稳定性选择，本实现用「候选合并上的最大密度间隔」，在构造数据上等价（ARI=1.0），但对极不均匀簇更敏感。生产如需完整稳定性选择，替换 `choose_cut` 即可，簇提取接口不变。
+
+## 虚构数据与期望输出
+
+`fixtures/gen.py` 确定性生成 208 条（4 模式 × 50 + 8 噪声，无随机数，重跑同一份）：
+| 模式 | 特征 | severity |
+|---|---|---|
+| 阈值边界未命中 | 评测点得分 0.34 < 阈值 0.35 | high |
+| 工具参数类型错误 | quantity 期望整数实得字符串 | critical |
+| 越权问句未拒答 | 询问其他会员信息直接作答 | critical |
+| 引用悬空 | 引用片段不在切片集合中 | medium |
+| 噪声（8 条） | 镜像 502、磁盘告警、调度抖动等环境事件 | low |
+
+归因样例输出：`outputs/attribution_sample.json`（含 Top5、三态对齐、噪声清单，`review_status=pending`）。
+
+## 复现方式
+
+```bash
+pip install pytest pyyaml
+python fixtures/gen.py      # 重新生成夹具（确定性，内容不变）
+python verify.py            # 31 用例 + probe → outputs/verify.json / matrix.md / run-report.md
+```
+
+依赖：Python 3.11+、pytest、PyYAML。**无 numpy / sklearn / hdbscan 依赖**，无网络。
+
+## 边界与已知限制
+
+- 离线向量器是字符级近似，语义泛化弱于真嵌入模型；README 已声明它只用于 CI 与无模型环境复现，不代表生产语义质量。
+- 单一密度连通块（所有失败高度相似）时不强行切分，返回 degenerate 标记。
+- 不做"新模式 vs 已有知识库"的语义去重；跨月对齐只看簇中心余弦。
+- 月报渲染与对外发送不在本单范围。

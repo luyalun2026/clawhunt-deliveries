@@ -1,0 +1,20 @@
+version: v1
+prompt_file: prompts/cluster_name_v1.md
+model_env: EVAL_LLM_BASE_URL          # 本地部署模型地址，禁止境外接口
+model: local-instruct-32k
+temperature: 0
+max_retry: 1
+name_limit: 40
+description_limit: 120
+forbidden_outputs:
+  - 数字（数量、占比、金额、排名）
+  - 修复方案
+  - 含糊措辞
+post_checks:
+  - 名称长度 <= 40（超限截断并记 truncated=true，再重试一次）
+  - 说明长度 <= 120（同上）
+  - 输出可被 json.loads 解析
+review:
+  level: L1
+  owner: 月报审阅人
+  rule: 名称与说明进入人工复核，确认或改写后才可发布；未复核不得对外发送

@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-11-22T02:30:23",
+  "pytest_summary": "31 passed in 4.41s",
+  "exit_code": 0,
+  "total": 31,
+  "passed": 31,
+  "failed": 0,
+  "per_group": {
+    "AC1 4 模式 200 条数据 ARI ≥ 0.7": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "AC2 名称超 40 字被截断或重试": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "AC3 月度对齐：新出现/持续/已消失": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "AC4 排序只依赖程序权重": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0
+    },
+    "边界与加固：噪声/退化数据/向量器/描述截断/ARI 定义": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {
+    "cases": 208,
+    "clusters": 4,
+    "noise_cases": 8,
+    "noise_ratio": 0.0385,
+    "cut_weight": 0.240732,
+    "ari_all": 1.0,
+    "ari_non_noise": 1.0,
+    "top5": [
+      [
+        1,
+        "工具参数类型错误",
+        50,
+        150.0
+      ],
+      [
+        2,
+        "越权问句未拒答",
+        50,
+        150.0
+      ],
+      [
+        3,
+        "阈值边界未命中",
+        50,
+        100.0
+      ],
+      [
+        4,
+        "引用悬空无出处",
+        50,
+        50.0
+      ]
+    ],
+    "cluster_names": [
+      "工具参数类型错误",
+      "引用悬空无出处",
+      "越权问句未拒答",
+      "阈值边界未命中"
+    ],
+    "alignment": {
+      "new": [
+        "阈值边界未命中",
+        "工具参数类型错误",
+        "越权问句未拒答",
+        "引用悬空无出处"
+      ],
+      "ongoing": [],
+      "vanished": []
+    }
+  }
+}
