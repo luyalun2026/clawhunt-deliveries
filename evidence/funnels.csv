@@ -1,0 +1,9 @@
+funnel_code,scope_key,step_key,user_count
+auth,-,app_launch,9
+auth,-,auth_apply,5
+auth,-,auth_success,2
+event_attendance,E1,event_view,6
+event_attendance,E1,event_register,4
+event_attendance,E1,event_checkin,3
+resource_connect,-,resource_view,8
+resource_connect,-,connect_request,3

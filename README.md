@@ -1,41 +1,47 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S3-TRK-011 小程序页面与漏斗日汇总表
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+交付两张日汇总表（`page_daily_stats` / `funnel_daily_stats`）、月活企业表、Alembic 迁移、幂等日汇总任务与测试。
 
 ## 运行
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt
+python fixtures/build_fixture.py        # 生成虚构埋点 fixtures/events.json（49 条）
+python -m pytest tests -q               # 9 passed
+python verify.py                        # 两遍汇总 + 幂等哈希证据 → evidence/
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+生产库：`DATABASE_URL=postgresql+psycopg://... alembic upgrade head`，模型只用通用类型（`Uuid` / `Date` / `Integer`），无方言私有类型。
+
+## 口径
+
+| 指标 | 定义 |
+|---|---|
+| `pv` | 当日该页面的 `page_view` 次数 |
+| `uv` | `COUNT(DISTINCT COALESCE(contact_id, anon_id))`；同一 anon 当日先匿名后认证时，先按 anon 归并再按 contact 归并，取并集，避免同一人计两次 |
+| 漏斗 | `resource_connect`：resource_view → connect_request；`event_attendance`：event_view → event_register → event_checkin（按 `event_id` 拆行）；`auth`：app_launch → auth_apply → auth_success |
+| 月活企业 | 当月有**有效事件**的已认证企业去重数；有效事件 = 认证/发布/报名/签到/提问/对接，纯浏览不计 |
+| 时区 | 事件 UTC 存储，切日统一转 Asia/Shanghai |
+
+漏斗默认**不要求严格时序**（同一活动内计数即可）；设 `STRICT_FUNNEL=1` 改为逐步集合交集。
+
+## 幂等
+
+单日重算在一个事务内 `DELETE` 该 `(stat_date, site_id)` 再批量 `INSERT`，重跑结果逐字节一致（`evidence/verify.json` 里两次 SHA-256 相同）。
+
+## 对接点
+
+- 驾驶舱（S3-DASH）只读两张表；指标名与字段名见上表。
+- 埋点侧只读 `track_event`，不写入；`app/analytics/track_source.py` 预留抽象，生产实现换一处注入。
+
+## 验收对照
+
+| 验收项 | 证据 |
+|---|---|
+| 三个漏斗各步人数与手算一致 | `tests/test_pipeline.py::test_funnel_counts_match_hand_calc`（期望值先手写为常量：8→3、6→4→3、9→5→2） |
+| 同一人同日同页只计 1 uv | `test_uv_dedup_same_user_multiple_visits`：1 人 5 次 PV → pv=7/uv=2（含匿名转认证） |
+| 重跑结果一致 | `test_rerun_idempotent` + `verify.py` 两次 SHA-256 相同 |
+
+## 边界另测
+
+跨日 23:59:59 / 00:00:00 归属、空日期不写行、站点隔离、严格时序模式、月活排除纯浏览企业。

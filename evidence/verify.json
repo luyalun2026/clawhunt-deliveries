@@ -1,0 +1,15 @@
+{
+ "rows": {
+  "page_rows": 3,
+  "funnel_rows": 8,
+  "active_companies": 2
+ },
+ "page_rows_steady": true,
+ "funnel_rows_steady": true,
+ "pages_sha256_run1": "2a3b158be9aba52abb15ec9dfe2a42a250d7bda637eeabf79dec7806a8c23f58",
+ "pages_sha256_run2": "2a3b158be9aba52abb15ec9dfe2a42a250d7bda637eeabf79dec7806a8c23f58",
+ "funnels_sha256_run1": "a7af154aa8cb1ac6366cc7e0f66c3b1aeccc67971c95f3e689f117c5d9891b49",
+ "funnels_sha256_run2": "a7af154aa8cb1ac6366cc7e0f66c3b1aeccc67971c95f3e689f117c5d9891b49",
+ "page_count": 3,
+ "funnel_count": 8
+}
