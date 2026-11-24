@@ -1,41 +1,53 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S4-FIN-019 财务软件对接：应收与实收凭证明细导出
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+交付两类明细导出（xlsx / CSV UTF-8 BOM）、科目映射表、期间锁定、调整明细与导出审计。
 
 ## 运行
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt
+python -m pytest tests -q      # 14 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+```python
+from app.finance.export_service import export, seed_mappings
+seed_mappings(session, [("场地费", "6001.01", "1122.01", "2221.01"),
+                        ("服务费", "6001.02", "1122.02", "2221.02")])
+res = export(session, period="2026-11", export_type="receivable", fmt="xlsx",
+             data=receivables, operator="finance01", out_dir="samples")
+```
+
+## 明细与列
+
+**应收确认**：合同编号、企业、费用类型、所属期间、不含税金额(分)/(元)、税额(分)/(元)、价税合计(分)/(元)、收入科目、应收科目、税额科目、标记、原值(分)、差额(分)。
+
+**实收核销**：银行流水号、到账日期、企业、核销分期、核销金额(分)/(元)、标记、原值(分)、差额(分)。
+
+金额先转字符串再落盘：分列为整数（`#,##0`），元列为 `分/100` 两位小数（`#,##0.00`），不经 float。行内恒等式 `不含税 + 税额 = 价税合计` 不成立即拒导并报出错行。
+
+## 期间锁定与调整明细
+
+1. 首次导出：写 `export_snapshots`（每行 row_key + 金额）、`period_locks`、1 条 `export_runs`。
+2. 再次导出：逐行比对快照 —
+   - 未变：原样输出、标记空；
+   - 变更：保留原行 + 追加**调整行**（金额=差额、标记=`已导出期间变更`、原值、差额）；
+   - 新增：`标记=新增`；
+   - 快照有而本次无：输出**冲销**行（金额取负）。
+3. 科目映射缺失：抛 `MissingMapping`，错误体列出缺失费用类型，不产生半成品文件。
+
+## 审计
+
+每次导出写 1 条 `export_runs`：期间、类型、格式、行数、合计分、文件 sha256、操作人、是否含调整、时间。
+
+## 验收对照
+
+| 验收项 | 证据 |
+|---|---|
+| 两类明细合计与回款报表一致 | `test_receivable_totals_match_report`（6 笔合计 1,440,000 分）、`test_receipt_totals_match_report`（4 笔合计 980,000 分）；每行恒等式单独断言 |
+| 已导出期间修改后生成调整明细 | `test_adjustment_generated_after_modification`：300000→290000，调整行差额 -10000、原值 300000、标记命中 |
+| 映射缺失即失败并列出费用类型 | `test_missing_mapping_fails_with_fee_types`：`missing == ["广告费"]` |
+| 每次导出 1 条审计 | `test_audit_row_per_export`：导出 3 次 → 3 行，字段完整 |
+
+## 边界另测
+
+空期间（仅表头、合计 0、仍写审计）、跨期核销排除、免税行 tax=0、金额 0 调整行、CSV BOM（`EF BB BF`）、xlsx 金额格式、同期间重复导出仅 1 条锁且 `first_exported_at` 不变。
