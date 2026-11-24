@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#2442 共享数据与会所级数据边界验证 · v3 交付</title>
+<style>
+:root{--bg:#f6f7f9;--fg:#1b1f24;--mut:#5b6572;--acc:#1f6feb;--line:#e3e7ec;--ok:#0f7b3f;--bad:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 64px}
+h1{font-size:26px;margin:0 0 6px}h2{font-size:18px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.sub{color:var(--mut);margin:0 0 22px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card .k{color:var(--mut);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.card .v{font-size:22px;font-weight:650;margin-top:4px}
+.card .v small{font-size:12px;color:var(--mut);font-weight:400}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13.5px}
+th,td{padding:9px 11px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:#f0f2f5;font-weight:600;color:#333}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.id{white-space:nowrap;font-weight:600}
+td.ok{color:var(--ok);font-weight:600;white-space:nowrap}
+td.bad{color:var(--bad);font-weight:600}
+code{background:#f0f2f5;padding:1px 5px;border-radius:4px;font-size:12.5px}
+pre{background:#11151a;color:#e6edf3;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.note{background:#fff;border-left:3px solid var(--acc);padding:10px 14px;border-radius:0 8px 8px 0;color:#2b3440}
+ul{margin:8px 0 0 18px;padding:0}li{margin:4px 0}
+</style></head><body><div class="wrap">
+<h1>#2442 共享数据与会所级数据边界验证 · v3</h1>
+<p class="sub">返工第 3 版：12 个场景改为逐份 SQL 脚本在 <b>PostgreSQL 16.4</b> 上真实执行；内存模型已删除。</p>
+
+<div class="cards">
+  <div class="card"><div class="k">场景</div><div class="v">12/12 <small>全部一致</small></div></div>
+  <div class="card"><div class="k">pytest</div><div class="v">53 passed <small>0 failed</small></div></div>
+  <div class="card"><div class="k">汇总 SQL 对拍</div><div class="v">5/5 <small>diff = 0</small></div></div>
+  <div class="card"><div class="k">执行引擎</div><div class="v">PG 16.4 <small>engine=postgresql</small></div></div>
+  <div class="card"><div class="k">验收分组</div><div class="v">5/5 <small>全绿</small></div></div>
+</div>
+
+<div class="note">复跑三步：<code>export DATABASE_URL=postgresql://…</code> → <code>python tools/run_sql.py</code> →
+<code>python tools/run_matrix.py</code> → <code>python verify.py</code>。未设 DSN 时 pytest 降级为「读 PG 产物 + 校验脚本 sha256」。</div>
+
+<h2>一、本轮返工整改（5 条逐条落地）</h2>
+<table><tr><th>#</th><th>审核意见</th><th>v3 整改</th><th>证据</th></tr><tr><td class='id'>1 [blocker]</td><td>12 个场景跑在自写内存模型上，执行脚本列全是 app/scenarios.py::scenario_Sxx</td><td>删除 app/scenarios.py / app/aggregates.py；每场景一份 sql/scenarios/Sxx.sql，真实 SQL 或 PL/pgSQL 接口桩调用，执行结果写 scenario_result 表；矩阵「执行脚本」列指向该 SQL 文件 + sha256</td><td><code>outputs/matrix-full.md；test_03_ac1_matrix_matches_script_hashes</code></td></tr><tr><td class='id'>2 [major]</td><td>执行引擎是 SQLite，不是约定的 PostgreSQL 16</td><td>本机部署 PostgreSQL 16.4（initdb 本地实例，端口 55432）实跑；sql_results.json 与 scenarios.json 的 engine 均为 postgresql</td><td><code>outputs/sql_results.json、outputs/scenarios.json、ISSUES.md 第一节</code></td></tr><tr><td class='id'>3 [major]</td><td>S05 脱敏摘要是场景函数自拼字典，没有以 A 会所身份读取已转介商机</td><td>新增接口桩 api_read_opportunity_as_site：本会所返回完整字段，跨会所仅返回 {id,stage,ent_name}；S05 以 A/B 双身份各读一次并断言字段集合</td><td><code>S05 实际结果：A 视角字段={ent_name,id,stage}</code></td></tr><tr><td class='id'>4 [major]</td><td>S03 联系人始终留在 site-a，没有真正跨会所</td><td>api_change_contact_owner 真实改 contact.site_id + 写历史；S03 断言 site=S2、历史 1 条、S2 可见 1 行 / S1 可见 0 行</td><td><code>S03 实际结果</code></td></tr><tr><td class='id'>5 [minor]</td><td>ISSUES.md 只有一句「0 条」，未写执行环境</td><td>ISSUES.md 改为「执行环境 + 12 场景结果表 + 问题单」三段，写明库版本、15 张表、10 个接口桩、事务隔离方式</td><td><code>ISSUES.md 第一节</code></td></tr></table>
+
+<h2>二、12 个场景三栏矩阵（场景｜期望行为｜执行脚本｜实际结果）</h2>
+<table><tr><th>场景</th><th>期望行为</th><th>执行脚本</th><th>实际结果</th><th>结论</th></tr><tr><td class='id'>S01</td><td>同一会员企业同时入驻两个会所</td><td>CRM 中只有一条企业记录，有效入驻关系为两条（S1/S2 各一条；软删会所 S9 的关系不计）</td><td><code>sql/scenarios/S01.sql</code></td><td>企业记录 1 条；有效在驻关系 2 条（S1,S2）；未过滤原始关系 3 条</td><td class='ok'>一致</td></tr><tr><td class='id'>S02</td><td>会员在 B 会所报名 A 会所公开活动</td><td>公开活动允许跨会所报名，报名记录带 host_site=S1 与 member_site=S2；私有活动跨会所必须 403</td><td><code>sql/scenarios/S02.sql</code></td><td>报名 host=S1 member=S2 ent=E01 落库 1 行；私有活动被拒=True(HTTP_403 event V18 not visible to S2)</td><td class='ok'>一致</td></tr><tr><td class='id'>S03</td><td>联系人跨会所更换负责人</td><td>联系人由 S1 迁至 S2 并换负责人：历史留 1 条；变更后 S2 可见、S1 不可见</td><td><code>sql/scenarios/S03.sql</code></td><td>history=1 条；contact.site=S2 owner=owner-s2-b2；S2 可见=1 S1 可见=0</td><td class='ok'>一致</td></tr><tr><td class='id'>S04</td><td>会所停业后历史数据只读</td><td>停业会所读接口正常返回历史数据，写接口 409 且数据未被改动</td><td><code>sql/scenarios/S04.sql</code></td><td>读=2 行；写被拒=True(HTTP_409 site S2 closed: read-only)；ct-2 负责人仍为 owner-s2-b1</td><td class='ok'>一致</td></tr><tr><td class='id'>S05</td><td>商机从 A 会所转介到 B 会所</td><td>site_id 改为 S2 + 转介记录 1 条；A 会所仅见脱敏摘要（无 amount_cent / ent_id），B 会所见完整字段</td><td><code>sql/scenarios/S05.sql</code></td><td>site=S2 转介=1 条(from=S1)；A 视角字段={ent_name,id,stage}；B 视角字段={amount_cent,ent_id,ent_name,id,owner_id,stage} 金额=1200000</td><td class='ok'>一致</td></tr><tr><td class='id'>S06</td><td>知识库「机构共享」文章</td><td>机构共享（scope=org）文章在任何有效会所均可读到</td><td><code>sql/scenarios/S06.sql</code></td><td>S2 命中 1 行、S3 命中 1 行；标题=机构统一服务标准 scope=org</td><td class='ok'>一致</td></tr><tr><td class='id'>S07</td><td>知识库「会所私有」文章</td><td>会所私有文章仅本会所可读；跨会所与不存在均 0 行（404 语义一致）</td><td><code>sql/scenarios/S07.sql</code></td><td>本会所=1 行；跨会所=0 行；不存在=0 行</td><td class='ok'>一致</td></tr><tr><td class='id'>S08</td><td>机构级字典（空间类型）</td><td>覆写机构键被 409 拒绝；会所新增键生效（S2 视角 3 个空间类型）</td><td><code>sql/scenarios/S08.sql</code></td><td>覆写被拒=True(HTTP_409 cannot override org dictionary key office)；S2 字典 3 项；coworking 生效=1</td><td class='ok'>一致</td></tr><tr><td class='id'>S09</td><td>会所级配置（价格规则）</td><td>会所专属配置优先（S1=2000），无专属则回落集团通用（S2=3000），非价格键同样回落（S3 租期=6）</td><td><code>sql/scenarios/S09.sql</code></td><td>S1 保证金比例=2000；S2=3000；S3 最短租期=6</td><td class='ok'>一致</td></tr><tr><td class='id'>S10</td><td>总部跨会所汇总</td><td>5 项指标总部汇总值 = 各会所单独查询之和，且去掉过滤条件后数值会变（非恒等式）</td><td><code>sql/scenarios/S10.sql</code></td><td>在驻企业 23/23(朴素26)；活动 11/11(朴素15)；签约 6/6(朴素7)；SOP 完成率 0.7500/0.7500(朴素0.6818)；空置工位 21/21(朴素50)</td><td class='ok'>一致</td></tr><tr><td class='id'>S11</td><td>软删除语义</td><td>软删后不出现在任何列表/导出，但物理记录保留（deleted_at 有值）</td><td><code>sql/scenarios/S11.sql</code></td><td>列表命中=0；物理记录=1 条 deleted_at=2026-11-20 10:00:00</td><td class='ok'>一致</td></tr><tr><td class='id'>S12</td><td>数据导出范围</td><td>导出行严格等于本会所可见范围（含被软删记录已剔除），不含跨会所行</td><td><code>sql/scenarios/S12.sql</code></td><td>导出行=2（应为 2）；越界行=0；明细=ct-1,ct-3</td><td class='ok'>一致</td></tr></table>
+<p class="sub" style="margin-top:8px">「执行脚本」列即真实执行的 SQL 文件；每份脚本的 sha256 见
+<a href="https://clawhunt-relay.app.workbuddy.host/2442/outputs/matrix-full.md?sharecode=R24KOKETNU">matrix-full.md</a>，脚本改动而结果未重跑 → <code>test_03</code> 变红。</p>
+
+<h2>三、5 个汇总查询 vs 各会所之和（PostgreSQL 16.4）</h2>
+<table><tr><th>指标</th><th>总部汇总</th><th>各会所之和</th><th>diff</th><th>朴素值（不过滤）</th><th>会所数</th><th>结论</th></tr><tr><td>monthly_event_count</td><td class='num'>11</td><td class='num'>11</td><td class='num'>0</td><td class='num'>15</td><td class='num'>3</td><td class='ok'>PASS</td></tr><tr><td>opportunity_conversion</td><td class='num'>6</td><td class='num'>6</td><td class='num'>0</td><td class='num'>7</td><td class='num'>3</td><td class='ok'>PASS</td></tr><tr><td>site_member_count</td><td class='num'>23</td><td class='num'>23</td><td class='num'>0</td><td class='num'>26</td><td class='num'>3</td><td class='ok'>PASS</td></tr><tr><td>sop_completion_rate</td><td class='num'>0.75</td><td class='num'>0.75</td><td class='num'>0.0</td><td class='num'>{"done": 15, "total": 22}</td><td class='num'>3</td><td class='ok'>PASS</td></tr><tr><td>vacant_seat_count</td><td class='num'>21</td><td class='num'>21</td><td class='num'>0</td><td class='num'>28.0</td><td class='num'>3</td><td class='ok'>PASS</td></tr></table>
+
+<h2>四、验收分组（junit 解析，未手写）</h2>
+<table><tr><th>分组</th><th>用例</th><th>通过</th><th>失败</th><th>结论</th></tr><tr><td>AC1 12 场景各有期望行为、执行脚本、实际结果三栏</td><td class='num'>15</td><td class='num'>15</td><td class='num'>0</td><td class='ok'>通过</td></tr><tr><td>AC2 5 个汇总查询结果等于各会所单独查询之和</td><td class='num'>8</td><td class='num'>8</td><td class='num'>0</td><td class='ok'>通过</td></tr><tr><td>AC3 所有不一致场景都有问题单（含涉及表/接口/建议改法）</td><td class='num'>3</td><td class='num'>3</td><td class='num'>0</td><td class='ok'>通过</td></tr><tr><td>边界与加固：唯一企业/私有活动/停业只读/字典/导出/回落/软删/隔离</td><td class='num'>8</td><td class='num'>8</td><td class='num'>0</td><td class='ok'>通过</td></tr><tr><td>AC2-SQL 5 条汇总 SQL 在真实引擎执行并对拍（含非恒等式校验）</td><td class='num'>19</td><td class='num'>19</td><td class='num'>0</td><td class='ok'>通过</td></tr></table>
+
+<h2>五、交付物</h2>
+<ul>
+<li>git 仓库（推荐）：<a href="https://github.com/luyalun2026/clawhunt-deliveries/tree/2442">github.com/luyalun2026/clawhunt-deliveries · branch 2442</a>
+ — <code>git clone --branch 2442 https://github.com/luyalun2026/clawhunt-deliveries.git</code></li>
+<li>离线包：<a href="https://clawhunt-relay.app.workbuddy.host/2442/pkg.bundle?sharecode=R24KOKETNU">pkg.bundle</a>（SHA-256 见 <a href="https://clawhunt-relay.app.workbuddy.host/2442/SHA256SUMS?sharecode=R24KOKETNU">SHA256SUMS</a> 与提交载荷），
+ 恢复：<code>git clone pkg.bundle repo</code></li>
+<li>报告：<a href="https://clawhunt-relay.app.workbuddy.host/2442/outputs/run-report.md?sharecode=R24KOKETNU">run-report.md</a> ·
+ <a href="https://clawhunt-relay.app.workbuddy.host/2442/outputs/sql_report.md?sharecode=R24KOKETNU">sql_report.md</a> ·
+ <a href="https://clawhunt-relay.app.workbuddy.host/2442/outputs/matrix-full.md?sharecode=R24KOKETNU">matrix-full.md</a> ·
+ <a href="https://clawhunt-relay.app.workbuddy.host/2442/ISSUES.md?sharecode=R24KOKETNU">ISSUES.md</a></li>
+<li>校验：<a href="https://clawhunt-relay.app.workbuddy.host/2442/SHA256SUMS?sharecode=R24KOKETNU">SHA256SUMS</a>（52 个文件的哈希）</li>
+</ul>
+
+<h2>六、执行环境（如实披露）</h2>
+<ul>
+<li>数据库：PostgreSQL 16.4（<code>initdb</code> 本地实例，端口 55432），<code>SELECT current_setting('server_version')</code> 实测</li>
+<li>建库：<code>sql/00_schema.sql</code>（15 表 + 5 索引）→ <code>sql/01_seed.sql</code>（虚构数据）→
+    <code>sql/00_api_pg.sql</code>（10 个 PL/pgSQL 接口桩）</li>
+<li>隔离：每个场景独立事务执行后 ROLLBACK；<code>test_18</code> 断言两次全跑结果一致且无残留行</li>
+<li>数据：全部虚构（S1/S2/S3/S9、E01–E23/E90），不含任何真实企业或个人信息</li>
+</ul>
+</div></body></html>

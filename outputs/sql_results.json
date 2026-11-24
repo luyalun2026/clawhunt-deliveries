@@ -1,0 +1,123 @@
+{
+  "all_passed": true,
+  "engine": "postgresql",
+  "metrics": {
+    "monthly_event_count": {
+      "agg_value": 11,
+      "diff": 0,
+      "filters_effective": true,
+      "naive_unfiltered_value": 15,
+      "name": "月度活动场次(2026-11)",
+      "passed": true,
+      "per_site": {
+        "S1": 6,
+        "S2": 3,
+        "S3": 2
+      },
+      "sha256_agg": "f590d0e0279766947213c68ddcff96bd6d98b99f6fbd26ba63568171dd24a971",
+      "sha256_per_site": "b780d99ee5c05c167640a1f7708a9d91f9a7d48eef30a43b26fd5e87a9dc2ae7",
+      "sql_agg": "11_agg_monthly_events.sql",
+      "sql_per_site": "21_site_monthly_events.sql",
+      "sum_of_sites": 11,
+      "unit": "count"
+    },
+    "opportunity_conversion": {
+      "agg_value": 6,
+      "diff": 0,
+      "filters_effective": true,
+      "naive_unfiltered_value": 7,
+      "name": "商机转化数",
+      "passed": true,
+      "per_site": {
+        "S1": 3,
+        "S2": 2,
+        "S3": 1
+      },
+      "sha256_agg": "a77aafb1c2b75bd144eaac9b43722faa9b9bce5154e5c3de7889a9355b6d8fa8",
+      "sha256_per_site": "e3d57077c1280e49ec427f5c688b401460574f2dd2f75cfacd2613d6bff7eb5a",
+      "sql_agg": "12_agg_opportunity_signed.sql",
+      "sql_per_site": "22_site_opportunity_signed.sql",
+      "sum_of_sites": 6,
+      "unit": "count"
+    },
+    "site_member_count": {
+      "agg_value": 23,
+      "diff": 0,
+      "filters_effective": true,
+      "naive_unfiltered_value": 26,
+      "name": "在驻企业数",
+      "passed": true,
+      "per_site": {
+        "S1": 6,
+        "S2": 5,
+        "S3": 12
+      },
+      "sha256_agg": "1729a0ec230e9b9bad289913fe4b5235913ed44bd4c0beb157c2a5ac82b2febc",
+      "sha256_per_site": "891e4f491176f315d2ecb5370bfcf28bb716218578386bd1cada4b17e2d1ab23",
+      "sql_agg": "10_agg_member_count.sql",
+      "sql_per_site": "20_site_member_count.sql",
+      "sum_of_sites": 23,
+      "unit": "count"
+    },
+    "sop_completion_rate": {
+      "agg_value": 0.75,
+      "denominator": 20,
+      "diff": 0.0,
+      "filters_effective": true,
+      "naive_unfiltered_value": {
+        "done": 15,
+        "total": 22
+      },
+      "name": "SOP 完成率",
+      "numerator": 15,
+      "passed": true,
+      "per_site": {
+        "S1": {
+          "done": 8,
+          "total": 10
+        },
+        "S2": {
+          "done": 3,
+          "total": 6
+        },
+        "S3": {
+          "done": 4,
+          "total": 4
+        }
+      },
+      "sha256_agg": "364e696cd39ee4b651b5b44ecf04d02abb026ecea5551a2a7a7b4c9390c45c49",
+      "sha256_per_site": "c1afd5c4ba1e7c4ca4da8d1b1c52c440bc83242c48a1e8cba724bbbd1bf43c3f",
+      "sql_agg": "13_agg_sop_rate.sql",
+      "sql_per_site": "23_site_sop_rate.sql",
+      "sum_denominator": 20,
+      "sum_numerator": 15,
+      "sum_of_sites": 0.75,
+      "unit": "rate"
+    },
+    "vacant_seat_count": {
+      "agg_value": 21,
+      "diff": 0,
+      "filters_effective": true,
+      "naive_unfiltered_value": 28.0,
+      "name": "空置工位数",
+      "passed": true,
+      "per_site": {
+        "S1": 14,
+        "S2": 7,
+        "S3": 0
+      },
+      "sha256_agg": "dce9f378362e6cf06866c7ddecf2ededfa94cf0e43ce6bd03c6911553f0dd532",
+      "sha256_per_site": "33114a28f1f6990215af41726e0c7c5950438fc1c22e6493333ba20ac47d870a",
+      "sql_agg": "14_agg_vacant_seats.sql",
+      "sql_per_site": "24_site_vacant_seats.sql",
+      "sum_of_sites": 21,
+      "unit": "count"
+    }
+  },
+  "month": "2026-11",
+  "sites": [
+    "S1",
+    "S2",
+    "S3"
+  ]
+}

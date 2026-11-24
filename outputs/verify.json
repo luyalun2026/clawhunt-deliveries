@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-11-24T20:42:14",
+  "pytest_summary": "53 passed in 3.67s",
+  "exit_code": 0,
+  "total": 53,
+  "passed": 53,
+  "failed": 0,
+  "per_group": {
+    "AC1 12 场景各有期望行为、执行脚本、实际结果三栏": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0
+    },
+    "AC2 5 个汇总查询结果等于各会所单独查询之和": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "AC3 所有不一致场景都有问题单（含涉及表/接口/建议改法）": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "边界与加固：唯一企业/私有活动/停业只读/字典/导出/回落/软删/隔离": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "AC2-SQL 5 条汇总 SQL 在真实引擎执行并对拍（含非恒等式校验）": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0
+    }
+  },
+  "all_groups_passed": true,
+  "failed_cases": [],
+  "metrics": {
+    "engine": "postgresql",
+    "server_version": "16.4",
+    "scenarios_total": 12,
+    "scenarios_consistent": 12,
+    "issues": 0,
+    "sql_engine": "postgresql",
+    "sql_all_passed": true,
+    "aggregate_max_diff": 0
+  },
+  "sql": {
+    "engine": "postgresql",
+    "all_passed": true,
+    "metrics": {
+      "monthly_event_count": {
+        "agg": 11,
+        "sum_sites": 11,
+        "diff": 0,
+        "passed": true,
+        "filters_effective": true
+      },
+      "opportunity_conversion": {
+        "agg": 6,
+        "sum_sites": 6,
+        "diff": 0,
+        "passed": true,
+        "filters_effective": true
+      },
+      "site_member_count": {
+        "agg": 23,
+        "sum_sites": 23,
+        "diff": 0,
+        "passed": true,
+        "filters_effective": true
+      },
+      "sop_completion_rate": {
+        "agg": 0.75,
+        "sum_sites": 0.75,
+        "diff": 0.0,
+        "passed": true,
+        "filters_effective": true
+      },
+      "vacant_seat_count": {
+        "agg": 21,
+        "sum_sites": 21,
+        "diff": 0,
+        "passed": true,
+        "filters_effective": true
+      }
+    }
+  }
+}
