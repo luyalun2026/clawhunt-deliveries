@@ -1,41 +1,41 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S6-POD-041 节目对接请求与相关推荐转化归因
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+交付归因引擎（直连 + 辅助）、`episode_conversion_stats` 日汇总任务、模型与测试。
 
 ## 运行
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt
+python -m pytest tests -q      # 13 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+日汇总：`run_day(session, stat_date, org_id=..., site_id=..., clicks=[...], conversions=[...], intro_requests=[...], episodes=[...])`；回补用 `run_range(session, start, end, ...)`。生产侧把 `clicks/conversions/intro_requests` 换成真实查询与接口桩（`stubs.py` 语义）即可，汇总逻辑不变。
+
+## 归因规则
+
+**直连归因**：`podcast_intro_requests` 本身带 `episode_id`，按 `episode_id + 创建日` 聚合三态：`submitted ⊇ staff_approved ⊇ accepted`（累计漏斗）。脏数据（accepted 但无 approved）按漏斗规则自动上卷到 approved，不产生 accepted > approved。
+
+**辅助归因**：
+1. 窗口 `[clicked_at, clicked_at + 24h]`，**闭区间**：24h00m00s 计入，24h00m01s 不计。
+2. 匹配键 `(user_id, item_type, item_id)`；点击与转化必须同用户、同对象。
+3. 多期竞争：同一转化命中多条点击时，**归最近一次点击的那一期**；被淘汰的点击不计数。
+4. 去重：相同 `click_id`（或同四元组）重复上报只算一次，记 warning。
+5. 跨月：统计日按**点击日**（Asia/Shanghai）归属，避免月末回补漏数。
+
+**输出**：`episode_conversion_stats(episode_id, stat_date, intro_requests, intro_staff_approved, intro_accepted, assisted_event_signups, assisted_course_signups, assisted_opportunity_requests)`，唯一键 `(episode_id, stat_date)`；无数据的节目也输出 0 行，不停更。
+
+## 幂等
+
+单日重算先 `DELETE` 该 `(stat_date, site_id)` 再插入，重跑结果完全一致（`test_run_day_and_rerun_idempotent`）。
+
+## 验收对照
+
+| 验收项 | 证据 |
+|---|---|
+| 25h 不计、23h 计入 | `test_window_23h_counted_25h_excluded`：23h/24h 计 2 条，25h 排除；秒级边界另测 24h00m00s vs 24h00m01s |
+| 两期点同一活动只归最近一期 | `test_competing_clicks_attributed_to_latest`（EP1→EP2，仅 EP2 +1）；另有「最近点击超窗则回退更早点击」用例 |
+| 引荐三计数与源表一致 | `test_intro_counts_match_source_table`：与源表 `Counter` 分组逐期对拍，差集为空 |
+
+## 边界另测
+
+跨月归点击日、关闭个性化推荐无点击时辅助列为 0、event 与 course 分别计数、重复点击去重、无数据节目输出 0 行、accepted 但未 approved 的脏数据上卷。
