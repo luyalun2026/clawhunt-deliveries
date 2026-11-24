@@ -1,41 +1,44 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S4-FIN-011 银行到账流水导入与多模板字段映射
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+交付模板映射、CSV/xlsx 读取、Decimal 转分、去重与借方过滤、批次与流水模型、导入服务与测试。
 
 ## 运行
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt
+python -m pytest tests -q      # 12 passed（含 5000 行 60s 性能用例）
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 接口与服务
+
+- `import_rows(session, rows, template, account_no, filename=...)` → `BankImportBatch`（计数：`added` / `skipped_dup` / `skipped_debit` / `failed` / `errors` / `elapsed_ms`）。
+- 目标接口：`POST /api/finance/bank-imports`（multipart 上传，后台线程执行，立即返回 batch_id）、`GET /api/finance/bank-imports/{id}`（状态与错误行号）。
+
+## 模板
+
+模板存 `bank_statement_templates`：`columns` 为 JSON（交易日期/金额/借贷方向/对方户名/对方账号/附言/银行流水号 → 源列名）、`date_formats`、`encoding`、`amount_sign_rule`。新增银行只加一行配置，不改代码。
+
+样例：银行 A（CSV，列名「交易日期/金额/借贷标志/…」）、银行 B（xlsx，列名「记账日/发生额/收付方向/…」）。
+
+## 金额与方向
+
+- 金额全程 `Decimal`：剥千分位/全角/货币符号/空格 → `Decimal` → `quantize(0.01)` → 整数分。`"1,234.56"→123456`、`"0.01"→1`、`"(56.70)"→-5670`、`"￥100.00"→10000`。
+- 方向列优先（银行常见「金额恒正 + 方向列」）：`贷/收入/进账` 入库，`借/支出/出账` 计 `skipped_debit`；`贷 + 负数` 判为矛盾行计入 `failed`；无方向列时才用金额符号。
+- 去重键 `(account_no, bank_serial)`：批内先聚合，跨批查库 + 唯一约束兜底。
+
+## 性能
+
+流式读取 + 批量插入，5000 行实测 0.3–1.5s（门槛 60s）。`timing.log` 记录 `rows / elapsed_ms / wall_ms / added / skipped_debit`。
+
+## 验收对照
+
+| 验收项 | 证据 |
+|---|---|
+| 两模板各自导入成功、金额逐分正确 | `test_template_a_import_amounts_and_counts`（SN001=123456、SN002=1、SN005=50000）、`test_template_b_xlsx_import` |
+| 重复导入新增 0 | `test_duplicate_file_zero_new`：二次 `added=0`、`skipped_dup=4`、库内 3 行不变 |
+| 借方不导入 | `test_debit_never_persisted`：SN003/SN004 不在库内 |
+| 5000 行 < 60s | `test_5000_rows_under_60s`：4500 贷记入 + 500 借方跳过，断言 `elapsed < 60` |
+
+## 边界另测
+
+空文件/仅表头、缺列、`2026/1/5` 与 `20260105` 日期、脏金额逐行报错（行号与原因）、批内重复流水号、超 5000 行拒绝、流水号为空拒绝、xlsx 数字/日期单元格归一。
