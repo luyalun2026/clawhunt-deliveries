@@ -1,110 +1,128 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>S4-FIN-002 签约事件分期算法与尾差处理</title>
+<title>2904 · 首次报备归属判定：查重、并发与保护期</title>
 <style>
-:root{--ink:#111827;--sub:#5b6472;--line:#e5e7eb;--acc:#1f3864;--bg:#fbfcfe}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}
-.wrap{max-width:960px;margin:0 auto;padding:40px 24px 64px}
-h1{font-size:26px;margin:0 0 6px;color:var(--acc)}
-.sub{color:var(--sub);margin:0 0 24px}
-.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
-.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
-.card b{display:block;font-size:24px;color:var(--acc)}
-.card span{color:var(--sub);font-size:13px}
-h2{font-size:18px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var(--acc)}
-table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
-th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{background:#eef2f9;font-weight:600}
-ul{padding-left:22px}li{margin:4px 0}
-a{color:var(--acc)}
-.meta{color:var(--sub);font-size:12px}
-.note{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;color:var(--sub);font-size:13px}
-code{background:#eef2f9;padding:1px 5px;border-radius:4px;font-size:13px}
-</style></head><body><div class="wrap">
-<h1>#2856 · 签约事件生成回款计划：分期算法与尾差处理（S4-FIN-002）</h1>
-<p class="sub">整数分 + Decimal 全程无 float · 尾期按天折算 + 尾差归最后一期 · hypothesis 200 例属性测试 · 幂等双重防护</p>
+ body{font:15px/1.7 -apple-system,Segoe UI,Microsoft YaHei,sans-serif;max-width:920px;margin:40px auto;padding:0 18px;color:#1f2328}
+ h1{font-size:26px;margin:0 0 6px} .sub{color:#57606a;margin-bottom:24px}
+ h2{font-size:18px;margin-top:32px;border-left:4px solid #0969da;padding-left:10px}
+ table{border-collapse:collapse;width:100%;font-size:14px} td,th{border:1px solid #d0d7de;padding:6px 10px;text-align:left}
+ th{background:#f6f8fa} code,pre{background:#f6f8fa;padding:2px 6px;border-radius:6px;font-size:13px}
+ pre{padding:12px;overflow:auto;white-space:pre-wrap} ul.files{list-style:none;padding:0}
+ ul.files li{display:flex;justify-content:space-between;border-bottom:1px dashed #e5e7eb;padding:6px 0}
+ a{color:#0969da;text-decoration:none} a:hover{text-decoration:underline}
+ .tag{display:inline-block;background:#ddf4ff;color:#0969da;border-radius:999px;padding:2px 10px;font-size:12px;margin-right:6px}
+</style></head><body>
+<h1>首次报备归属判定：查重、并发与保护期</h1>
+<div class="sub">2904 · 20 轮双线程 + 8 路并发每轮恰 1 单；四类拒绝 reason code；重复拒绝零身份泄露</div>
+<span class="tag">离线可复现</span><span class="tag">全部数字由脚本生成</span>
 
-<div class="kpi">
-<div class="card"><b>11</b><span>pytest 通过 / 失败 0</span></div>
-<div class="card"><b>200</b><span>hypothesis 随机合同全过</span></div>
-<div class="card"><b>10/10</b><span>样例合同黄金文件一致</span></div>
-<div class="card"><b>0</b><span>float 违规（AST 检查）</span></div>
-</div>
+<h2>验证结果（outputs/verify.json）</h2>
+<pre>{
+ "generated_at": "2026-11-20T18:47:57",
+ "pytest_summary": "26 passed in 5.51s",
+ "exit_code": 0,
+ "total": 26,
+ "passed": 26,
+ "failed": 0,
+ "per_group": {
+  "AC1 20 轮并发每轮仅一单 accepted": {
+   "total": 2,
+   "passed": 2,
+   "failed": 0
+  },
+  "AC2 到期释放后新的报备被 accepted": {
+   "total": 4,
+   "passed": 4,
+   "failed": 0
+  },
+  "AC3 四类拒绝与 reason code 正确": {
+   "total": 9,
+   "passed": 9,
+   "failed": 0
+  },
+  "AC4 重复拒绝不含首单报备方身份": {
+   "total": 2,
+   "passed": 2,
+   "failed": 0
+  },
+  "其他（边界与加固）": {
+   "total": 9,
+   "passed": 9,
+   "failed": 0
+  }
+ },
+ "all_groups_passed": true,
+ "failed_cases": [],
+ "metrics": {
+  "concurrency_rounds": 20,
+  "accepted_wins": 20,
+  "duplicate_losers": 20,
+  "unexpected_results": 0,
+  "round_ms_max": 81.5,
+  "round_ms_avg": 59.0,
+  "eight_way_winners": 1,
+  "eight_way_duplicates": 7,
+  "keys_before_expiry": 3,
+  "keys_after_expiry": 0,
+  "expired_count": 1,
+  "reentry_status": "accepted",
+  "identity_leaks": [],
+  "first_rule_version": "v1",
+  "first_protection_until": "2027-02-13T10:00:00Z"
+ }
+}</pre>
 
-<h2>交付文件（浏览器可直接打开）</h2><ul>
-<li><a href="schedule.py">schedule.py</a> <span class="meta">sha256:fb251344f6f71bdc · 8999 bytes</span></li>
-<li><a href="reference.py">reference.py</a> <span class="meta">sha256:40983799ea7ccaae · 2841 bytes</span></li>
-<li><a href="check_no_float.py">check_no_float.py</a> <span class="meta">sha256:b360b9cc0fb8b6ae · 2516 bytes</span></li>
-<li><a href="make_samples.py">make_samples.py</a> <span class="meta">sha256:e488e9ef29ea13b2 · 5897 bytes</span></li>
-<li><a href="verify.py">verify.py</a> <span class="meta">sha256:f346cff0b34ddd9b · 19865 bytes</span></li>
-<li><a href="README.md">README.md</a> <span class="meta">sha256:6c73193e100c9985 · 2362 bytes</span></li>
-<li><a href="tests/test_schedule.py">tests/test_schedule.py</a> <span class="meta">sha256:92a74cc3f95f030e · 9246 bytes</span></li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> <span class="meta">sha256:65ccc87a7d8c0acc · 1396 bytes</span></li>
-<li><a href="evidence/samples_run.txt">evidence/samples_run.txt</a> <span class="meta">sha256:a7478c1420c9db1f · 1008 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.json">sample_contracts/01_12m_quarter_tail.json</a> <span class="meta">sha256:bed31f08e2e5614e · 444 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.expected.json">sample_contracts/01_12m_quarter_tail.expected.json</a> <span class="meta">sha256:753d24b53d6202b7 · 1957 bytes</span></li>
-</ul>
+<h2>运行报告</h2>
+<pre># 运行报告（自动生成）
 
-<h2>验收标准逐条对应（实测）</h2>
-<table><thead><tr><th>验收标准</th><th>实测</th><th>结论</th></tr></thead><tbody>
-<tr><td>① 12 个月季付：租金 4 期、会籍 4 期、押金 1 期，逐分相等</td>
-<td>租金 4 期 Σ=1,200,000（合同 1,200,000）；会籍 4 期 Σ=360,000（合同 360,000）；押金 1 期 50,000，到期 2026-01-01</td>
-<td>✅ PASS</td></tr>
-<tr><td>② hypothesis 随机 200 份合同（含尾期折算），Σ分期==总额</td>
-<td>max_examples=200，pytest 11 passed / 0 failed（2.02s，hypothesis 6.170.15）</td>
-<td>✅ PASS</td></tr>
-<tr><td>③ 同一事件重复投递 3 次只生成 1 个计划</td>
-<td>投递 3 次 created=[True, False, False]；store 内 active 计划 1 个</td>
-<td>✅ PASS</td></tr>
-<tr><td>④ 金额计算模块中没有 float 运算</td>
-<td>AST 扫描违规 0 处（退出码 0）；检查器对违规样本正确报警（test_no_float_checker_detects_violation）</td>
-<td>✅ PASS</td></tr>
-<tr><td>附：10 份样例合同与期望分期黄金文件逐字段一致</td>
-<td>10/10 份一致，Σ分期==总额 True</td>
-<td>✅ PASS</td></tr>
-</tbody></table>
+- 生成时间：2026-11-20T18:47:57
+- 命令：`python verify.py`（内部 `pytest tests -q` + `python probe.py`）
+- pytest 汇总：`26 passed in 5.51s`；退出码 0
+- 用例 26，通过 26，失败 0
 
-<h2>10 份样例合同（合同总额单位：分）</h2>
-<table><thead><tr><th>样例</th><th>付款周期</th><th>分期数</th><th>合同总额（分）</th><th>Σ分期==总额</th><th>黄金文件一致</th></tr></thead>
-<tbody>
-<tr><td>01_12m_quarter_tail</td><td>quarter</td><td>9</td><td>1,610,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>02_12m_month_exact</td><td>month</td><td>13</td><td>1,220,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>03_10m_quarter_tail</td><td>quarter</td><td>4</td><td>1,001,918</td><td>✅</td><td>✅</td></tr>
-<tr><td>04_24m_year_multi</td><td>year</td><td>5</td><td>3,100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>05_6m_half_year</td><td>half_year</td><td>2</td><td>530,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>06_8m_month_tail</td><td>month</td><td>17</td><td>815,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>07_36m_quarter_multi</td><td>quarter</td><td>13</td><td>3,080,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>08_1m_month_min</td><td>month</td><td>1</td><td>100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>09_18m_half_year_tail</td><td>half_year</td><td>5</td><td>1,513,425</td><td>✅</td><td>✅</td></tr>
-<tr><td>10_20m_month_tail</td><td>month</td><td>43</td><td>3,133,973</td><td>✅</td><td>✅</td></tr>
-</tbody></table>
+## 用例 × 结果矩阵
 
-<h2>算法要点</h2>
-<ul>
-<li>整期金额 = 周期金额原值（整数分，不做除法）；尾期日金额 = 月金额 × 12 ÷ 365（Decimal，ROUND_HALF_UP 到分）。</li>
-<li>尾差 = 该费用类型总额 − Σ整期 − 尾期折算值，计入该类型最后一期 → 每个费用类型逐分相等。</li>
-<li>到期日：首期 = 首付款日；后续每期 = 周期开始日 − <code>advance_days</code>；押金独立 1 行，到期日 = 首付款日。</li>
-<li>多年合同输出 <code>first_year_amount_cents</code>（起始 12 个月内开始的周期的分期之和）。</li>
-<li>幂等：<code>PlanStore</code> 以 <code>source_event_id</code> 唯一 + 同合同仅一个 active 计划双重防护；生产替换为 PostgreSQL 唯一索引 / 部分唯一索引，接口不变。</li>
-</ul>
+| 验收分组 | 用例数 | 通过 | 失败 | 结论 |
+|---|---|---|---|---|
+| AC1 20 轮并发每轮仅一单 accepted | 2 | 2 | 0 | 通过 |
+| AC2 到期释放后新的报备被 accepted | 4 | 4 | 0 | 通过 |
+| AC3 四类拒绝与 reason code 正确 | 9 | 9 | 0 | 通过 |
+| AC4 重复拒绝不含首单报备方身份 | 2 | 2 | 0 | 通过 |
+| 其他（边界与加固） | 9 | 9 | 0 | 通过 |
+| **合计** | **26** | **26** | **0** | **全部通过** |
 
-<h2>复现命令</h2>
-<div class="note">
-python -m pytest tests/ -v &nbsp;→&nbsp; 11 passed in 2.02s<br>
-python check_no_float.py schedule.py &nbsp;→&nbsp; 违规 0 处，退出码 0<br>
-python make_samples.py &nbsp;→&nbsp; 重算 10 份样例与期望分期<br>
-python verify.py &nbsp;→&nbsp; 重跑全部检查并重写 <a href="outputs/verify.json">outputs/verify.json</a>
-</div>
+## 实测指标（probe.py 运行期提取）
 
-<h2>证据文件</h2>
-<ul>
-<li><a href="outputs/verification-run.txt">outputs/verification-run.txt</a> — 五段式验证记录（pytest 逐条 / 样例 / 幂等 / 无 float / AC1 明细）</li>
-<li><a href="outputs/verify.json">outputs/verify.json</a> — 实测数字唯一来源，本页所有数字由它自动回填</li>
-<li><a href="outputs/ac-checklist.csv">outputs/ac-checklist.csv</a> — 验收项逐条实测表</li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> · <a href="evidence/samples_run.txt">evidence/samples_run.txt</a></li>
-</ul>
+- `concurrency_rounds` = `20`
+- `accepted_wins` = `20`
+- `duplicate_losers` = `20`
+- `unexpected_results` = `0`
+- `round_ms_max` = `81.5`
+- `round_ms_avg` = `59.0`
+- `eight_way_winners` = `1`
+- `eight_way_duplicates` = `7`
+- `keys_before_expiry` = `3`
+- `keys_after_expiry` = `0`
+- `expired_count` = `1`
+- `reentry_status` = `accepted`
+- `identity_leaks` = `[]`
+- `first_rule_version` = `v1`
+- `first_protection_until` = `2027-02-13T10:00:00Z`
 
-<p class="meta">生成时间 2026-11-18 18:20:40 · Python 3.13.14 · 全部数据为虚构样例，不含任何真实客户或个人信息 · 未引入任何向境外发送数据的第三方 SDK</p>
-</div></body></html>
+## 口径说明
+
+- 用例数与通过率由 junit.xml 解析得到，未人工填写。
+- 指标由 probe.py 在真实执行路径中采集，写入 outputs/metrics.json 后并入本报告。
+- 并发由真实多线程 + 真实 SQLite（WAL、BEGIN IMMEDIATE、部分唯一索引）验证，不是模拟。
+- DDL 与 PostgreSQL 16 兼容；生产把 connect() 换成 psycopg 即可，部分唯一索引语义一致。
+- 保护期天数、延长天数与最大延长次数全部从受理时锁定的规则版本读取。
+</pre>
+
+<h2>文件清单（22 个，68,898 字节）</h2>
+<ul class="files"><li><a href="README.md">README.md</a><span>4,573 B</span></li><li><a href="README.md.in">README.md.in</a><span>4,387 B</span></li><li><a href="app/attribution.py">app/attribution.py</a><span>13,332 B</span></li><li><a href="app/crm_stub.py">app/crm_stub.py</a><span>2,450 B</span></li><li><a href="app/db.py">app/db.py</a><span>4,239 B</span></li><li><a href="app/normalize.py">app/normalize.py</a><span>2,410 B</span></li><li><a href="app/rules.py">app/rules.py</a><span>748 B</span></li><li><a href="conftest.py">conftest.py</a><span>1,111 B</span></li><li><a href="docs/reason_codes.md">docs/reason_codes.md</a><span>2,224 B</span></li><li><a href="groups.json">groups.json</a><span>717 B</span></li><li><a href="harness.py">harness.py</a><span>1,417 B</span></li><li><a href="outputs/concurrency-report.md">outputs/concurrency-report.md</a><span>628 B</span></li><li><a href="outputs/junit.xml">outputs/junit.xml</a><span>2,875 B</span></li><li><a href="outputs/matrix.md">outputs/matrix.md</a><span>467 B</span></li><li><a href="outputs/metrics.json">outputs/metrics.json</a><span>438 B</span></li><li><a href="outputs/pytest-output.txt">outputs/pytest-output.txt</a><span>101 B</span></li><li><a href="outputs/run-report.md">outputs/run-report.md</a><span>1,782 B</span></li><li><a href="outputs/verify.json">outputs/verify.json</a><span>1,294 B</span></li><li><a href="probe.py">probe.py</a><span>5,547 B</span></li><li><a href="run_all.py">run_all.py</a><span>80 B</span></li><li><a href="tests/test_2904.py">tests/test_2904.py</a><span>12,807 B</span></li><li><a href="verify.py">verify.py</a><span>5,271 B</span></li></ul>
+
+<h2>复现方式</h2>
+<pre># 离线复现（依赖见 README 的「运行与测试」一节）
+python run_all.py</pre>
+<p>校验文件完整性：对照 <a href="SHA256SUMS">SHA256SUMS</a>（每行 sha256 + 相对路径）。</p>
+</body></html>

@@ -1,41 +1,78 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# #2904 首次报备归属判定：查重、并发控制与保护期
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+会员空间平台 · Stage vi 陪跑与二期第一批 · 模块：渠道与转介绍结算。
 
-## 验收标准逐条对应
+## 一、交付物
 
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 交付物 | 位置 |
+|---|---|
+| 归属判定服务 `decide_attribution` 等价实现 | `app/attribution.py` |
+| 保护期到期任务 `expire_due` | `app/attribution.py` |
+| 延长保护期接口 `extend` | `app/attribution.py` |
+| reason code 列表 | `docs/reason_codes.md` |
+| 查重与归一化（企业名 / USCC / 手机号哈希） | `app/normalize.py` |
+| 规则版本（受理时锁定，天数从版本读取） | `app/rules.py`、`app/db.py` |
+| CRM 线索库接口桩（依赖 S2-CRM） | `app/crm_stub.py` |
+| 含并发测试的测试集（26 例） | `tests/test_2904.py` |
+| 并发与保护期实测报告（自动生成） | `outputs/concurrency-report.md` |
+| README（运行与测试方法） | 本文件 |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 二、运行与测试
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+python verify.py      # 跑全部用例 + 生成 outputs/verify.json、outputs/matrix.md
+python probe.py       # 单独采集 20 轮并发、8 路并发、到期释放实测
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+仅需 Python 3.11+ 标准库（无第三方依赖）。
+
+## 三、判定规则
+
+1. **基本校验**：USCC 与完整企业名至少一项，且必须带联系人手机号，否则 `rejected_invalid`
+   （`MISSING_SUBJECT` / `MISSING_CONTACT`）。
+2. **报备方资格**：渠道方暂停/终止、转介绍人停用或不存在 → `rejected_reporter_inactive`。
+3. **自荐**：客户企业 USCC 与报备方自身 USCC 相同 → `rejected_invalid` / `SELF_REFERRAL`。
+4. **存量客户**：在籍会员、12 个月内退会、60 天内有员工跟进 → `rejected_existing_customer`。
+5. **查重**：`uscc`、归一化企业名、手机号哈希任一命中 active `prospect_keys` → `rejected_duplicate`，
+   返回首次报备时间，不透露首单报备方。
+6. **受理**：同一事务写入全部 keys，`ux_prospect_keys_active` 部分唯一索引保证并发下只有一单成功，
+   失败方转 `rejected_duplicate`。
+7. **保护期**：`status=accepted`，锁定当时生效的规则版本，
+   `protection_until = accepted_at + protection_days`（v1 为 90 天）；有签约进展时员工可延长一次 30 天。
+8. **到期**：每日任务把到期未转化的报备置 `expired` 并释放 keys，此后新的报备成为首次有效报备。
+
+## 四、并发实现（关键设计）
+
+- 写入路径统一 `BEGIN IMMEDIATE`：拿到写锁后再做一次查重复核，然后插入 `reports` 与全部 `prospect_keys`。
+- 最终一致性由**部分唯一索引**兜底：`ON prospect_keys(key) WHERE is_active = 1`。
+  两个事务同时插入同一 key 时，后提交者收到 `IntegrityError`，服务回滚并转 `rejected_duplicate`。
+- 到期释放即 `is_active = 0`，索引不再约束该 key，新报备可重新占用，历史仍可追溯（`released_at`）。
+- 20 轮双线程 + 8 路并发实测见 `outputs/concurrency-report.md`（每轮恰 1 单 accepted）。
+
+## 五、验收对照
+
+| 验收项 | 用例 |
+|---|---|
+| 1 两方同时提交，20 轮每轮只有一单 accepted | `test_01`、`test_02`、`test_26` |
+| 2 首单 expired 后另一报备方新报备被 accepted | `test_03`、`test_04`、`test_23` |
+| 3 四类拒绝各有测试且 reason code 正确 | `test_07`–`test_15`、`test_18` |
+| 4 重复拒绝不含首单报备方身份 | `test_16`、`test_17` |
+
+本包共 26 例，通过 26，失败 0；分组：AC1 20 轮并发每轮仅一单 accepted 2/2；AC2 到期释放后新的报备被 accepted 4/4；AC3 四类拒绝与 reason code 正确 9/9；AC4 重复拒绝不含首单报备方身份 2/2；其他（边界与加固） 9/9。
+
+## 六、边界与限制（如实说明）
+
+1. 离线实现使用 SQLite 的 WAL + `BEGIN IMMEDIATE` + 部分唯一索引，与 PostgreSQL 16 的
+   `WHERE is_active = 1` 部分唯一索引语义一致；生产切换只需替换 `app/db.py::connect`。
+2. 规则版本表内置 v1（90/30 天）与 v2（60/15 天，2026-12-01 生效）：
+   `test_21` 验证跨版本受理时各取当时版本，且首单锁定 v1 不受后续版本影响。
+3. CRM 为接口桩（`app/crm_stub.py`）：会员、退会、跟进三类记录均以虚构数据注入，
+   对接点即 `CrmStub.check(uscc, name, now)`，返回 `None` 表示可继续。
+4. 所有企业名、USCC、手机号均为虚构构造，不含真实个人信息。
+
+## 七、复现输出（最近一次）
+
+```
+pytest：26 passed in 5.51s
+生成时间：2026-11-20T18:47:57
+```

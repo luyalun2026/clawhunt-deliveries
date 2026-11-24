@@ -1,0 +1,17 @@
+{
+  "concurrency_rounds": 20,
+  "accepted_wins": 20,
+  "duplicate_losers": 20,
+  "unexpected_results": 0,
+  "round_ms_max": 37.8,
+  "round_ms_avg": 22.7,
+  "eight_way_winners": 1,
+  "eight_way_duplicates": 7,
+  "keys_before_expiry": 3,
+  "keys_after_expiry": 0,
+  "expired_count": 1,
+  "reentry_status": "accepted",
+  "identity_leaks": [],
+  "first_rule_version": "v1",
+  "first_protection_until": "2027-02-13T10:00:00Z"
+}
