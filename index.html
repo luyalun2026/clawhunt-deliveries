@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#2143 S6-CAL-002 流失标签口径、观察窗定义与标签生成脚本 · 交付包</title>
+<style>
+:root{--ink:#111827;--sub:#5b6577;--line:#e4e7ec;--bg:#f7f8fa;--card:#fff;--acc:#1f5fbf;--ok:#0f7a4a;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:940px;margin:0 auto;padding:44px 22px 72px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;color:var(--acc);border:1px solid #c9dcf5;background:#eef4fc;border-radius:999px;padding:3px 10px;margin-bottom:14px}
+h1{font-size:25px;margin:0 0 10px;line-height:1.45}
+h2{font-size:16px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lead{color:var(--sub);margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:20px;line-height:1.3}
+.kpi span{color:var(--sub);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#fafbfc;color:var(--sub);font-weight:600;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{font:13px/1.5 ui-monospace,Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:4px}
+.ok{color:var(--ok);font-weight:600}
+ul{padding-left:22px;margin:8px 0}
+li{margin:3px 0}
+.foot{margin-top:36px;color:var(--sub);font-size:12.5px}
+</style></head>
+<body><div class="wrap">
+<span class="tag">ClawHunt #2143 · 交付包</span>
+<h1>S6-CAL-002 流失标签口径、观察窗定义与标签生成脚本</h1>
+<p class="lead">build_churn_labels.py：10 家虚构企业手工时间线逐格对账、90 天观察窗 + 2 正例 4 排除规则、双口径统计、企业分组切分防泄漏。</p>
+<div class="kpis">
+  <div class="kpi"><b>8</b><span>测试通过</span></div>
+  <div class="kpi"><b>0</b><span>测试失败</span></div>
+  <div class="kpi"><b>7</b><span>交付文件</span></div>
+  <div class="kpi"><b>$76.50</b><span>投标金额</span></div>
+</div>
+
+<h2>验收标准逐条落点</h2>
+<table><thead><tr><th>验收项</th><th>证据（可复跑）</th><th>实测结论</th><th>状态</th></tr></thead>
+<tbody><tr><td>生成标签与手算一致</td><td><code>test_ac1_hand_timelines_match</code></td><td>13 行逐格与手算表一致（正例 5 / 负例 6 / NULL 2）</td><td class='ok'>通过</td></tr><tr><td>观察窗未结束 label 为空且不进评估集</td><td><code>test_ac2_window_open_null_and_excluded</code></td><td>收紧截止日后未结束窗口全部 NULL，评估集 observed_until 均 ≤ 截止日</td><td class='ok'>通过</td></tr><tr><td>口径文档 2 正例 + 4 排除</td><td><code>test_ac3_spec_counts</code></td><td>文档结构断言：2 条正例规则 + 4 条排除规则</td><td class='ok'>通过</td></tr></tbody></table>
+
+<h2>边界另测</h2>
+<ul><li>到期后第 30/31 天续约判定</li><li>observed_until 恰等于截止日</li><li>快照日=入会第 30 天</li><li>流失事件恰在 t+90</li><li>分组切分零泄漏</li></ul>
+
+<h2>复现方法</h2>
+<pre><code>git clone --branch 2143 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+pip install -r requirements.txt
+python -m pytest tests -q</code></pre>
+
+<h2>交付文件与 SHA-256</h2>
+<table><thead><tr><th>文件</th><th>字节</th><th>SHA-256（前 16 位）</th></tr></thead>
+<tbody><tr><td><code>README.md</code></td><td>1,664</td><td><code>838302ac4743684c…</code></td></tr><tr><td><code>build_churn_labels.py</code></td><td>6,520</td><td><code>79ef9386096f8ab1…</code></td></tr><tr><td><code>docs/churn_label_spec.md</code></td><td>1,873</td><td><code>536de2b3cf16370d…</code></td></tr><tr><td><code>pg_ddl.sql</code></td><td>577</td><td><code>1afc0f892538dca6…</code></td></tr><tr><td><code>fixtures/timelines.json</code></td><td>2,421</td><td><code>5df8d495d6b348a3…</code></td></tr><tr><td><code>tools/split_by_company.py</code></td><td>1,301</td><td><code>ad852ff95a383a39…</code></td></tr><tr><td><code>tests/test_churn_labels.py</code></td><td>6,301</td><td><code>e093f0fa32ecd82c…</code></td></tr></tbody></table>
+
+<p class="foot">本页数字由 <code>_1125b_pages.py</code> 实跑 <code>python -m pytest</code> 与文件哈希自动生成，未手写；
+完整哈希见同目录 <code>SHA256SUMS</code>。数据全部虚构，不含客户名称与真实个人信息。</p>
+</div></body></html>
