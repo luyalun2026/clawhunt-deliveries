@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#2506 S3-SOP-005 SOP 模板 JSON 规范、导入导出与 sop-lint · 交付包</title>
+<style>
+:root{--ink:#111827;--sub:#5b6577;--line:#e4e7ec;--bg:#f7f8fa;--card:#fff;--acc:#1f5fbf;--ok:#0f7a4a;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:940px;margin:0 auto;padding:44px 22px 72px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;color:var(--acc);border:1px solid #c9dcf5;background:#eef4fc;border-radius:999px;padding:3px 10px;margin-bottom:14px}
+h1{font-size:25px;margin:0 0 10px;line-height:1.45}
+h2{font-size:16px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lead{color:var(--sub);margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:20px;line-height:1.3}
+.kpi span{color:var(--sub);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#fafbfc;color:var(--sub);font-weight:600;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{font:13px/1.5 ui-monospace,Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:4px}
+.ok{color:var(--ok);font-weight:600}
+ul{padding-left:22px;margin:8px 0}
+li{margin:3px 0}
+.foot{margin-top:36px;color:var(--sub);font-size:12.5px}
+</style></head>
+<body><div class="wrap">
+<span class="tag">ClawHunt #2506 · 交付包</span>
+<h1>S3-SOP-005 SOP 模板 JSON 规范、导入导出与 sop-lint</h1>
+<p class="lead">draft-07 JSON Schema + FastAPI 导入导出（草稿 + warnings 不静默丢弃）+ sop-lint 七类检查（schema/岗位/due_rule/seq/触发事件/依赖环/条件字段）+ 7 类错误样例集。</p>
+<div class="kpis">
+  <div class="kpi"><b>7</b><span>测试通过</span></div>
+  <div class="kpi"><b>0</b><span>测试失败</span></div>
+  <div class="kpi"><b>7</b><span>交付文件</span></div>
+  <div class="kpi"><b>$90.00</b><span>投标金额</span></div>
+</div>
+
+<h2>验收标准逐条落点</h2>
+<table><thead><tr><th>验收项</th><th>证据（可复跑）</th><th>实测结论</th><th>状态</th></tr></thead>
+<tbody><tr><td>导出再导入逐字段相等</td><td><code>test_ac1_roundtrip_equal</code></td><td>两轮 export→import→export 后 sort_keys JSON 逐字节相等</td><td class='ok'>通过</td></tr><tr><td>sop-lint 识别 ≥6 类错误</td><td><code>test_ac2_lint_seven_rules</code></td><td>7 个样例文件，识别规则 ≥6 类（errors/ 目录每类一个）</td><td class='ok'>通过</td></tr><tr><td>有错误退出码非 0</td><td><code>test_ac3_lint_exit_codes</code></td><td>errors 目录退出码 1、valid 目录退出码 0（子进程实测）</td><td class='ok'>通过</td></tr><tr><td>未解析引用进 warnings</td><td><code>test_ac4_import_warnings</code></td><td>岗位/事件/知识文档 3 类未解析引用均在 warnings，草稿照常落库</td><td class='ok'>通过</td></tr></tbody></table>
+
+<h2>边界另测</h2>
+<ul><li>depends_on 自环与双节点环</li><li>空目录退出码 0</li><li>导出不存在模板 404</li><li>due_rule Python 层防御</li></ul>
+
+<h2>复现方法</h2>
+<pre><code>git clone --branch 2506 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+pip install -r requirements.txt
+python -m pytest tests -q</code></pre>
+
+<h2>交付文件与 SHA-256</h2>
+<table><thead><tr><th>文件</th><th>字节</th><th>SHA-256（前 16 位）</th></tr></thead>
+<tbody><tr><td><code>README.md</code></td><td>1,863</td><td><code>5880af4d518c4cb4…</code></td></tr><tr><td><code>schema/sop-template.schema.json</code></td><td>3,694</td><td><code>9f2930c8f399bb94…</code></td></tr><tr><td><code>app/sop_core.py</code></td><td>6,080</td><td><code>f04065b39f53ced4…</code></td></tr><tr><td><code>app/main.py</code></td><td>891</td><td><code>b98f60e0a0d42a3c…</code></td></tr><tr><td><code>sop_lint/cli.py</code></td><td>1,799</td><td><code>54b3d1f22ccd46d9…</code></td></tr><tr><td><code>catalogs/catalogs.json</code></td><td>729</td><td><code>e9dd5b283181138d…</code></td></tr><tr><td><code>tests/test_sop.py</code></td><td>4,742</td><td><code>b1e8213dad6f7eee…</code></td></tr></tbody></table>
+
+<p class="foot">本页数字由 <code>_1125b_pages.py</code> 实跑 <code>python -m pytest</code> 与文件哈希自动生成，未手写；
+完整哈希见同目录 <code>SHA256SUMS</code>。数据全部虚构，不含客户名称与真实个人信息。</p>
+</div></body></html>
