@@ -1,0 +1,253 @@
+# intel_tags 种子文件（S5-INTEL-017）
+# 唯一键：(dimension, code)。每标签必填：code/name/definition(≤50字)/positives(2)/negative(1)
+# industry 维度每条含 crm_tag_code；CRM 无对应项时置 null（进 missing 清单）
+
+policy_type:
+  - code: subsidy
+    name: 补贴申报
+    definition: 各级政府财政资金补贴项目的申报通知与指南
+    positives: ["某区专精特新奖励申报公告", "中小企业技改补贴指南"]
+    negative: ["高新技术企业认定办法"]
+    crm_tag_code: null
+  - code: qualification_cert
+    name: 资质认定
+    definition: 各类企业资质与荣誉的认定申报
+    positives: ["高新技术企业认定通知", "专精特新中小企业申报"]
+    negative: ["增值税减免政策"]
+    crm_tag_code: null
+  - code: tax_benefit
+    name: 税收优惠
+    definition: 减税、免税、退税等税收政策
+    positives: ["研发费用加计扣除新政", "小微企业增值税减免"]
+    negative: ["创业大赛报名通知"]
+    crm_tag_code: null
+  - code: talent_policy
+    name: 人才政策
+    definition: 人才引进、培养、奖励类政策
+    positives: ["高层次人才引进补贴", "大学生就业补贴申领"]
+    negative: ["社保缴费基数调整"]
+    crm_tag_code: null
+  - code: financing
+    name: 融资对接
+    definition: 信贷、股权融资、贴息等融资支持政策与活动
+    positives: ["科技型企业贴息贷款", "专精特新专场路演"]
+    negative: ["高新技术企业复核通知"]
+    crm_tag_code: null
+  - code: ip_rights
+    name: 知识产权
+    definition: 专利、商标、著作权相关资助与通知
+    positives: ["发明专利授权资助申报", "商标注册费用减免"]
+    negative: ["软件企业评估办法"]
+    crm_tag_code: null
+  - code: regulatory
+    name: 监管合规
+    definition: 合规要求、检查、处罚规则类信息
+    positives: ["数据出境合规新规解读", "安全生产专项检查通知"]
+    negative: ["高新技术企业认定通知"]
+    crm_tag_code: null
+  - code: standards
+    name: 标准规范
+    definition: 国家、行业、地方标准发布与修订
+    positives: ["新版GB/T 4754发布", "行业标准征求意见稿"]
+    negative: ["技改补贴申报指南"]
+    crm_tag_code: null
+  - code: industry_news
+    name: 行业动态
+    definition: 行业趋势、市场变化类资讯
+    positives: ["智能制造行业白皮书发布", "行业展会预告"]
+    negative: ["高新技术企业申报截止提醒"]
+    crm_tag_code: null
+  - code: events
+    name: 活动通知
+    definition: 培训、对接会、沙龙等活动的通知
+    positives: ["政策解读培训会报名", "银企对接会邀请"]
+    negative: ["增值税减免政策全文"]
+    crm_tag_code: null
+
+industry:
+  - code: manufacturing
+    name: 制造业
+    definition: 通用设备、专用设备等制造类企业
+    positives: ["精密零部件加工厂", "注塑制品厂"]
+    negative: ["软件开发公司"]
+    crm_tag_code: crm_ind_manufacturing
+  - code: software
+    name: 软件与信息技术服务
+    definition: 软件开发、系统集成、IT 服务企业
+    positives: ["ERP 定制开发公司", "云计算服务商"]
+    negative: ["食品加工厂"]
+    crm_tag_code: crm_ind_software
+  - code: biopharma
+    name: 生物医药
+    definition: 生物制品、化学药、医疗器械研发生产企业
+    positives: ["体外诊断试剂企业", "创新药研发公司"]
+    negative: ["物流运输公司"]
+    crm_tag_code: crm_ind_biopharma
+  - code: new_energy
+    name: 新能源
+    definition: 光伏、储能、氢能等新能源企业
+    positives: ["储能系统集成商", "光伏组件厂"]
+    negative: ["餐饮管理公司"]
+    crm_tag_code: crm_ind_new_energy
+  - code: new_materials
+    name: 新材料
+    definition: 先进金属材料、复合材料、电子材料企业
+    positives: ["碳纤维复合材料厂", "半导体材料供应商"]
+    negative: ["建筑设计院"]
+    crm_tag_code: crm_ind_new_materials
+  - code: smart_equipment
+    name: 智能制造装备
+    definition: 工业机器人、数控机床等智能装备企业
+    positives: ["协作机器人整机厂", "数控系统研发企业"]
+    negative: ["旅行社"]
+    crm_tag_code: crm_ind_smart_equipment
+  - code: agriculture
+    name: 现代农业
+    definition: 种植养殖及农产品加工企业
+    positives: ["设施蔬菜种植基地", "水产养殖企业"]
+    negative: ["软件外包公司"]
+    crm_tag_code: null
+  - code: food_beverage
+    name: 食品饮料
+    definition: 食品加工与饮料生产企业
+    positives: ["烘焙食品厂", "瓶装水生产企业"]
+    negative: ["律师事务所"]
+    crm_tag_code: crm_ind_food
+  - code: textile_apparel
+    name: 纺织服装
+    definition: 纺织、服装、家纺生产企业
+    positives: ["功能性面料厂", "职业装制造商"]
+    negative: ["芯片设计公司"]
+    crm_tag_code: crm_ind_textile
+  - code: building_materials
+    name: 建材家居
+    definition: 建筑材料、家具、家居用品企业
+    positives: ["装配式墙板厂", "定制家具企业"]
+    negative: ["检测认证机构"]
+    crm_tag_code: crm_ind_building
+  - code: commerce_logistics
+    name: 商贸物流
+    definition: 批发零售、仓储运输、供应链企业
+    positives: ["区域冷链物流商", "百货批发企业"]
+    negative: ["新材料研发企业"]
+    crm_tag_code: crm_ind_logistics
+  - code: culture_tourism
+    name: 文化旅游
+    definition: 文化创意、旅游服务企业
+    positives: ["文创产品设计公司", "景区运营企业"]
+    negative: ["管材制造厂"]
+    crm_tag_code: null
+  - code: financial_services
+    name: 金融服务
+    definition: 银行、保险、融资担保等金融服务机构
+    positives: ["科技支行", "融资担保公司"]
+    negative: ["机械加工厂"]
+    crm_tag_code: crm_ind_finance
+  - code: professional_services
+    name: 专业服务
+    definition: 法律、会计、咨询、检测认证等专业机构
+    positives: ["知识产权代理所", "第三方检测机构"]
+    negative: ["服装厂"]
+    crm_tag_code: crm_ind_professional
+
+region:
+  - code: national
+    name: 全国
+    definition: 适用于全国范围的政策
+    positives: ["国务院层面减税政策", "全国性认定办法"]
+    negative: ["某区级补贴细则"]
+    crm_tag_code: null
+  - code: province
+    name: 省级
+    definition: 省级政府发布的政策（示例用虚构省名：江川省）
+    positives: ["江川省技改补贴办法", "江川省人才新政"]
+    negative: ["全国性减税政策"]
+    crm_tag_code: null
+  - code: city
+    name: 市级
+    definition: 地级市发布的政策（示例用虚构市名：临江市）
+    positives: ["临江市中小企业服务券", "临江市展会补贴"]
+    negative: ["江川省级规划文件"]
+    crm_tag_code: null
+  - code: district
+    name: 区级
+    definition: 区县级发布的政策（示例用虚构区名：云溪区）
+    positives: ["云溪区专精特新奖励", "云溪区租金补贴"]
+    negative: ["临江市级人才政策"]
+    crm_tag_code: null
+
+qualification:
+  - code: hn_tech
+    name: 高新技术企业
+    definition: 通过高新技术企业认定的企业
+    positives: ["已获高新认定的软件公司", "高新复审通过企业"]
+    negative: ["尚未申报的贸易公司"]
+    crm_tag_code: crm_qa_hn_tech
+  - code: zjtx_giant
+    name: 专精特新「小巨人」
+    definition: 工信部认定的专精特新小巨人企业
+    positives: ["第三批小巨人名单企业", "小巨人复核通过企业"]
+    negative: ["仅省级专精特新企业"]
+    crm_tag_code: crm_qa_zjtx_giant
+  - code: zjtx_sme
+    name: 专精特新中小企业
+    definition: 省级认定的专精特新中小企业
+    positives: ["江川省专精特新名单企业", "新申报通过的中小企业"]
+    negative: ["小巨人企业"]
+    crm_tag_code: crm_qa_zjtx_sme
+  - code: tech_sme
+    name: 科技型中小企业
+    definition: 入库国家科技型中小企业信息库的企业
+    positives: ["当年入库企业", "连续三年入库企业"]
+    negative: ["大型国企"]
+    crm_tag_code: crm_qa_tech_sme
+  - code: innovative_sme
+    name: 创新型中小企业
+    definition: 达到创新型中小企业评价标准的企业
+    positives: ["新评价为创新型的企业", "由专精特新退回创新型的企业"]
+    negative: ["无研发投入的贸易企业"]
+    crm_tag_code: crm_qa_innovative
+  - code: gazelle
+    name: 瞪羚企业
+    definition: 成长速度快、创新能力强的高成长企业
+    positives: ["当年入选瞪羚名单企业", "连续入选瞪羚企业"]
+    negative: ["规模以下初创企业"]
+    crm_tag_code: null
+  - code: unicorn
+    name: 独角兽企业
+    definition: 估值超 10 亿美元且未上市的企业
+    positives: ["新晋独角兽名单企业", "估值达标未上市企业"]
+    negative: ["成长期小微企业"]
+    crm_tag_code: null
+  - code: above_scale
+    name: 规上企业
+    definition: 达到规模以上统计标准的企业
+    positives: ["年营收 2000 万以上制造企业", "规上服务业企业"]
+    negative: ["新设立小微企业"]
+    crm_tag_code: crm_qa_above_scale
+
+company_size:
+  - code: startup
+    name: 初创
+    definition: 成立时间不足 3 年的企业
+    positives: ["成立 1 年的研发团队", "新注册科技公司"]
+    negative: ["成立 10 年的制造企业"]
+    crm_tag_code: null
+  - code: micro_small
+    name: 小微
+    definition: 从业人员与营收低于中型标准的 企业
+    positives: ["10 人设计工作室", "个体转小微企业"]
+    negative: ["上市集团公司"]
+    crm_tag_code: null
+  - code: medium
+    name: 中型
+    definition: 达到中型企业划型标准的企业
+    positives: ["300 人制造企业", "年营收 4 亿的服务企业"]
+    negative: ["20 人初创公司"]
+    crm_tag_code: null
+  - code: large
+    name: 大型
+    definition: 达到大型企业划型标准的企业
+    positives: ["员工超 5000 人集团", "百亿营收制造企业"]
+    negative: ["小型物流公司"]
+    crm_tag_code: null
