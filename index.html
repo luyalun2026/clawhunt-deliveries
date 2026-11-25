@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>S4-FIN-002 签约事件分期算法与尾差处理</title>
+<title>S4-GO-029 会员主数据迁移核对脚本</title>
 <style>
 :root{--ink:#111827;--sub:#5b6472;--line:#e5e7eb;--acc:#1f3864;--bg:#fbfcfe}
 *{box-sizing:border-box}
@@ -21,90 +21,39 @@ ul{padding-left:22px}li{margin:4px 0}
 a{color:var(--acc)}
 .meta{color:var(--sub);font-size:12px}
 .note{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;color:var(--sub);font-size:13px}
-code{background:#eef2f9;padding:1px 5px;border-radius:4px;font-size:13px}
 </style></head><body><div class="wrap">
-<h1>#2856 · 签约事件生成回款计划：分期算法与尾差处理（S4-FIN-002）</h1>
-<p class="sub">整数分 + Decimal 全程无 float · 尾期按天折算 + 尾差归最后一期 · hypothesis 200 例属性测试 · 幂等双重防护</p>
+<h1>#2957 · 会员主数据迁移核对脚本（S4-GO-029）</h1>
+<p class="sub">四层核对（行数/主键映射/字段级/业务规则）· 6 类差异全检出 · 手机号全程掩码 · 零第三方运行时依赖</p>
 
 <div class="kpi">
-<div class="card"><b>11</b><span>pytest 通过 / 失败 0</span></div>
-<div class="card"><b>200</b><span>hypothesis 随机合同全过</span></div>
-<div class="card"><b>10/10</b><span>样例合同黄金文件一致</span></div>
-<div class="card"><b>0</b><span>float 违规（AST 检查）</span></div>
+<div class="card"><b>12</b><span>pytest 通过</span></div>
+<div class="card"><b>6/6</b><span>差异类别全检出</span></div>
+<div class="card"><b>10.92s</b><span>1000企业/5000联系人实测（门槛120s）</span></div>
+<div class="card"><b>0 / 1 / 2</b><span>退出码：干净/差异/参数错</span></div>
 </div>
-
-<h2>交付文件（浏览器可直接打开）</h2><ul>
-<li><a href="schedule.py">schedule.py</a> <span class="meta">sha256:fb251344f6f71bdc · 8999 bytes</span></li>
-<li><a href="reference.py">reference.py</a> <span class="meta">sha256:40983799ea7ccaae · 2841 bytes</span></li>
-<li><a href="check_no_float.py">check_no_float.py</a> <span class="meta">sha256:b360b9cc0fb8b6ae · 2516 bytes</span></li>
-<li><a href="make_samples.py">make_samples.py</a> <span class="meta">sha256:e488e9ef29ea13b2 · 5897 bytes</span></li>
-<li><a href="verify.py">verify.py</a> <span class="meta">sha256:f346cff0b34ddd9b · 19865 bytes</span></li>
-<li><a href="README.md">README.md</a> <span class="meta">sha256:6c73193e100c9985 · 2362 bytes</span></li>
-<li><a href="tests/test_schedule.py">tests/test_schedule.py</a> <span class="meta">sha256:92a74cc3f95f030e · 9246 bytes</span></li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> <span class="meta">sha256:65ccc87a7d8c0acc · 1396 bytes</span></li>
-<li><a href="evidence/samples_run.txt">evidence/samples_run.txt</a> <span class="meta">sha256:a7478c1420c9db1f · 1008 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.json">sample_contracts/01_12m_quarter_tail.json</a> <span class="meta">sha256:bed31f08e2e5614e · 444 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.expected.json">sample_contracts/01_12m_quarter_tail.expected.json</a> <span class="meta">sha256:753d24b53d6202b7 · 1957 bytes</span></li>
+<h2>交付文件（可直接下载）</h2><ul>
+<li><a href="scripts/reconcile_members.py">scripts/reconcile_members.py</a> <span class="meta">sha256:fe7ad4c72085a068 · 16017 bytes</span></li>
+<li><a href="normalization.md">normalization.md</a> <span class="meta">sha256:65ed9d272750b68d · 1288 bytes</span></li>
+<li><a href="README.md">README.md</a> <span class="meta">sha256:28eb888685064203 · 2589 bytes</span></li>
+<li><a href="fixtures/make_fixtures.py">fixtures/make_fixtures.py</a> <span class="meta">sha256:12d1c51e89662d2f · 5639 bytes</span></li>
+<li><a href="tests/test_reconcile.py">tests/test_reconcile.py</a> <span class="meta">sha256:11ac84aa5cef77d0 · 4895 bytes</span></li>
+<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> <span class="meta">sha256:e0750c6e4aed11e5 · 1476 bytes</span></li>
+<li><a href="evidence/run_log.txt">evidence/run_log.txt</a> <span class="meta">sha256:d2602213590b7c9d · 561 bytes</span></li>
+<li><a href="evidence/diff_detail_sample.csv">evidence/diff_detail_sample.csv</a> <span class="meta">sha256:503c31e950579ad7 · 873 bytes</span></li>
+<li><a href="out_clean/diff_report.md">out_clean/diff_report.md</a> <span class="meta">sha256:0a9ceb0d83a58a31 · 1952 bytes</span></li>
+<li><a href="out_six/diff_report.md">out_six/diff_report.md</a> <span class="meta">sha256:5938ee4b1ce27bf8 · 2028 bytes</span></li>
 </ul>
-
-<h2>验收标准逐条对应（实测）</h2>
-<table><thead><tr><th>验收标准</th><th>实测</th><th>结论</th></tr></thead><tbody>
-<tr><td>① 12 个月季付：租金 4 期、会籍 4 期、押金 1 期，逐分相等</td>
-<td>租金 4 期 Σ=1,200,000（合同 1,200,000）；会籍 4 期 Σ=360,000（合同 360,000）；押金 1 期 50,000，到期 2026-01-01</td>
-<td>✅ PASS</td></tr>
-<tr><td>② hypothesis 随机 200 份合同（含尾期折算），Σ分期==总额</td>
-<td>max_examples=200，pytest 11 passed / 0 failed（2.02s，hypothesis 6.170.15）</td>
-<td>✅ PASS</td></tr>
-<tr><td>③ 同一事件重复投递 3 次只生成 1 个计划</td>
-<td>投递 3 次 created=[True, False, False]；store 内 active 计划 1 个</td>
-<td>✅ PASS</td></tr>
-<tr><td>④ 金额计算模块中没有 float 运算</td>
-<td>AST 扫描违规 0 处（退出码 0）；检查器对违规样本正确报警（test_no_float_checker_detects_violation）</td>
-<td>✅ PASS</td></tr>
-<tr><td>附：10 份样例合同与期望分期黄金文件逐字段一致</td>
-<td>10/10 份一致，Σ分期==总额 True</td>
-<td>✅ PASS</td></tr>
-</tbody></table>
-
-<h2>10 份样例合同（合同总额单位：分）</h2>
-<table><thead><tr><th>样例</th><th>付款周期</th><th>分期数</th><th>合同总额（分）</th><th>Σ分期==总额</th><th>黄金文件一致</th></tr></thead>
-<tbody>
-<tr><td>01_12m_quarter_tail</td><td>quarter</td><td>9</td><td>1,610,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>02_12m_month_exact</td><td>month</td><td>13</td><td>1,220,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>03_10m_quarter_tail</td><td>quarter</td><td>4</td><td>1,001,918</td><td>✅</td><td>✅</td></tr>
-<tr><td>04_24m_year_multi</td><td>year</td><td>5</td><td>3,100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>05_6m_half_year</td><td>half_year</td><td>2</td><td>530,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>06_8m_month_tail</td><td>month</td><td>17</td><td>815,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>07_36m_quarter_multi</td><td>quarter</td><td>13</td><td>3,080,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>08_1m_month_min</td><td>month</td><td>1</td><td>100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>09_18m_half_year_tail</td><td>half_year</td><td>5</td><td>1,513,425</td><td>✅</td><td>✅</td></tr>
-<tr><td>10_20m_month_tail</td><td>month</td><td>43</td><td>3,133,973</td><td>✅</td><td>✅</td></tr>
-</tbody></table>
-
-<h2>算法要点</h2>
-<ul>
-<li>整期金额 = 周期金额原值（整数分，不做除法）；尾期日金额 = 月金额 × 12 ÷ 365（Decimal，ROUND_HALF_UP 到分）。</li>
-<li>尾差 = 该费用类型总额 − Σ整期 − 尾期折算值，计入该类型最后一期 → 每个费用类型逐分相等。</li>
-<li>到期日：首期 = 首付款日；后续每期 = 周期开始日 − <code>advance_days</code>；押金独立 1 行，到期日 = 首付款日。</li>
-<li>多年合同输出 <code>first_year_amount_cents</code>（起始 12 个月内开始的周期的分期之和）。</li>
-<li>幂等：<code>PlanStore</code> 以 <code>source_event_id</code> 唯一 + 同合同仅一个 active 计划双重防护；生产替换为 PostgreSQL 唯一索引 / 部分唯一索引，接口不变。</li>
-</ul>
-
+<h2>验收标准逐条对应</h2>
+<table><thead><tr><th>验收标准</th><th>结果</th><th>证据</th></tr></thead><tbody><tr><td>6 类已知差异全部检出</td><td>✅ 12 条差异覆盖 6 类</td><td>evidence/run_log.txt 运行2、diff_detail_sample.csv</td></tr><tr><td>差异 0 → 退出码 0，否则非 0</td><td>✅ 干净集 0 / 差异集 1 / 坏参数 2</td><td>evidence/run_log.txt、pytest</td></tr><tr><td>明细 CSV 手机号全掩码</td><td>✅ 形如 139****4014，全文无手机号明文</td><td>evidence/diff_detail_sample.csv</td></tr><tr><td>三条标准化规则各有单测</td><td>✅ strip / 全角转半角 / 去国家码</td><td>evidence/pytest.txt</td></tr><tr><td>1000 企业/5000 联系人 &lt; 2 分钟</td><td>✅ 实测 10.92s</td><td>evidence/run_log.txt 运行3</td></tr></tbody></table>
+<h2>6 类差异检出明细（自动提取自 out_six/diff_detail.csv）</h2>
+<table><thead><tr><th>差异类别</th><th>条数</th></tr></thead><tbody><tr><td>field</td><td>3</td></tr><tr><td>count</td><td>2</td></tr><tr><td>duplicate</td><td>2</td></tr><tr><td>many_to_one</td><td>2</td></tr><tr><td>missing</td><td>1</td></tr><tr><td>credit_code_conflict</td><td>1</td></tr><tr><td>orphan_contact</td><td>1</td></tr></tbody></table>
+<h2>核对层次</h2>
+<ul><li><b>L1 行数</b>：按对象 / site_id / 状态（有效、软删除）分组对照</li><li><b>L2 主键映射</b>：missing / duplicate（1 源多目标）/ many_to_one（多源 1 目标）</li><li><b>L3 字段级</b>：标准化后逐字段比对，差异按字段汇总，明细 CSV 手机号掩码</li><li><b>L4 业务规则</b>：信用代码唯一（未删除）、联系人必关联企业、软删除不计有效数</li></ul>
 <h2>复现命令</h2>
-<div class="note">
-python -m pytest tests/ -v &nbsp;→&nbsp; 11 passed in 2.02s<br>
-python check_no_float.py schedule.py &nbsp;→&nbsp; 违规 0 处，退出码 0<br>
-python make_samples.py &nbsp;→&nbsp; 重算 10 份样例与期望分期<br>
-python verify.py &nbsp;→&nbsp; 重跑全部检查并重写 <a href="outputs/verify.json">outputs/verify.json</a>
-</div>
-
-<h2>证据文件</h2>
-<ul>
-<li><a href="outputs/verification-run.txt">outputs/verification-run.txt</a> — 五段式验证记录（pytest 逐条 / 样例 / 幂等 / 无 float / AC1 明细）</li>
-<li><a href="outputs/verify.json">outputs/verify.json</a> — 实测数字唯一来源，本页所有数字由它自动回填</li>
-<li><a href="outputs/ac-checklist.csv">outputs/ac-checklist.csv</a> — 验收项逐条实测表</li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> · <a href="evidence/samples_run.txt">evidence/samples_run.txt</a></li>
-</ul>
-
-<p class="meta">生成时间 2026-11-18 18:20:40 · Python 3.13.14 · 全部数据为虚构样例，不含任何真实客户或个人信息 · 未引入任何向境外发送数据的第三方 SDK</p>
+<pre>python scripts/reconcile_members.py --source fixtures/clean --target fixtures/clean --out out_clean  # 退出码 0
+python scripts/reconcile_members.py --source fixtures/six_diffs --target fixtures/six_diffs/_target \
+    --mapping fixtures/six_diffs/mapping.csv --out out_six  # 退出码 1
+python -m pytest tests/ -v</pre>
+<h2>说明</h2><div class="note">全部测试数据虚构（FICT 企业 / 91FICT 信用代码 / 139、138 假号段）；只读核对，不写任何数据；生产对接 PostgreSQL 用 --db "$DATABASE_URL"（psycopg 只读适配）。</div>
+<p class="meta">生成于 2026-11-16 20:29 · 工单 S4-GO-029 会员主数据迁移核对脚本</p>
 </div></body></html>

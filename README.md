@@ -1,41 +1,45 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S4-GO-029 · 会员主数据迁移核对脚本（交付页）
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+**交付物**：`scripts/reconcile_members.py`（单文件 CLI，只读，零第三方运行时依赖）
 
-## 验收标准逐条对应
+## 验收标准逐条对应（证据见 `evidence/`）
 
 | # | 验收标准 | 结果 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | 6 类已知差异全部检出 | ✅ 12 条差异覆盖 missing / duplicate / many_to_one / field / credit_code_conflict / orphan_contact 全部 6 类 | `evidence/run_log.txt` 运行2、`evidence/diff_detail_sample.csv` |
+| 2 | 差异 0 → 退出码 0，否则非 0 | ✅ 干净集 exit=0；差异集 exit=1；坏参数 exit=2（pytest 覆盖） | `evidence/run_log.txt` 运行1、`evidence/pytest.txt` |
+| 3 | 明细 CSV 手机号全掩码 | ✅ 输出形如 `139****4014`，测试断言全文无手机号明文 | `evidence/diff_detail_sample.csv` 第 10 行 |
+| 4 | 三条标准化规则各有单元测试 | ✅ strip / 全角转半角 / 手机号去国家码，4 个独立测试 | `evidence/pytest.txt` |
+| 5 | 1000 企业 / 5000 联系人 < 2 分钟 | ✅ 实测 **10.92 s**（门槛 120 s） | `evidence/run_log.txt` 运行3 |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+**pytest 汇总：12 passed in 15.18s**（含性能、退出码、掩码、边界用例）。
 
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+# 干净集 → 退出码 0
+python scripts/reconcile_members.py --source fixtures/clean --target fixtures/clean --out out_clean
+
+# 6 类已知差异集 → 退出码 1，六类全检出
+python scripts/reconcile_members.py --source fixtures/six_diffs --target fixtures/six_diffs/_target \
+    --mapping fixtures/six_diffs/mapping.csv --out out_six
+
+# 性能集（1000 企业 / 5000 联系人）
+python scripts/reconcile_members.py --source fixtures/perf --target fixtures/perf/_target --out out_perf
+
+# 测试
+python -m pytest tests/ -v
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+参数：`--source` 源目录、`--target` 目标目录、`--mapping` 映射表（缺省按 source_id 直连）、
+`--site` 限定站点、`--sample N` 抽样、`--out` 输出目录（`diff_report.md` + `diff_detail.csv`）。
+生产对接 PostgreSQL：`--db "$DATABASE_URL"`（psycopg 只读适配，见标准化规则说明 §4）。
+
+## 对接点（按统一约定先行用桩）
+
+- 依赖 S2-CRM 的对象模型（企业/联系人/关系/标签）：当前以 CSV 导出桩 + 只读 DB 适配器实现，
+  接入时仅需替换 `read_csv_dir` 的目标侧为 SQLAlchemy 查询，核对逻辑零改动（README 同步维护于仓库）。
+
+## 数据与保密
+
+全部测试数据为虚构（FICT 企业、91FICT 信用代码、139/138 假号段），交付物无客户名称，无真实个人信息。

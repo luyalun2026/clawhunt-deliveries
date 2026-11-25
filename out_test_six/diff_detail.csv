@@ -1,0 +1,13 @@
+category,object,source_id,field,detail
+count,companies,,,行数不一致 src=30 dst=29
+count,contact_company,,,行数不一致 src=79 dst=80
+duplicate,mapping,C000028,,"映射到 2 个目标: C000028,C000027"
+duplicate,mapping,P000000,,"映射到 2 个目标: P000000,P000001"
+many_to_one,mapping,"C000027,C000028",,共同指向目标 C000027
+many_to_one,mapping,"P000000,P000001",,共同指向目标 P000001
+missing,companies,C000029,,映射表中无 source_id
+field,companies,C000000,industry,标准化前 src='零售' dst='制造'
+field,contacts,P000005,name,标准化前 src='联系人5' dst='联系人五号改'
+field,contacts,P000007,phone,标准化前 src='139****4014' dst='138****1111'
+credit_code_conflict,companies,"C000000,C000001",,信用代码 91FICT000000000000 对应 2 家未删除企业
+orphan_contact,contacts,P000079,,未关联任何企业

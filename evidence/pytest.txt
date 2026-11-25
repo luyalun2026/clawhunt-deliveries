@@ -2,20 +2,21 @@
 platform win32 -- Python 3.13.14, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\python.exe
 cachedir: .pytest_cache
 hypothesis profile 'default'
-rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2856
+rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2957
 plugins: hypothesis-6.170.15
-collecting ... collected 11 items
+collecting ... collected 12 items
 
-tests/test_schedule.py::test_12m_quarter_contract PASSED                 [  9%]
-tests/test_schedule.py::test_total_derived_without_declared_total PASSED [ 18%]
-tests/test_schedule.py::test_tail_proration_day_based PASSED             [ 27%]
-tests/test_schedule.py::test_last_full_period_is_not_tail PASSED         [ 36%]
-tests/test_schedule.py::test_declared_total_absorbs_rounding_only PASSED [ 45%]
-tests/test_schedule.py::test_first_year_amount_multi_year PASSED         [ 54%]
-tests/test_schedule.py::test_hypothesis_200_contracts PASSED             [ 63%]
-tests/test_schedule.py::test_idempotent_event_redelivery PASSED          [ 72%]
-tests/test_schedule.py::test_idempotent_same_contract_second_event PASSED [ 81%]
-tests/test_schedule.py::test_no_float_static_check PASSED                [ 90%]
-tests/test_schedule.py::test_no_float_checker_detects_violation PASSED   [100%]
+tests/test_reconcile.py::test_normalize_strip PASSED                     [  8%]
+tests/test_reconcile.py::test_normalize_fullwidth_to_halfwidth PASSED    [ 16%]
+tests/test_reconcile.py::test_normalize_phone_country_code PASSED        [ 25%]
+tests/test_reconcile.py::test_mask_phone PASSED                          [ 33%]
+tests/test_reconcile.py::test_six_diff_categories_all_detected PASSED    [ 41%]
+tests/test_reconcile.py::test_exit_code_zero_on_clean PASSED             [ 50%]
+tests/test_reconcile.py::test_exit_code_nonzero_on_diff PASSED           [ 58%]
+tests/test_reconcile.py::test_exit_code_2_on_bad_source PASSED           [ 66%]
+tests/test_reconcile.py::test_detail_csv_phone_masked PASSED             [ 75%]
+tests/test_reconcile.py::test_performance_1000_5000 PASSED               [ 83%]
+tests/test_reconcile.py::test_sample_limits_rows PASSED                  [ 91%]
+tests/test_reconcile.py::test_site_filter PASSED                         [100%]
 
-============================= 11 passed in 2.02s ==============================
+============================= 12 passed in 15.18s =============================
