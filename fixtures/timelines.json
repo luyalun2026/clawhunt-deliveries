@@ -1,0 +1,74 @@
+{
+  "data_cutoff": "2026-06-30",
+  "companies": [
+    {
+      "company_pid": "FP-0001",
+      "joined_on": "2025-01-01",
+      "memberships": [{"start": "2025-01-01", "expiry": "2025-03-31"}],
+      "snapshots": ["2025-03-01", "2025-04-01"]
+    },
+    {
+      "company_pid": "FP-0002",
+      "joined_on": "2025-01-01",
+      "memberships": [
+        {"start": "2025-01-01", "expiry": "2025-03-31"},
+        {"start": "2025-04-15", "expiry": "2026-03-31"}
+      ],
+      "snapshots": ["2025-03-01"]
+    },
+    {
+      "company_pid": "FP-0003",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2026-12-31"}],
+      "employee_events": [{"date": "2025-05-10", "status": "churned", "cause": "service_dissatisfied"}],
+      "snapshots": ["2025-04-01", "2025-06-01"]
+    },
+    {
+      "company_pid": "FP-0004",
+      "joined_on": "2025-05-20",
+      "memberships": [{"start": "2025-05-20", "expiry": "2026-05-19"}],
+      "snapshots": ["2025-06-01"]
+    },
+    {
+      "company_pid": "FP-0005",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2025-08-31", "terminated_on": "2025-07-01"}],
+      "snapshots": ["2025-07-01", "2025-06-01"]
+    },
+    {
+      "company_pid": "FP-0006",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2026-12-31"}],
+      "employee_events": [{"date": "2025-03-15", "status": "churned", "cause": "deregistered"}],
+      "snapshots": ["2025-02-01"]
+    },
+    {
+      "company_pid": "FP-0007",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2025-05-31"}],
+      "snapshots": ["2025-05-01"]
+    },
+    {
+      "company_pid": "FP-0008",
+      "joined_on": "2024-06-01",
+      "memberships": [
+        {"start": "2024-06-01", "expiry": "2025-02-28"},
+        {"start": "2025-03-20", "expiry": "2026-03-19"}
+      ],
+      "snapshots": ["2025-02-01"]
+    },
+    {
+      "company_pid": "FP-0009",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2026-12-31"}],
+      "employee_events": [{"date": "2025-08-01", "status": "churned", "cause": "service_dissatisfied"}],
+      "snapshots": ["2025-07-01"]
+    },
+    {
+      "company_pid": "FP-0010",
+      "joined_on": "2024-06-01",
+      "memberships": [{"start": "2024-06-01", "expiry": "2026-12-31"}],
+      "snapshots": ["2026-04-01"]
+    }
+  ]
+}

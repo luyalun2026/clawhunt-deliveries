@@ -1,41 +1,35 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# 2143 · S6-CAL-002 流失标签口径、观察窗定义与标签生成脚本
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
-
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install -r requirements.txt   # 仅标准库（无第三方依赖，占位）
+python -m pytest tests -q         # 8 例测试
+python build_churn_labels.py --input fixtures/timelines.json --db churn.db --stats output/monthly_stats.csv
+python tools/split_by_company.py --input fixtures/timelines.json
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 交付物
+
+- `build_churn_labels.py`：主脚本，输出 `calib.churn_label`（SQLite 演示存储）与每月样本统计表
+- `docs/churn_label_spec.md`：口径说明（2 正例规则 + 4 排除规则 + 观察窗 + 双口径）
+- `pg_ddl.sql`：PostgreSQL 16 版 DDL（schema calib）
+- `tools/split_by_company.py`：按企业分组切分（防跨集泄漏）
+- `fixtures/timelines.json`：10 家虚构企业手工时间线
+- `tests/`：AC1 手算对账 / AC2 观察窗排除 / AC3 口径文档结构 / 边界 5 例
+
+## 验收标准落点
+
+| AC | 证据 |
+|---|---|
+| 1 手工时间线一致 | `test_ac1_hand_timelines_match`：13 行逐格与手算 CSV 一致 |
+| 2 观察窗未结束 label 为空 | `test_ac2_window_open_null_and_excluded`：收紧截止日后全部 NULL 且不进评估集 |
+| 3 口径文档 2+4 规则 | `test_ac3_spec_counts`：文档含 2 正例 + 4 排除规则条目 |
+
+## 边界用例
+
+到期后第 30/31 天续约判定、observed_until 恰等于截止日、快照日=入会第 30 天、流失事件恰在 t+90、企业分组切分无泄漏。
+
+## 对接点（接口桩）
+
+输入为 JSON 时间线文件（`fixtures/timelines.json`），正式接入时替换为 S2-CRM 读取层；PG 版表结构见 `pg_ddl.sql`。
