@@ -1,0 +1,30 @@
+# 虚构品牌规范（演示语料用，S6-BRAND-001）
+brand:
+  name: 云枢空间（虚构演示品牌）
+palette:
+  primary: "#1F5FBF"
+  secondary: ["#0F7A4A", "#B45309"]
+  neutral_text: "#1F2937"
+  neutral_bg: "#FFFFFF"
+  allowed: ["#1F5FBF", "#0F7A4A", "#B45309", "#1F2937", "#FFFFFF", "#Eef2F7", "#EEF2F7", "#F7F8FA"]
+contrast:
+  tool: "measure_contrast.py (WCAG 2.1 relative luminance)"
+  body_min: 4.5
+  large_min: 3.0
+  large_text_min_px: 24
+typography:
+  font_family: "'TCloud Sans', 'Microsoft YaHei', sans-serif"
+  hierarchy_px: [12, 14, 16, 20, 24, 32]
+logo:
+  min_width_px: 88
+  aspect_ratio: 3.0
+  tolerance: 0.05
+icons:
+  stroke_width: 2
+grid:
+  unit_px: 8
+illustration:
+  palette_only: true
+copy:
+  banned_words: ["超值爆款", "全网最低", "限时秒杀", "霸王餐"]
+  tone: 专业、克制、不用夸张促销用语

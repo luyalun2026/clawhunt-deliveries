@@ -1,0 +1,222 @@
+[
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01"
+ },
+ {
+  "file": "shots/002_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p02"
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03"
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04"
+ },
+ {
+  "file": "shots/005_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p05"
+ },
+ {
+  "file": "shots/006_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p06"
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07"
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08"
+ },
+ {
+  "file": "shots/009_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p09"
+ },
+ {
+  "file": "shots/010_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p10"
+ },
+ {
+  "file": "shots/011_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p11"
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12"
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01"
+ },
+ {
+  "file": "shots/014_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m02"
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03"
+ },
+ {
+  "file": "shots/016_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m04"
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05"
+ },
+ {
+  "file": "shots/018_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m06"
+ },
+ {
+  "file": "shots/019_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m07"
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08"
+ },
+ {
+  "file": "shots/021_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m09"
+ },
+ {
+  "file": "shots/022_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m10"
+ },
+ {
+  "file": "shots/023_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m11"
+ },
+ {
+  "file": "shots/024_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m12"
+ },
+ {
+  "file": "shots/025_website.svg",
+  "kind": "website",
+  "label": "官网页面 w01"
+ },
+ {
+  "file": "shots/026_website.svg",
+  "kind": "website",
+  "label": "官网页面 w02"
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03"
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04"
+ },
+ {
+  "file": "shots/029_website.svg",
+  "kind": "website",
+  "label": "官网页面 w05"
+ },
+ {
+  "file": "shots/030_website.svg",
+  "kind": "website",
+  "label": "官网页面 w06"
+ },
+ {
+  "file": "shots/031_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph01"
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02"
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03"
+ },
+ {
+  "file": "shots/034_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph04"
+ },
+ {
+  "file": "shots/035_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph05"
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01"
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02"
+ },
+ {
+  "file": "shots/038_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt03"
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04"
+ },
+ {
+  "file": "shots/040_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt05"
+ },
+ {
+  "file": "shots/041_console.svg",
+  "kind": "console",
+  "label": "驾驶舱页面 p13"
+ },
+ {
+  "file": "shots/042_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m13"
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07"
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06"
+ }
+]

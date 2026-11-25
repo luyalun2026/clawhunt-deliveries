@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="375" height="600" viewBox="0 0 375 600">
+<rect id="bg" x="0" y="0" width="375" height="600" fill="#FFFFFF" />
+<rect id="nav" x="0" y="0" width="375" height="56" fill="#1F5FBF" />
+<rect id="logo" x="16" y="12" width="96" height="32" fill="#FFFFFF" />
+<rect id="logo_mark" x="20" y="16" width="88" height="24" fill="#1F5FBF" />
+<text id="t0" x="32" y="100" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2937">会员空间</text>
+<text id="t1" x="32" y="138" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="20" fill="#1F2937">提交申请</text>
+<text id="t2" x="32" y="180" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="32" fill="#1F2937" font-weight="700">查看详情</text>
+<text id="t3" x="32" y="234" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="24" fill="#9B59B6" font-weight="700">提交申请</text>
+<rect id="btn" x="32" y="510" width="140" height="40" rx="4" fill="#1F5FBF" />
+<text x="44" y="536" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="14" fill="#FFFFFF">查看详情</text>
+<rect id="icon1" x="295" y="72" width="28" height="28" fill="none" stroke="#1F2937" stroke-width="2" />
+<rect id="illustration" x="115" y="230" width="200" height="140" rx="6" fill="#EEF2F7" />
+<rect x="38.0" y="522.0" width="44" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="56" /><text x="38.0" y="518.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#56 contrast_low</text><rect x="32.0" y="234.0" width="30.0" height="20.0" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="57" /><text x="32.0" y="230.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#57 color_out_of_palette</text><rect x="38.0" y="0" width="20" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="58" /><text x="38.0" y="0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#58 grid_off</text></svg>

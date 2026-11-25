@@ -1,0 +1,3646 @@
+[
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01",
+  "location": "工作台高频页面 p01/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   48,
+   21
+  ],
+  "extra": {},
+  "seq": 1
+ },
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01",
+  "location": "工作台高频页面 p01/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 2
+ },
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01",
+  "location": "工作台高频页面 p01/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#16A085 不在规范色板",
+  "severity": "中",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 3
+ },
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01",
+  "location": "工作台高频页面 p01/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 4
+ },
+ {
+  "file": "shots/001_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p01",
+  "location": "工作台高频页面 p01/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #16A085 越出规范色板",
+  "severity": "低",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 5
+ },
+ {
+  "file": "shots/002_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p02",
+  "location": "工作台高频页面 p02/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   120.0,
+   48,
+   22
+  ],
+  "extra": {},
+  "seq": 6
+ },
+ {
+  "file": "shots/002_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p02",
+  "location": "工作台高频页面 p02/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 7
+ },
+ {
+  "file": "shots/002_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p02",
+  "location": "工作台高频页面 p02/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 8
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03",
+  "location": "工作台高频页面 p03/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 9
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03",
+  "location": "工作台高频页面 p03/rect#btn",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   470.0,
+   140.0,
+   40.0
+  ],
+  "extra": {},
+  "seq": 10
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03",
+  "location": "工作台高频页面 p03/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 11
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03",
+  "location": "工作台高频页面 p03/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 12
+ },
+ {
+  "file": "shots/003_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p03",
+  "location": "工作台高频页面 p03/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 13
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04",
+  "location": "工作台高频页面 p04/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.5:1，低于大字阈值 3.0:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   168.0,
+   88,
+   38
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#F7F8FA",
+    "font_size_px": 32.0,
+    "ratio": 1.5,
+    "required": 3.0,
+    "pass": false
+   }
+  },
+  "seq": 14
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04",
+  "location": "工作台高频页面 p04/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 15
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04",
+  "location": "工作台高频页面 p04/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   200.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 16
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04",
+  "location": "工作台高频页面 p04/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 17
+ },
+ {
+  "file": "shots/004_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p04",
+  "location": "工作台高频页面 p04/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 18
+ },
+ {
+  "file": "shots/005_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p05",
+  "location": "工作台高频页面 p05/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 19
+ },
+ {
+  "file": "shots/005_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p05",
+  "location": "工作台高频页面 p05/text#t3",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   230.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 20
+ },
+ {
+  "file": "shots/005_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p05",
+  "location": "工作台高频页面 p05/icon1",
+  "problem_type": "icon_stroke",
+  "description": "图标描边 5px 不等于规范 2px",
+  "severity": "低",
+  "box": [
+   820.0,
+   72.0,
+   28.0,
+   28.0
+  ],
+  "extra": {},
+  "seq": 21
+ },
+ {
+  "file": "shots/005_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p05",
+  "location": "工作台高频页面 p05/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 22
+ },
+ {
+  "file": "shots/006_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p06",
+  "location": "工作台高频页面 p06/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 23
+ },
+ {
+  "file": "shots/006_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p06",
+  "location": "工作台高频页面 p06/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 24
+ },
+ {
+  "file": "shots/006_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p06",
+  "location": "工作台高频页面 p06/t1",
+  "problem_type": "copy_tone",
+  "description": "文案含禁用促销用语 ['超值爆款', '全网最低', '限时秒杀', '霸王餐']",
+  "severity": "中",
+  "box": [
+   26.0,
+   120.0,
+   200,
+   22
+  ],
+  "extra": {},
+  "seq": 25
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   104.0,
+   88,
+   38
+  ],
+  "extra": {},
+  "seq": 26
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 27
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 28
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 4.12 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   132.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 29
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 30
+ },
+ {
+  "file": "shots/007_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p07",
+  "location": "工作台高频页面 p07/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #2C3E50 越出规范色板",
+  "severity": "低",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 31
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08",
+  "location": "工作台高频页面 p08/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   48,
+   21
+  ],
+  "extra": {},
+  "seq": 32
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08",
+  "location": "工作台高频页面 p08/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.5:1，低于大字阈值 3.0:1",
+  "severity": "高",
+  "box": [
+   26.0,
+   139.0,
+   88,
+   38
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#F7F8FA",
+    "font_size_px": 32.0,
+    "ratio": 1.5,
+    "required": 3.0,
+    "pass": false
+   }
+  },
+  "seq": 33
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08",
+  "location": "工作台高频页面 p08/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 34
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08",
+  "location": "工作台高频页面 p08/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   171.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 35
+ },
+ {
+  "file": "shots/008_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p08",
+  "location": "工作台高频页面 p08/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 36
+ },
+ {
+  "file": "shots/009_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p09",
+  "location": "工作台高频页面 p09/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 37
+ },
+ {
+  "file": "shots/009_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p09",
+  "location": "工作台高频页面 p09/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 38
+ },
+ {
+  "file": "shots/009_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p09",
+  "location": "工作台高频页面 p09/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 39
+ },
+ {
+  "file": "shots/009_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p09",
+  "location": "工作台高频页面 p09/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 40
+ },
+ {
+  "file": "shots/010_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p10",
+  "location": "工作台高频页面 p10/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 41
+ },
+ {
+  "file": "shots/010_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p10",
+  "location": "工作台高频页面 p10/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 42
+ },
+ {
+  "file": "shots/011_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p11",
+  "location": "工作台高频页面 p11/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 43
+ },
+ {
+  "file": "shots/011_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p11",
+  "location": "工作台高频页面 p11/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 44
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   122.0,
+   44,
+   20
+  ],
+  "extra": {},
+  "seq": 45
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.31:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   160.0,
+   54,
+   18
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#D6DBE1",
+    "bg": "#F7F8FA",
+    "font_size_px": 12.0,
+    "ratio": 1.31,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 46
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 47
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#D6DBE1 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   172.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 48
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 49
+ },
+ {
+  "file": "shots/012_console.svg",
+  "kind": "console",
+  "label": "工作台高频页面 p12",
+  "location": "工作台高频页面 p12/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 50
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01",
+  "location": "小程序页面 m01/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 51
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01",
+  "location": "小程序页面 m01/rect#btn",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#E74C3C 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   510.0,
+   140.0,
+   40.0
+  ],
+  "extra": {},
+  "seq": 52
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01",
+  "location": "小程序页面 m01/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   115.0,
+   230.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 53
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01",
+  "location": "小程序页面 m01/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 54
+ },
+ {
+  "file": "shots/013_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m01",
+  "location": "小程序页面 m01/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #2C3E50 越出规范色板",
+  "severity": "低",
+  "box": [
+   115.0,
+   230.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 55
+ },
+ {
+  "file": "shots/014_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m02",
+  "location": "小程序页面 m02/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 56
+ },
+ {
+  "file": "shots/014_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m02",
+  "location": "小程序页面 m02/text#t3",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   234.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 57
+ },
+ {
+  "file": "shots/014_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m02",
+  "location": "小程序页面 m02/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 58
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03",
+  "location": "小程序页面 m03/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   48,
+   21
+  ],
+  "extra": {},
+  "seq": 59
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03",
+  "location": "小程序页面 m03/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 60
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03",
+  "location": "小程序页面 m03/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 61
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03",
+  "location": "小程序页面 m03/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 62
+ },
+ {
+  "file": "shots/015_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m03",
+  "location": "小程序页面 m03/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 63
+ },
+ {
+  "file": "shots/016_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m04",
+  "location": "小程序页面 m04/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.5:1，低于大字阈值 3.0:1",
+  "severity": "高",
+  "box": [
+   26.0,
+   156.0,
+   68,
+   30
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#F7F8FA",
+    "font_size_px": 24.0,
+    "ratio": 1.5,
+    "required": 3.0,
+    "pass": false
+   }
+  },
+  "seq": 64
+ },
+ {
+  "file": "shots/016_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m04",
+  "location": "小程序页面 m04/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 65
+ },
+ {
+  "file": "shots/016_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m04",
+  "location": "小程序页面 m04/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   180.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 66
+ },
+ {
+  "file": "shots/016_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m04",
+  "location": "小程序页面 m04/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 67
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05",
+  "location": "小程序页面 m05/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   130.0,
+   180,
+   18
+  ],
+  "extra": {},
+  "seq": 68
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05",
+  "location": "小程序页面 m05/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 69
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05",
+  "location": "小程序页面 m05/icon1",
+  "problem_type": "icon_stroke",
+  "description": "图标描边 5px 不等于规范 2px",
+  "severity": "低",
+  "box": [
+   295.0,
+   72.0,
+   28.0,
+   28.0
+  ],
+  "extra": {},
+  "seq": 70
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05",
+  "location": "小程序页面 m05/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 71
+ },
+ {
+  "file": "shots/017_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m05",
+  "location": "小程序页面 m05/t1",
+  "problem_type": "copy_tone",
+  "description": "文案含禁用促销用语 ['超值爆款', '全网最低', '限时秒杀', '霸王餐']",
+  "severity": "中",
+  "box": [
+   26.0,
+   126.0,
+   200,
+   22
+  ],
+  "extra": {},
+  "seq": 72
+ },
+ {
+  "file": "shots/018_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m06",
+  "location": "小程序页面 m06/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 73
+ },
+ {
+  "file": "shots/018_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m06",
+  "location": "小程序页面 m06/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 74
+ },
+ {
+  "file": "shots/019_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m07",
+  "location": "小程序页面 m07/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 75
+ },
+ {
+  "file": "shots/019_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m07",
+  "location": "小程序页面 m07/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   115.0,
+   230.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 76
+ },
+ {
+  "file": "shots/019_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m07",
+  "location": "小程序页面 m07/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 77
+ },
+ {
+  "file": "shots/019_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m07",
+  "location": "小程序页面 m07/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #2C3E50 越出规范色板",
+  "severity": "低",
+  "box": [
+   115.0,
+   230.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 78
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.39:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   170.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#D6DBE1",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.39,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 79
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 80
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#D6DBE1 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   184.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 81
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 4.12 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   132.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 82
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 83
+ },
+ {
+  "file": "shots/020_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m08",
+  "location": "小程序页面 m08/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 84
+ },
+ {
+  "file": "shots/021_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m09",
+  "location": "小程序页面 m09/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 85
+ },
+ {
+  "file": "shots/021_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m09",
+  "location": "小程序页面 m09/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 86
+ },
+ {
+  "file": "shots/021_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m09",
+  "location": "小程序页面 m09/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 87
+ },
+ {
+  "file": "shots/021_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m09",
+  "location": "小程序页面 m09/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 88
+ },
+ {
+  "file": "shots/022_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m10",
+  "location": "小程序页面 m10/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   66,
+   21
+  ],
+  "extra": {},
+  "seq": 89
+ },
+ {
+  "file": "shots/022_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m10",
+  "location": "小程序页面 m10/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   125.0,
+   40,
+   18
+  ],
+  "extra": {},
+  "seq": 90
+ },
+ {
+  "file": "shots/022_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m10",
+  "location": "小程序页面 m10/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 91
+ },
+ {
+  "file": "shots/022_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m10",
+  "location": "小程序页面 m10/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 92
+ },
+ {
+  "file": "shots/023_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m11",
+  "location": "小程序页面 m11/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 93
+ },
+ {
+  "file": "shots/023_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m11",
+  "location": "小程序页面 m11/text#t3",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   216.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 94
+ },
+ {
+  "file": "shots/023_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m11",
+  "location": "小程序页面 m11/rect#btn",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#F1C40F 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   510.0,
+   140.0,
+   40.0
+  ],
+  "extra": {},
+  "seq": 95
+ },
+ {
+  "file": "shots/023_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m11",
+  "location": "小程序页面 m11/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 96
+ },
+ {
+  "file": "shots/024_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m12",
+  "location": "小程序页面 m12/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.39:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   26.0,
+   168.0,
+   60,
+   26
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#D6DBE1",
+    "bg": "#FFFFFF",
+    "font_size_px": 20.0,
+    "ratio": 1.39,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 97
+ },
+ {
+  "file": "shots/024_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m12",
+  "location": "小程序页面 m12/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 98
+ },
+ {
+  "file": "shots/024_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m12",
+  "location": "小程序页面 m12/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#D6DBE1 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   188.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 99
+ },
+ {
+  "file": "shots/024_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m12",
+  "location": "小程序页面 m12/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 100
+ },
+ {
+  "file": "shots/025_website.svg",
+  "kind": "website",
+  "label": "官网页面 w01",
+  "location": "官网页面 w01/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 101
+ },
+ {
+  "file": "shots/025_website.svg",
+  "kind": "website",
+  "label": "官网页面 w01",
+  "location": "官网页面 w01/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#F1C40F 不在规范色板",
+  "severity": "中",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 102
+ },
+ {
+  "file": "shots/025_website.svg",
+  "kind": "website",
+  "label": "官网页面 w01",
+  "location": "官网页面 w01/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 103
+ },
+ {
+  "file": "shots/025_website.svg",
+  "kind": "website",
+  "label": "官网页面 w01",
+  "location": "官网页面 w01/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #F1C40F 越出规范色板",
+  "severity": "低",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 104
+ },
+ {
+  "file": "shots/026_website.svg",
+  "kind": "website",
+  "label": "官网页面 w02",
+  "location": "官网页面 w02/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 105
+ },
+ {
+  "file": "shots/026_website.svg",
+  "kind": "website",
+  "label": "官网页面 w02",
+  "location": "官网页面 w02/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 106
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03",
+  "location": "官网页面 w03/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   114.0,
+   84,
+   26
+  ],
+  "extra": {},
+  "seq": 107
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03",
+  "location": "官网页面 w03/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 108
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03",
+  "location": "官网页面 w03/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 109
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03",
+  "location": "官网页面 w03/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 110
+ },
+ {
+  "file": "shots/027_website.svg",
+  "kind": "website",
+  "label": "官网页面 w03",
+  "location": "官网页面 w03/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 111
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.5:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   180.0,
+   48,
+   22
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#F7F8FA",
+    "font_size_px": 16.0,
+    "ratio": 1.5,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 112
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 113
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   196.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 114
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 115
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 116
+ },
+ {
+  "file": "shots/028_website.svg",
+  "kind": "website",
+  "label": "官网页面 w04",
+  "location": "官网页面 w04/t1",
+  "problem_type": "copy_tone",
+  "description": "文案含禁用促销用语 ['超值爆款', '全网最低', '限时秒杀', '霸王餐']",
+  "severity": "中",
+  "box": [
+   26.0,
+   126.0,
+   200,
+   22
+  ],
+  "extra": {},
+  "seq": 117
+ },
+ {
+  "file": "shots/029_website.svg",
+  "kind": "website",
+  "label": "官网页面 w05",
+  "location": "官网页面 w05/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   48,
+   21
+  ],
+  "extra": {},
+  "seq": 118
+ },
+ {
+  "file": "shots/029_website.svg",
+  "kind": "website",
+  "label": "官网页面 w05",
+  "location": "官网页面 w05/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 119
+ },
+ {
+  "file": "shots/029_website.svg",
+  "kind": "website",
+  "label": "官网页面 w05",
+  "location": "官网页面 w05/icon1",
+  "problem_type": "icon_stroke",
+  "description": "图标描边 5px 不等于规范 2px",
+  "severity": "低",
+  "box": [
+   820.0,
+   72.0,
+   28.0,
+   28.0
+  ],
+  "extra": {},
+  "seq": 120
+ },
+ {
+  "file": "shots/029_website.svg",
+  "kind": "website",
+  "label": "官网页面 w05",
+  "location": "官网页面 w05/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 121
+ },
+ {
+  "file": "shots/030_website.svg",
+  "kind": "website",
+  "label": "官网页面 w06",
+  "location": "官网页面 w06/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 122
+ },
+ {
+  "file": "shots/030_website.svg",
+  "kind": "website",
+  "label": "官网页面 w06",
+  "location": "官网页面 w06/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 123
+ },
+ {
+  "file": "shots/031_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph01",
+  "location": "活动海报 ph01/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 124
+ },
+ {
+  "file": "shots/031_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph01",
+  "location": "活动海报 ph01/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   340.0,
+   330.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 125
+ },
+ {
+  "file": "shots/031_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph01",
+  "location": "活动海报 ph01/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 126
+ },
+ {
+  "file": "shots/031_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph01",
+  "location": "活动海报 ph01/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #2C3E50 越出规范色板",
+  "severity": "低",
+  "box": [
+   340.0,
+   330.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 127
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   132.0,
+   60,
+   20
+  ],
+  "extra": {},
+  "seq": 128
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.31:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   26.0,
+   168.0,
+   60,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#D6DBE1",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.31,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 129
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 130
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#D6DBE1 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   182.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 131
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/text#t3",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   218.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 132
+ },
+ {
+  "file": "shots/032_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph02",
+  "location": "活动海报 ph02/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 133
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03",
+  "location": "活动海报 ph03/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 134
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03",
+  "location": "活动海报 ph03/rect#btn",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   710.0,
+   140.0,
+   40.0
+  ],
+  "extra": {},
+  "seq": 135
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03",
+  "location": "活动海报 ph03/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 136
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03",
+  "location": "活动海报 ph03/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 137
+ },
+ {
+  "file": "shots/033_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph03",
+  "location": "活动海报 ph03/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 138
+ },
+ {
+  "file": "shots/034_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph04",
+  "location": "活动海报 ph04/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 139
+ },
+ {
+  "file": "shots/034_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph04",
+  "location": "活动海报 ph04/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 140
+ },
+ {
+  "file": "shots/035_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph05",
+  "location": "活动海报 ph05/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 141
+ },
+ {
+  "file": "shots/035_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph05",
+  "location": "活动海报 ph05/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 142
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   48,
+   21
+  ],
+  "extra": {},
+  "seq": 143
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.5:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   159.0,
+   40,
+   18
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#F7F8FA",
+    "font_size_px": 12.0,
+    "ratio": 1.5,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 144
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 145
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   171.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 146
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 147
+ },
+ {
+  "file": "shots/036_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt01",
+  "location": "公众号头图 mt01/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 148
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02",
+  "location": "公众号头图 mt02/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   122.0,
+   88,
+   38
+  ],
+  "extra": {},
+  "seq": 149
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02",
+  "location": "公众号头图 mt02/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 150
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02",
+  "location": "公众号头图 mt02/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   340.0,
+   330.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 151
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02",
+  "location": "公众号头图 mt02/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 152
+ },
+ {
+  "file": "shots/037_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt02",
+  "location": "公众号头图 mt02/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #9B59B6 越出规范色板",
+  "severity": "低",
+  "box": [
+   340.0,
+   330.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 153
+ },
+ {
+  "file": "shots/038_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt03",
+  "location": "公众号头图 mt03/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 154
+ },
+ {
+  "file": "shots/038_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt03",
+  "location": "公众号头图 mt03/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 155
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04",
+  "location": "公众号头图 mt04/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 156
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04",
+  "location": "公众号头图 mt04/logo",
+  "problem_type": "logo_distorted",
+  "description": "logo 宽高比 1.38 偏离规范 3.0（容差 0.05）",
+  "severity": "高",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 157
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04",
+  "location": "公众号头图 mt04/logo",
+  "problem_type": "logo_too_small",
+  "description": "logo 宽 44px 小于最小 88px",
+  "severity": "中",
+  "box": [
+   16.0,
+   12.0,
+   44.0,
+   32.0
+  ],
+  "extra": {},
+  "seq": 158
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04",
+  "location": "公众号头图 mt04/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 159
+ },
+ {
+  "file": "shots/039_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt04",
+  "location": "公众号头图 mt04/t1",
+  "problem_type": "copy_tone",
+  "description": "文案含禁用促销用语 ['超值爆款', '全网最低', '限时秒杀', '霸王餐']",
+  "severity": "中",
+  "box": [
+   26.0,
+   138.0,
+   200,
+   22
+  ],
+  "extra": {},
+  "seq": 160
+ },
+ {
+  "file": "shots/040_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt05",
+  "location": "公众号头图 mt05/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.31:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   26.0,
+   166.0,
+   48,
+   22
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#D6DBE1",
+    "bg": "#F7F8FA",
+    "font_size_px": 16.0,
+    "ratio": 1.31,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 161
+ },
+ {
+  "file": "shots/040_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt05",
+  "location": "公众号头图 mt05/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 162
+ },
+ {
+  "file": "shots/040_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt05",
+  "location": "公众号头图 mt05/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#D6DBE1 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   182.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 163
+ },
+ {
+  "file": "shots/040_material.svg",
+  "kind": "material",
+  "label": "公众号头图 mt05",
+  "location": "公众号头图 mt05/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 164
+ },
+ {
+  "file": "shots/041_console.svg",
+  "kind": "console",
+  "label": "驾驶舱页面 p13",
+  "location": "驾驶舱页面 p13/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 165
+ },
+ {
+  "file": "shots/041_console.svg",
+  "kind": "console",
+  "label": "驾驶舱页面 p13",
+  "location": "驾驶舱页面 p13/text#t3",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#E74C3C 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   210.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 166
+ },
+ {
+  "file": "shots/041_console.svg",
+  "kind": "console",
+  "label": "驾驶舱页面 p13",
+  "location": "驾驶舱页面 p13/icon1",
+  "problem_type": "icon_stroke",
+  "description": "图标描边 5px 不等于规范 2px",
+  "severity": "低",
+  "box": [
+   820.0,
+   72.0,
+   28.0,
+   28.0
+  ],
+  "extra": {},
+  "seq": 167
+ },
+ {
+  "file": "shots/041_console.svg",
+  "kind": "console",
+  "label": "驾驶舱页面 p13",
+  "location": "驾驶舱页面 p13/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 168
+ },
+ {
+  "file": "shots/042_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m13",
+  "location": "小程序页面 m13/t1",
+  "problem_type": "font_family",
+  "description": "字体 Comic Sans MS, cursive 不在规范字体栈",
+  "severity": "低",
+  "box": [
+   26.0,
+   122.0,
+   66,
+   22
+  ],
+  "extra": {},
+  "seq": 169
+ },
+ {
+  "file": "shots/042_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m13",
+  "location": "小程序页面 m13/44,536",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   522.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 170
+ },
+ {
+  "file": "shots/042_miniapp.svg",
+  "kind": "miniapp",
+  "label": "小程序页面 m13",
+  "location": "小程序页面 m13/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 171
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/t0",
+  "problem_type": "font_size_hierarchy",
+  "description": "字号 15px 不在规范层级 [12, 14, 16, 20, 24, 32]",
+  "severity": "低",
+  "box": [
+   26.0,
+   85.0,
+   66,
+   21
+  ],
+  "extra": {},
+  "seq": 172
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/44,496",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.06:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   482.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#F7F8FA",
+    "font_size_px": 14.0,
+    "ratio": 1.06,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 173
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/rect#btn",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#9B59B6 不在规范色板",
+  "severity": "中",
+  "box": [
+   32.0,
+   470.0,
+   140.0,
+   40.0
+  ],
+  "extra": {},
+  "seq": 174
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/rect#illustration",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#2C3E50 不在规范色板",
+  "severity": "中",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 175
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 176
+ },
+ {
+  "file": "shots/043_website.svg",
+  "kind": "website",
+  "label": "官网页面 w07",
+  "location": "官网页面 w07/illustration",
+  "problem_type": "illustration_palette",
+  "description": "插图底色 #2C3E50 越出规范色板",
+  "severity": "低",
+  "box": [
+   640.0,
+   210.0,
+   200.0,
+   140.0
+  ],
+  "extra": {},
+  "seq": 177
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06",
+  "location": "活动海报 ph06/t2",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.6:1，低于大字阈值 3.0:1",
+  "severity": "高",
+  "box": [
+   24.0,
+   164.0,
+   88,
+   38
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#C8CDD4",
+    "bg": "#FFFFFF",
+    "font_size_px": 32.0,
+    "ratio": 1.6,
+    "required": 3.0,
+    "pass": false
+   }
+  },
+  "seq": 178
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06",
+  "location": "活动海报 ph06/44,736",
+  "problem_type": "contrast_low",
+  "description": "文字对比度实测 1.0:1，低于正文阈值 4.5:1",
+  "severity": "高",
+  "box": [
+   38.0,
+   722.0,
+   44,
+   20
+  ],
+  "extra": {
+   "contrast": {
+    "tool": "measure_contrast.py (WCAG 2.1 relative luminance)",
+    "fg": "#FFFFFF",
+    "bg": "#FFFFFF",
+    "font_size_px": 14.0,
+    "ratio": 1.0,
+    "required": 4.5,
+    "pass": false
+   }
+  },
+  "seq": 179
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06",
+  "location": "活动海报 ph06/text#t2",
+  "problem_type": "color_out_of_palette",
+  "description": "fill=#C8CDD4 不在规范色板",
+  "severity": "中",
+  "box": [
+   30.0,
+   196.0,
+   30.0,
+   20.0
+  ],
+  "extra": {},
+  "seq": 180
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06",
+  "location": "活动海报 ph06/t2",
+  "problem_type": "grid_off",
+  "description": "x=30 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   24.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 181
+ },
+ {
+  "file": "shots/044_poster.svg",
+  "kind": "poster",
+  "label": "活动海报 ph06",
+  "location": "活动海报 ph06/text",
+  "problem_type": "grid_off",
+  "description": "x=44 未对齐 8px 栅格",
+  "severity": "低",
+  "box": [
+   38.0,
+   0,
+   20,
+   20
+  ],
+  "extra": {},
+  "seq": 182
+ }
+]

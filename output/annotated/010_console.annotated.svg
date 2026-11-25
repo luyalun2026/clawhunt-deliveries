@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+<rect id="bg" x="0" y="0" width="900" height="560" fill="#FFFFFF" />
+<rect id="nav" x="0" y="0" width="900" height="56" fill="#1F5FBF" />
+<rect id="logo" x="16" y="12" width="96" height="32" fill="#FFFFFF" />
+<rect id="logo_mark" x="20" y="16" width="88" height="24" fill="#1F5FBF" />
+<text id="t0" x="32" y="100" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="12" fill="#1F2937">提交申请</text>
+<text id="t1" x="32" y="134" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="20" fill="#1F2937">提交申请</text>
+<text id="t2" x="32" y="176" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="14" fill="#1F2937">产业资源对接</text>
+<text id="t3" x="32" y="212" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="20" fill="#1F2937">预约参观</text>
+<text id="t4" x="32" y="254" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="32" fill="#1F2937" font-weight="700">产业资源对接</text>
+<text id="t5" x="32" y="308" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="12" fill="#1F2937">预约参观</text>
+<rect id="btn" x="32" y="470" width="140" height="40" rx="4" fill="#1F5FBF" />
+<text x="44" y="496" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="14" fill="#FFFFFF">查看详情</text>
+<rect id="icon1" x="820" y="72" width="28" height="28" fill="none" stroke="#1F2937" stroke-width="2" />
+<rect id="illustration" x="640" y="210" width="200" height="140" rx="6" fill="#EEF2F7" />
+<rect x="38.0" y="482.0" width="44" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="41" /><text x="38.0" y="478.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#41 contrast_low</text><rect x="38.0" y="0" width="20" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="42" /><text x="38.0" y="0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#42 grid_off</text></svg>

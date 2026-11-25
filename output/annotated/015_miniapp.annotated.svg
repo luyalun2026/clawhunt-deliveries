@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="375" height="600" viewBox="0 0 375 600">
+<rect id="bg" x="0" y="0" width="375" height="600" fill="#FFFFFF" />
+<rect id="nav" x="0" y="0" width="375" height="56" fill="#1F5FBF" />
+<rect id="logo" x="16" y="12" width="44" height="32" fill="#FFFFFF" />
+<rect id="logo_mark" x="20" y="16" width="36" height="24" fill="#1F5FBF" />
+<text id="t0" x="32" y="100" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="15" fill="#1F2937">查看详情</text>
+<text id="t1" x="32" y="137" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="32" fill="#1F2937" font-weight="700">预约参观</text>
+<text id="t2" x="32" y="191" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="32" fill="#1F2937" font-weight="700">提交申请</text>
+<text id="t3" x="32" y="245" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="16" fill="#1F2937">提交申请</text>
+<text id="t4" x="32" y="283" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="24" fill="#1F2937" font-weight="700">联系顾问</text>
+<rect id="btn" x="32" y="510" width="140" height="40" rx="4" fill="#1F5FBF" />
+<text x="44" y="536" font-family="'TCloud Sans', 'Microsoft YaHei', sans-serif" font-size="14" fill="#FFFFFF">查看详情</text>
+<rect id="icon1" x="295" y="72" width="28" height="28" fill="none" stroke="#1F2937" stroke-width="2" />
+<rect id="illustration" x="115" y="230" width="200" height="140" rx="6" fill="#EEF2F7" />
+<rect x="26.0" y="85.0" width="48" height="21" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="59" /><text x="26.0" y="81.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#59 font_size_hierarchy</text><rect x="38.0" y="522.0" width="44" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="60" /><text x="38.0" y="518.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#60 contrast_low</text><rect x="16.0" y="12.0" width="44.0" height="32.0" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="61" /><text x="16.0" y="8.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#61 logo_distorted</text><rect x="16.0" y="12.0" width="44.0" height="32.0" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="62" /><text x="16.0" y="8.0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#62 logo_too_small</text><rect x="38.0" y="0" width="20" height="20" fill="none" stroke="#E11D48" stroke-width="2.5" data-dev="63" /><text x="38.0" y="0" font-family="sans-serif" font-size="13" fill="#E11D48" font-weight="700">#63 grid_off</text></svg>

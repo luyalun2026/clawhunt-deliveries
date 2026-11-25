@@ -1,0 +1,26 @@
+{
+ "total_files": 44,
+ "total_deviations": 182,
+ "by_type": {
+  "font_size_hierarchy": 7,
+  "contrast_low": 55,
+  "color_out_of_palette": 29,
+  "grid_off": 50,
+  "illustration_palette": 8,
+  "font_family": 9,
+  "logo_distorted": 9,
+  "logo_too_small": 7,
+  "icon_stroke": 4,
+  "copy_tone": 4
+ },
+ "by_severity": {
+  "高": 64,
+  "中": 40,
+  "低": 78
+ },
+ "by_judgment": {
+  "执行偏差": 182,
+  "规范缺失": 0
+ },
+ "annotated_files": 44
+}
