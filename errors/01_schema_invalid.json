@@ -1,0 +1,63 @@
+{
+ "template_id": "membership_renewal_v1",
+ "name": null,
+ "version": "1.0",
+ "trigger": {
+  "event": "membership.expiring"
+ },
+ "output_form": {
+  "fields": [
+   {
+    "field": "contact_reached",
+    "type": "boolean",
+    "required": true
+   },
+   {
+    "field": "renewal_intent",
+    "type": "enum",
+    "options": [
+     "yes",
+     "no",
+     "later"
+    ],
+    "required": false
+   }
+  ]
+ },
+ "steps": [
+  {
+   "seq": 1,
+   "name": "电话回访",
+   "action": "拨打会员企业联系人电话",
+   "role_code": "service_agent",
+   "due_rule": "event.membership.expiring+3d",
+   "check_items": [
+    {
+     "text": "已确认联系人身份",
+     "must_pass": true
+    }
+   ]
+  },
+  {
+   "seq": 2,
+   "name": "续约报价",
+   "action": "发送续约方案与报价单",
+   "role_code": "cc_specialist",
+   "due_rule": "created_at+1d",
+   "depends_on": [
+    1
+   ],
+   "condition": {
+    "field": "contact_reached",
+    "op": "eq",
+    "value": true
+   }
+  }
+ ],
+ "assets": [
+  {
+   "kind": "knowledge",
+   "ref": "kb_renewal_playbook"
+  }
+ ]
+}

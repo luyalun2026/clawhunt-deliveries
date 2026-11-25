@@ -1,0 +1,19 @@
+{
+  "roles": [
+    {"code": "ops_manager", "name": "运营经理"},
+    {"code": "cc_specialist", "name": "招商专员"},
+    {"code": "service_agent", "name": "会员服务专员"},
+    {"code": "finance_clerk", "name": "财务专员"}
+  ],
+  "knowledge_docs": [
+    {"code": "kb_renewal_playbook", "name": "续约操作手册"},
+    {"code": "kb_refund_policy", "name": "退款政策"},
+    {"code": "kb_event_sop", "name": "活动执行手册"}
+  ],
+  "event_types": [
+    {"code": "membership.expiring", "name": "会籍即将到期"},
+    {"code": "signup.created", "name": "活动报名创建"},
+    {"code": "payment.received", "name": "收款到账"},
+    {"code": "complaint.opened", "name": "投诉工单创建"}
+  ]
+}
