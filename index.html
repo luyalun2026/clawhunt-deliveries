@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#2113 S6-BRAND-001 上线后品牌落地情况审计与偏差清单 · 交付包</title>
+<style>
+:root{--ink:#111827;--sub:#5b6577;--line:#e4e7ec;--bg:#f7f8fa;--card:#fff;--acc:#1f5fbf;--ok:#0f7a4a;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:940px;margin:0 auto;padding:44px 22px 72px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;color:var(--acc);border:1px solid #c9dcf5;background:#eef4fc;border-radius:999px;padding:3px 10px;margin-bottom:14px}
+h1{font-size:25px;margin:0 0 10px;line-height:1.45}
+h2{font-size:16px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lead{color:var(--sub);margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:20px;line-height:1.3}
+.kpi span{color:var(--sub);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#fafbfc;color:var(--sub);font-weight:600;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{font:13px/1.5 ui-monospace,Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:4px}
+.ok{color:var(--ok);font-weight:600}
+ul{padding-left:22px;margin:8px 0}
+li{margin:3px 0}
+.foot{margin-top:36px;color:var(--sub);font-size:12.5px}
+</style></head>
+<body><div class="wrap">
+<span class="tag">ClawHunt #2113 · 交付包</span>
+<h1>S6-BRAND-001 上线后品牌落地情况审计与偏差清单</h1>
+<p class="lead">可复现审计管线 + 44 张虚构界面/物料 SVG 演示语料：WCAG 2.1 对比度实测、8 类问题检查、红框标注副本、按章节归类修订建议（逐条回链偏差编号）。</p>
+<div class="kpis">
+  <div class="kpi"><b>7</b><span>测试通过</span></div>
+  <div class="kpi"><b>0</b><span>测试失败</span></div>
+  <div class="kpi"><b>9</b><span>交付文件</span></div>
+  <div class="kpi"><b>$99.00</b><span>投标金额</span></div>
+</div>
+
+<h2>验收标准逐条落点</h2>
+<table><thead><tr><th>验收项</th><th>证据（可复跑）</th><th>实测结论</th><th>状态</th></tr></thead>
+<tbody><tr><td>偏差覆盖 ≥40 处且要素齐全</td><td><code>test_ac1_at_least_40_samples_with_fields</code></td><td>实测 182 条：位置/问题类型/严重级别/标注框坐标逐条非空</td><td class='ok'>通过</td></tr><tr><td>对比度问题附实测值与工具名</td><td><code>test_ac2_contrast_records_have_tool_and_value</code></td><td>55 条 contrast_low，含 ratio/required/工具名，抽样复算一致</td><td class='ok'>通过</td></tr><tr><td>修订建议按章节归类且回链编号</td><td><code>test_ac3_revision_suggestions_link_ids</code></td><td>8 个章节全部出现，182 个偏差编号全部回链</td><td class='ok'>通过</td></tr></tbody></table>
+
+<h2>边界另测</h2>
+<ul><li>fill=none 元素跳过对比度计算</li><li>≥24px 按 3:1 判定</li><li>标注框负坐标/小尺寸钳制</li><li>规范未覆盖类型判「规范缺失」</li></ul>
+
+<h2>复现方法</h2>
+<pre><code>git clone --branch 2113 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+pip install -r requirements.txt
+python -m pytest tests -q</code></pre>
+
+<h2>交付文件与 SHA-256</h2>
+<table><thead><tr><th>文件</th><th>字节</th><th>SHA-256（前 16 位）</th></tr></thead>
+<tbody><tr><td><code>README.md</code></td><td>3,139</td><td><code>d4eb24a005630cf5…</code></td></tr><tr><td><code>audit/audit_runner.py</code></td><td>7,884</td><td><code>08c9f084901c0619…</code></td></tr><tr><td><code>audit/measure_contrast.py</code></td><td>1,558</td><td><code>60b3500cbd91fb96…</code></td></tr><tr><td><code>audit/annotate.py</code></td><td>1,721</td><td><code>ddbf6440be19f369…</code></td></tr><tr><td><code>audit/build_deviation_list.py</code></td><td>4,195</td><td><code>f71442c6619640c8…</code></td></tr><tr><td><code>audit/build_revision_suggestions.py</code></td><td>3,648</td><td><code>a2b0b0c6713e748b…</code></td></tr><tr><td><code>corpus/spec.yaml</code></td><td>844</td><td><code>c0a7b5c5d4c053d0…</code></td></tr><tr><td><code>output/deviation_list.xlsx</code></td><td>18,017</td><td><code>ea34ed3d01f67b0e…</code></td></tr><tr><td><code>output/revision_suggestions.md</code></td><td>2,639</td><td><code>0c1ef4f70b1aff05…</code></td></tr></tbody></table>
+
+<p class="foot">本页数字由 <code>_1125b_pages.py</code> 实跑 <code>python -m pytest</code> 与文件哈希自动生成，未手写；
+完整哈希见同目录 <code>SHA256SUMS</code>。数据全部虚构，不含客户名称与真实个人信息。</p>
+</div></body></html>
