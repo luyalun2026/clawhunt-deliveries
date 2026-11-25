@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#2206 S5-INTEL-017 情报分类标签体系定义与会员 CRM 标签映射 · 交付包</title>
+<style>
+:root{--ink:#111827;--sub:#5b6577;--line:#e4e7ec;--bg:#f7f8fa;--card:#fff;--acc:#1f5fbf;--ok:#0f7a4a;--warn:#b45309}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+.wrap{max-width:940px;margin:0 auto;padding:44px 22px 72px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.08em;color:var(--acc);border:1px solid #c9dcf5;background:#eef4fc;border-radius:999px;padding:3px 10px;margin-bottom:14px}
+h1{font-size:25px;margin:0 0 10px;line-height:1.45}
+h2{font-size:16px;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.lead{color:var(--sub);margin:0 0 22px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 6px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:20px;line-height:1.3}
+.kpi span{color:var(--sub);font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#fafbfc;color:var(--sub);font-weight:600;font-size:12.5px}
+tr:last-child td{border-bottom:none}
+code{font:13px/1.5 ui-monospace,Consolas,monospace;background:#f3f4f6;padding:1px 5px;border-radius:4px}
+.ok{color:var(--ok);font-weight:600}
+ul{padding-left:22px;margin:8px 0}
+li{margin:3px 0}
+.foot{margin-top:36px;color:var(--sub);font-size:12.5px}
+</style></head>
+<body><div class="wrap">
+<span class="tag">ClawHunt #2206 · 交付包</span>
+<h1>S5-INTEL-017 情报分类标签体系定义与会员 CRM 标签映射</h1>
+<p class="lead">5 维度 40 标签 YAML 种子（policy_type 10 / industry 14 / qualification 8 / region 4 / company_size 4），幂等导入 + 校验脚本 + CRM 映射表与 missing 待确认清单。</p>
+<div class="kpis">
+  <div class="kpi"><b>6</b><span>测试通过</span></div>
+  <div class="kpi"><b>0</b><span>测试失败</span></div>
+  <div class="kpi"><b>6</b><span>交付文件</span></div>
+  <div class="kpi"><b>$81.00</b><span>投标金额</span></div>
+</div>
+
+<h2>验收标准逐条落点</h2>
+<table><thead><tr><th>验收项</th><th>证据（可复跑）</th><th>实测结论</th><th>状态</th></tr></thead>
+<tbody><tr><td>维度计数达标</td><td><code>test_ac1_dimension_counts</code></td><td>5 维度：10/14/8/4/4，industry ≥12、qualification ≥6</td><td class='ok'>通过</td></tr><tr><td>重复导入无重复记录</td><td><code>test_ac2_idempotent_import</code></td><td>CLI 实跑两次 inserted=40 total_after=40，计数不变</td><td class='ok'>通过</td></tr><tr><td>每标签定义与正反示例齐全</td><td><code>test_ac3_validate_script</code></td><td>40/40 校验全通过；残缺种子（51 字定义/正例缺条）退出码非 0</td><td class='ok'>通过</td></tr><tr><td>映射表 + 缺失项单列</td><td><code>test_ac4_mapping_and_missing</code></td><td>12 项映射入文档，2 项（agriculture/culture_tourism）missing 待确认</td><td class='ok'>通过</td></tr></tbody></table>
+
+<h2>边界另测</h2>
+<ul><li>重复 code 导入拒绝</li><li>定义超 50 字拦截</li><li>反例缺失拦截</li><li>大小写不一致按 normalize 规则标注</li></ul>
+
+<h2>复现方法</h2>
+<pre><code>git clone --branch 2206 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+pip install -r requirements.txt
+python -m pytest tests -q</code></pre>
+
+<h2>交付文件与 SHA-256</h2>
+<table><thead><tr><th>文件</th><th>字节</th><th>SHA-256（前 16 位）</th></tr></thead>
+<tbody><tr><td><code>README.md</code></td><td>1,760</td><td><code>9d785a1e998be0f5…</code></td></tr><tr><td><code>seed/intel_tags.yaml</code></td><td>10,279</td><td><code>0b45c266cd9cb766…</code></td></tr><tr><td><code>tools/import_tags.py</code></td><td>3,317</td><td><code>81f31edced30b146…</code></td></tr><tr><td><code>tools/validate_tags.py</code></td><td>1,521</td><td><code>2417f032df8c90c2…</code></td></tr><tr><td><code>docs/crm_mapping.md</code></td><td>1,484</td><td><code>6abe4d8070a0bbc5…</code></td></tr><tr><td><code>tests/test_intel_tags.py</code></td><td>4,157</td><td><code>8239a076daddda40…</code></td></tr></tbody></table>
+
+<p class="foot">本页数字由 <code>_1125b_pages.py</code> 实跑 <code>python -m pytest</code> 与文件哈希自动生成，未手写；
+完整哈希见同目录 <code>SHA256SUMS</code>。数据全部虚构，不含客户名称与真实个人信息。</p>
+</div></body></html>
