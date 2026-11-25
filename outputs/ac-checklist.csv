@@ -1,5 +1,0 @@
-﻿验收项,要求,实测,结论
-AC1,12 个月季付：租金 4 期 / 会籍 4 期 / 押金 1 期，逐分相等,租金 4 期 Σ=1200000（合同 1200000）；会籍 4 期 Σ=360000（合同 360000）；押金 1 期 Σ=50000,PASS
-AC2,hypothesis 随机 200 份合同 Σ分期==总额,max_examples=200，pytest 11 通过 / 失败 0,PASS
-AC3,同一事件重复投递 3 次只生成 1 个计划,"created_flags=[True, False, False]，store 内 active 计划 1 个",PASS
-AC4,金额模块无 float 运算,AST 扫描违规 0 处（exit 0）,PASS
