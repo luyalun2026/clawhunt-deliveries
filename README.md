@@ -1,41 +1,41 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S4-E2E-026 · 闭环四：小程序行为回流后的会员画像与月活核对（交付页）
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+pytest + httpx 全绿；互动卡片截图由 headless 浏览器实拍，6 项计数可见。
 
-## 验收标准逐条对应
+## 运行方法
+
+```bash
+python seed.py --scenario loop4     # 构造场景数据（幂等，自动重置）
+python -m pytest tests/ -q          # 9 例：AC1–AC4 + 5 个边界用例
+python screenshot_card.py           # 生成 card.html + screenshots/interaction_card.png
+```
+
+## 有效互动定义（AC4 口径，与 `loop4_common.INTERACTION_TYPES` 同源）
+
+**认证、发布需求、报名、签到、提问**（不含纯浏览 browse）。
+月活跃会员企业 = 当月有 ≥1 条有效互动会员的企业；分子 = 此类企业数，分母 = 在册企业数。
+软删除会员的互动不计；跨月互动不计当月；重复签到（同会员同活动）按唯一约束去重计 1。
+
+## 验收标准对应
 
 | # | 验收标准 | 结果 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | 6 项计数与构造数据一致 | ✅ 认证1/需求1/报名2/签到1/提问3/转人工1，期望值与 seed 同源（`loop4_common.EXPECTED_COUNTS`） | `artifacts/pytest.txt` |
+| 2 | 只浏览对照企业不计月活 | ✅ 分子含 ent-A-0001、不含 ent-B-0002 | `artifacts/pytest.txt` |
+| 3 | 卡片截图可见 6 项计数 | ✅ `screenshots/interaction_card.png`；生成脚本内断言 HTML 六项计数文本与实跑结果逐项一致后才落盘 | `artifacts/card_data.json` |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+## 场景数据（seed.py 单一来源）
 
-## 算法要点
+- 企业 A：会员 U1 —— 认证 1、需求 1、报名 2 场（签到 1 场）、提问 3（转人工 1）；
+- 企业 B：会员 U2 只浏览（对照，不计月活）；
+- 边界数据：U1 纯浏览 1 条、上月需求 1 条、软删除会员互动 1 条、U1 重复签到 1 条（被去重）。
 
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+## 边界用例（tests 内）
 
-## 运行
+重复签到去重 · 跨月不计 · 软删除会员不计 · 无 token 401（画像与驾驶舱接口）· 空数据集计数全 0、占比 0。
 
-```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
-```
+## 桩与对接点
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+`stub_app.py` 按 S2-CRM / S3-DASH / S3-TRK 契约先行提供
+`GET /api/crm/members/{id}/portrait`、`GET /api/dash/mau`、`GET /api/track/interactions`
+（Bearer 鉴权，SQLite 持久化，生产替换仅改 base_url 与数据库连接串，PG16 对接点即 SQLAlchemy/psycopg 常规替换）。

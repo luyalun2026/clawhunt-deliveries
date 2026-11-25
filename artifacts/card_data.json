@@ -1,0 +1,16 @@
+{
+ "counts": {
+  "认证联系人数": 1,
+  "发布需求数": 1,
+  "报名数": 2,
+  "签到数": 1,
+  "提问数": 3,
+  "转人工数": 1
+ },
+ "enterprise": "ent-A-0001",
+ "active_enterprises": [
+  "ent-A-0001"
+ ],
+ "card_html": "card.html",
+ "screenshot": "interaction_card.png"
+}
