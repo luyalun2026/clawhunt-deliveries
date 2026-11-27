@@ -1,7 +1,7 @@
 # S5-DOC-010 · llm_extract 大模型字段抽取服务（分组提示词与 JSON Schema 约束）
 
 > 会员空间平台 · Stage v AI 辅助工具 · 文档自动化
-> 交付形态：单文件核心模块 + mock 接口 + pytest 套件（12 用例全过，零失败）
+> 交付形态：单文件核心模块 + mock 接口 + pytest 套件（17 用例全过，零失败）
 
 ## 一、验收标准逐条对应
 
@@ -18,7 +18,7 @@
 
 ```bash
 pip install pytest
-python -m pytest tests/ -v          # 12 passed
+python -m pytest tests/ -v          # 17 passed
 ```
 
 ## 三、模块说明
@@ -43,4 +43,4 @@ python -m pytest tests/ -v          # 12 passed
 
 ## 四、测试结果
 
-见 `outputs/pytest_main.txt`（12 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取，零手写）、`SHA256SUMS`（全部交付文件哈希）。
+见 `outputs/pytest_main.txt`（17 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取，零手写）、`SHA256SUMS`（全部交付文件哈希）。

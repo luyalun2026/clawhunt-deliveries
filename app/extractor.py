@@ -144,7 +144,8 @@ def extract_group(
 
     structure: 完整字段结构定义（组名 -> 字段名 -> 说明），用于渲染提示词。
     llm: OpenAI 兼容客户端（测试注入 mock；生产由 DOC_LLM_BASE_URL/DOC_LLM_MODEL 构造）。
-    每块独立重试（1 + JSON_RETRY_TIMES 次调用）；全部块解析失败才整组 llm_failed。
+    每块独立重试（1 + JSON_RETRY_TIMES 次调用）；
+    任一块连续 3 次解析失败即整组 llm_failed 交人工（严格贴合 AC2）。
     """
     if field_group not in FIELD_GROUPS:
         raise KeyError(f"unknown field_group: {field_group}")
@@ -168,7 +169,14 @@ def extract_group(
                 store.mark_last_ok()
                 break
         if parsed is None:
-            continue          # 该块 3 次均失败，交由其他块候选；全失败则整组 llm_failed
+            # 连续 3 次非法 JSON（1 初始 + 2 重试）：立即整组 llm_failed 交人工，
+            # 严格贴合 AC2 字面（不依赖"所有块都失败"）。审计日志已记录 3 条 attempt。
+            for fname in group_fields:
+                fr = FieldResult(llm_failed=True)
+                fr.not_found = True
+                result.fields[fname] = fr
+            result.llm_failed = True
+            return result
         ok_chunks += 1
         items = parsed.get("fields") or {}
         for fname in group_fields:
