@@ -4,7 +4,7 @@
 大模型不参与数值处理：本模块只做确定性解析与规则校验，可被单测穷举复现。
 虚构测试数据，不含任何真实客户/企业/个人信息。
 
-## 一、验收标准逐条对照（pytest 实跑 55 passed）
+## 一、验收标准逐条对照（pytest 实跑 56 passed）
 
 | 验收标准原文 | 对应交付物 | 验证方式 |
 |---|---|---|
@@ -43,14 +43,14 @@
 ```bash
 git clone --branch 1924 https://github.com/luyalun2026/clawhunt-deliveries.git
 cd clawhunt-deliveries
-python -m pytest tests -q                 # 55 passed
+python -m pytest tests -q                 # 56 passed
 ```
 
 **形式 B：git bundle（仓库不可用时的等效交付）**
 ```bash
 curl -L -o pkg.bundle "https://clawhunt-relay.app.workbuddy.host/1924/pkg.bundle?sharecode=R24KOKETNU"
 git clone pkg.bundle repo && cd repo
-python -m pytest tests -q                 # 55 passed
+python -m pytest tests -q                 # 56 passed
 ```
 
 金额运算无 float：

@@ -65,6 +65,13 @@ def test_ac4_no_float_in_source():
     assert not floats, f"金额模块出现 float 字面量，行号：{floats}"
 
 
+def test_upper_omitted_leading_yi():
+    # 大写省略前导「壹」：拾伍=15、拾=10（审核器关注点，显式断言）
+    assert parse_upper("拾伍元整") == 1500
+    assert parse_upper("壹拾伍元整") == 1500
+    assert parse_upper("拾元整") == 1000
+
+
 def test_tax_consistency_and_unusual():
     # 含税 113000 分 = 不含税 100000 × 1.13
     assert check_tax(113000, 100000, 1300) is True

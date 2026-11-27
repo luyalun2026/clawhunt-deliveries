@@ -15,7 +15,9 @@ from typing import Optional
 _DIGIT = {"零": 0, "壹": 1, "贰": 2, "叁": 3, "肆": 4,
           "伍": 5, "陆": 6, "柒": 7, "捌": 8, "玖": 9}
 _UNIT = {"拾": 10, "佰": 100, "仟": 1000}
-_SECTION = {"万": 10 ** 4, "亿": 10 ** 8}
+_WAN = 10000          # 万：用整数字面量，避免幂运算被误读为浮点
+_YI = 100000000       # 亿
+_SECTION = {"万": _WAN, "亿": _YI}
 _CURRENCY = "¥￥＄$"
 _ALLOWED_RATE_BP = {0, 100, 300, 600, 900, 1300}  # 0/1/3/6/9/13%
 
@@ -43,9 +45,9 @@ def parse_lower(text: str) -> Optional[int]:
         s = s[:-1]
     mult = 1
     if s.endswith("万"):
-        mult, s = 10 ** 4, s[:-1]
+        mult, s = _WAN, s[:-1]
     elif s.endswith("千"):
-        mult, s = 10 ** 3, s[:-1]
+        mult, s = 1000, s[:-1]
     try:
         fen = _to_fen(Decimal(s) * mult)
     except Exception:
@@ -62,9 +64,9 @@ def _cn_int(seg: str) -> int:
         if ch in _DIGIT:
             number = _DIGIT[ch]
         elif ch in _UNIT:
-            if number == 0:       # 「拾伍」= 15，省略前导壹
-                number = 1
-            section += number * _UNIT[ch]
+            # 单位前的数字：若无则隐含「壹」。「拾伍」→ 拾用 1、伍留给下一位数字。
+            coefficient = number if number != 0 else 1
+            section += coefficient * _UNIT[ch]
             number = 0
         elif ch in _SECTION:
             section += number
