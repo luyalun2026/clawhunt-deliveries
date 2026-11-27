@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>S4-FIN-002 签约事件分期算法与尾差处理</title>
+<title>S5-DOC-010 · llm_extract 大模型字段抽取服务</title>
 <style>
 :root{--ink:#111827;--sub:#5b6472;--line:#e5e7eb;--acc:#1f3864;--bg:#fbfcfe}
 *{box-sizing:border-box}
@@ -17,94 +17,40 @@ h2{font-size:18px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var
 table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
 th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 th{background:#eef2f9;font-weight:600}
-ul{padding-left:22px}li{margin:4px 0}
+ul{padding-left:22px}li{margin:6px 0}
 a{color:var(--acc)}
 .meta{color:var(--sub);font-size:12px}
 .note{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;color:var(--sub);font-size:13px}
-code{background:#eef2f9;padding:1px 5px;border-radius:4px;font-size:13px}
 </style></head><body><div class="wrap">
-<h1>#2856 · 签约事件生成回款计划：分期算法与尾差处理（S4-FIN-002）</h1>
-<p class="sub">整数分 + Decimal 全程无 float · 尾期按天折算 + 尾差归最后一期 · hypothesis 200 例属性测试 · 幂等双重防护</p>
-
+<h1>llm_extract 大模型字段抽取服务（S5-DOC-010）</h1>
+<p class="sub">分组提示词 + JSON Schema 约束 + quote 回查（12 passed / 0 failed）</p>
 <div class="kpi">
-<div class="card"><b>11</b><span>pytest 通过 / 失败 0</span></div>
-<div class="card"><b>200</b><span>hypothesis 随机合同全过</span></div>
-<div class="card"><b>10/10</b><span>样例合同黄金文件一致</span></div>
-<div class="card"><b>0</b><span>float 违规（AST 检查）</span></div>
+<div class="card"><b>12</b><span>用例通过</span></div>
+<div class="card"><b>0</b><span>失败</span></div>
+<div class="card"><b>5</b><span>字段分组模板</span></div>
+<div class="card"><b>300</b><span>相邻块重叠字数</span></div>
 </div>
-
-<h2>交付文件（浏览器可直接打开）</h2><ul>
-<li><a href="schedule.py">schedule.py</a> <span class="meta">sha256:fb251344f6f71bdc · 8999 bytes</span></li>
-<li><a href="reference.py">reference.py</a> <span class="meta">sha256:40983799ea7ccaae · 2841 bytes</span></li>
-<li><a href="check_no_float.py">check_no_float.py</a> <span class="meta">sha256:b360b9cc0fb8b6ae · 2516 bytes</span></li>
-<li><a href="make_samples.py">make_samples.py</a> <span class="meta">sha256:e488e9ef29ea13b2 · 5897 bytes</span></li>
-<li><a href="verify.py">verify.py</a> <span class="meta">sha256:f346cff0b34ddd9b · 19865 bytes</span></li>
-<li><a href="README.md">README.md</a> <span class="meta">sha256:6c73193e100c9985 · 2362 bytes</span></li>
-<li><a href="tests/test_schedule.py">tests/test_schedule.py</a> <span class="meta">sha256:92a74cc3f95f030e · 9246 bytes</span></li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> <span class="meta">sha256:65ccc87a7d8c0acc · 1396 bytes</span></li>
-<li><a href="evidence/samples_run.txt">evidence/samples_run.txt</a> <span class="meta">sha256:a7478c1420c9db1f · 1008 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.json">sample_contracts/01_12m_quarter_tail.json</a> <span class="meta">sha256:bed31f08e2e5614e · 444 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.expected.json">sample_contracts/01_12m_quarter_tail.expected.json</a> <span class="meta">sha256:753d24b53d6202b7 · 1957 bytes</span></li>
-</ul>
-
-<h2>验收标准逐条对应（实测）</h2>
-<table><thead><tr><th>验收标准</th><th>实测</th><th>结论</th></tr></thead><tbody>
-<tr><td>① 12 个月季付：租金 4 期、会籍 4 期、押金 1 期，逐分相等</td>
-<td>租金 4 期 Σ=1,200,000（合同 1,200,000）；会籍 4 期 Σ=360,000（合同 360,000）；押金 1 期 50,000，到期 2026-01-01</td>
-<td>✅ PASS</td></tr>
-<tr><td>② hypothesis 随机 200 份合同（含尾期折算），Σ分期==总额</td>
-<td>max_examples=200，pytest 11 passed / 0 failed（2.02s，hypothesis 6.170.15）</td>
-<td>✅ PASS</td></tr>
-<tr><td>③ 同一事件重复投递 3 次只生成 1 个计划</td>
-<td>投递 3 次 created=[True, False, False]；store 内 active 计划 1 个</td>
-<td>✅ PASS</td></tr>
-<tr><td>④ 金额计算模块中没有 float 运算</td>
-<td>AST 扫描违规 0 处（退出码 0）；检查器对违规样本正确报警（test_no_float_checker_detects_violation）</td>
-<td>✅ PASS</td></tr>
-<tr><td>附：10 份样例合同与期望分期黄金文件逐字段一致</td>
-<td>10/10 份一致，Σ分期==总额 True</td>
-<td>✅ PASS</td></tr>
-</tbody></table>
-
-<h2>10 份样例合同（合同总额单位：分）</h2>
-<table><thead><tr><th>样例</th><th>付款周期</th><th>分期数</th><th>合同总额（分）</th><th>Σ分期==总额</th><th>黄金文件一致</th></tr></thead>
-<tbody>
-<tr><td>01_12m_quarter_tail</td><td>quarter</td><td>9</td><td>1,610,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>02_12m_month_exact</td><td>month</td><td>13</td><td>1,220,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>03_10m_quarter_tail</td><td>quarter</td><td>4</td><td>1,001,918</td><td>✅</td><td>✅</td></tr>
-<tr><td>04_24m_year_multi</td><td>year</td><td>5</td><td>3,100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>05_6m_half_year</td><td>half_year</td><td>2</td><td>530,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>06_8m_month_tail</td><td>month</td><td>17</td><td>815,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>07_36m_quarter_multi</td><td>quarter</td><td>13</td><td>3,080,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>08_1m_month_min</td><td>month</td><td>1</td><td>100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>09_18m_half_year_tail</td><td>half_year</td><td>5</td><td>1,513,425</td><td>✅</td><td>✅</td></tr>
-<tr><td>10_20m_month_tail</td><td>month</td><td>43</td><td>3,133,973</td><td>✅</td><td>✅</td></tr>
-</tbody></table>
-
-<h2>算法要点</h2>
+<h2>验收标准对照</h2>
+<table>
+<tr><th>#</th><th>验收标准</th><th>实现位置</th><th>测试</th></tr>
+<tr><td>1</td><td>quote 不在原文 → quote_not_found 且 value 空</td><td>extractor._merge_candidates + quote_backcheck（精确→NFKC 归一化）</td><td>test_ac1_quote_not_in_source_marked ✅</td></tr>
+<tr><td>2</td><td>连续 3 次非法 JSON → 整组 llm_failed</td><td>extract_group 重试 2 次（共 3 次调用），调用日志恰 3 条</td><td>test_ac2_three_bad_json_marks_llm_failed ✅</td></tr>
+<tr><td>3</td><td>20000 字长合同切块、相邻块重叠恰 300 字</td><td>chunk_text(size=6000, step=5700)</td><td>test_ac3_chunk_overlap_exact_300 ✅</td></tr>
+<tr><td>4</td><td>每次调用记录 prompt_version 与模型名可查</td><td>store.CallLogStore（llm_call_log 表）</td><td>test_ac4_call_log_records_version_and_model ✅</td></tr>
+</table>
+<h2>设计要点</h2>
 <ul>
-<li>整期金额 = 周期金额原值（整数分，不做除法）；尾期日金额 = 月金额 × 12 ÷ 365（Decimal，ROUND_HALF_UP 到分）。</li>
-<li>尾差 = 该费用类型总额 − Σ整期 − 尾期折算值，计入该类型最后一期 → 每个费用类型逐分相等。</li>
-<li>到期日：首期 = 首付款日；后续每期 = 周期开始日 − <code>advance_days</code>；押金独立 1 行，到期日 = 首付款日。</li>
-<li>多年合同输出 <code>first_year_amount_cents</code>（起始 12 个月内开始的周期的分期之和）。</li>
-<li>幂等：<code>PlanStore</code> 以 <code>source_event_id</code> 唯一 + 同合同仅一个 active 计划双重防护；生产替换为 PostgreSQL 唯一索引 / 部分唯一索引，接口不变。</li>
+<li>模型只做定位与抄录：金额数值由程序 parse_amounts 从原文解析，AI 不计算金额。</li>
+<li>quote 必须为原文连续片段（4–200 字），精确匹配失败后走归一化匹配（NFKC 全半角统一 + 去空白）回查，回查失败丢弃 value 并标记 quote_not_found。</li>
+<li>同字段多块候选合并：取「quote 可回查且 confidence_self 最高」者。</li>
+<li>抽取结果全部进入人工复核队列 build_review_queue（needs_human_review=True），不直接对外发送。</li>
+<li>prompt_version 规则：Schema/字段集变化 +1 主版本；措辞调整 +0.1；每次调用入库可审计。</li>
+<li>测试样例全部为虚构合同文本，不含真实个人或企业信息。</li>
 </ul>
-
-<h2>复现命令</h2>
-<div class="note">
-python -m pytest tests/ -v &nbsp;→&nbsp; 11 passed in 2.02s<br>
-python check_no_float.py schedule.py &nbsp;→&nbsp; 违规 0 处，退出码 0<br>
-python make_samples.py &nbsp;→&nbsp; 重算 10 份样例与期望分期<br>
-python verify.py &nbsp;→&nbsp; 重跑全部检查并重写 <a href="outputs/verify.json">outputs/verify.json</a>
-</div>
-
-<h2>证据文件</h2>
+<h2>交付文件清单</h2>
 <ul>
-<li><a href="outputs/verification-run.txt">outputs/verification-run.txt</a> — 五段式验证记录（pytest 逐条 / 样例 / 幂等 / 无 float / AC1 明细）</li>
-<li><a href="outputs/verify.json">outputs/verify.json</a> — 实测数字唯一来源，本页所有数字由它自动回填</li>
-<li><a href="outputs/ac-checklist.csv">outputs/ac-checklist.csv</a> — 验收项逐条实测表</li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> · <a href="evidence/samples_run.txt">evidence/samples_run.txt</a></li>
+<li><a href="README.md">README.md</a> <span class="meta">sha256:ed9be969ab2643eb · 3335 bytes</span><br><span class="meta">运行方法、验收逐条对应表、prompt_version 规则与对接点</span></li><li><a href="app/extractor.py">app/extractor.py</a> <span class="meta">sha256:e910fb580bf8048c · 7972 bytes</span><br><span class="meta">核心：切块 6000/重叠 300、quote 回查（精确+归一化）、候选合并、重试 llm_failed、程序金额解析</span></li><li><a href="app/prompts.py">app/prompts.py</a> <span class="meta">sha256:71425e6479c7ca7d · 3212 bytes</span><br><span class="meta">5 组提示词模板与 prompt_version 版本管理</span></li><li><a href="app/schema.json">app/schema.json</a> <span class="meta">sha256:ff2fbc7ca6cbab49 · 684 bytes</span><br><span class="meta">输出 JSON Schema（value/quote/confidence_self）</span></li><li><a href="app/mock_llm.py">app/mock_llm.py</a> <span class="meta">sha256:9f155b8646cc11a3 · 2042 bytes</span><br><span class="meta">MockLLM 可编程 mock + DocLlmClient 生产形态（OpenAI 兼容，环境变量）</span></li><li><a href="app/store.py">app/store.py</a> <span class="meta">sha256:440c54d26dad4c76 · 2415 bytes</span><br><span class="meta">调用日志 SQLite（生产替换 PostgreSQL llm_call_log）</span></li><li><a href="tests/test_extract.py">tests/test_extract.py</a> <span class="meta">sha256:b973f1298e90c81f · 7597 bytes</span><br><span class="meta">12 用例：AC1-4 逐条 + 8 条边界补充</span></li><li><a href="SHA256SUMS">SHA256SUMS</a> <span class="meta">sha256:eea35e3d020d6c40 · 577 bytes</span><br><span class="meta">全部交付文件 sha256 清单</span></li><li><a href="outputs/pytest_main.txt">outputs/pytest_main.txt</a> <span class="meta">sha256:b5baab2efaa4db49 · 1498 bytes</span><br><span class="meta">pytest 完整转录：12 passed / 0 failed</span></li><li><a href="outputs/verify.json">outputs/verify.json</a> <span class="meta">sha256:c1e2eb027607863d · 782 bytes</span><br><span class="meta">机器生成验证摘要（数字自动提取，零手写）</span></li>
 </ul>
-
-<p class="meta">生成时间 2026-11-18 18:20:40 · Python 3.13.14 · 全部数据为虚构样例，不含任何真实客户或个人信息 · 未引入任何向境外发送数据的第三方 SDK</p>
+<p class="note">运行：<code>pip install pytest && python -m pytest tests/ -v</code>（12 passed）。生产替换点：DOC_LLM_BASE_URL / DOC_LLM_MODEL 环境变量、PostgreSQL llm_call_log、复核队列对接 S5。</p>
+<p class="meta">交付包生成于 2026-11-21 · 数字均由 pytest 输出与文件系统自动提取，零手写。</p>
 </div></body></html>

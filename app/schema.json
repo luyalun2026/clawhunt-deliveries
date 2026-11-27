@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "llm_extract field output",
+  "type": "object",
+  "required": ["fields"],
+  "properties": {
+    "fields": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["value", "quote", "confidence_self"],
+          "properties": {
+            "value": {"type": ["string", "null"]},
+            "quote": {"type": "string", "minLength": 4, "maxLength": 200},
+            "confidence_self": {"type": "number", "minimum": 0, "maximum": 1}
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}

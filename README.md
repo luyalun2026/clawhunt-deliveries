@@ -1,41 +1,46 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S5-DOC-010 · llm_extract 大模型字段抽取服务（分组提示词与 JSON Schema 约束）
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+> 会员空间平台 · Stage v AI 辅助工具 · 文档自动化
+> 交付形态：单文件核心模块 + mock 接口 + pytest 套件（12 用例全过，零失败）
 
-## 验收标准逐条对应
+## 一、验收标准逐条对应
 
-| # | 验收标准 | 结果 | 证据 |
+| # | 验收标准 | 实现 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | mock 返回不存在于原文的 quote → 标记 quote_not_found 且 value 为空 | `extractor._merge_candidates`：候选先过 `quote_backcheck`（精确匹配 → NFKC 归一化匹配），全部失败则 `quote_not_found=True` 并丢弃 value | `test_ac1_quote_not_in_source_marked` ✅ |
+| 2 | mock 连续 3 次返回非法 JSON → 整组 llm_failed | `extract_group`：1 + JSON_RETRY_TIMES(2) 次调用全失败 → 组内每字段 `llm_failed=True`，调用日志恰好 3 条 | `test_ac2_three_bad_json_marks_llm_failed` ✅ |
+| 3 | 20000 字虚构长合同切块、相邻块重叠恰 300 字 | `chunk_text`：size=6000、step=5700，逐对断言重叠 300 字且内容一致 | `test_ac3_chunk_overlap_exact_300` ✅ |
+| 4 | 每次调用记录 prompt_version 与模型名，可在库中查到 | `store.CallLogStore`（SQLite，生产替换为 PostgreSQL 表 `llm_call_log`）：每次调用一行，含 field_group/prompt_version/model/attempt/parse_ok | `test_ac4_call_log_records_version_and_model` ✅ |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+补充用例（8 条）：第 3 次重试成功不判失败、切块上限、quote 长度 4–200 边界、全半角+空白归一化匹配、多块合并取「可回查且置信度最高」、金额由程序解析（AI 不计算）、复核队列全行标记人工核对。
 
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 二、运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install pytest
+python -m pytest tests/ -v          # 12 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 三、模块说明
+
+- `app/extractor.py` — 核心：切块（6000/300 重叠）、分组抽取、quote 回查、候选合并、重试与 llm_failed、`parse_amounts`（程序解析金额）、`build_review_queue`（人工复核队列）。
+- `app/prompts.py` — 5 组提示词模板（主体信息/期限/金额与付款/权益/条款摘要），`PROMPT_VERSIONS` 版本管理。
+- `app/schema.json` — 输出 JSON Schema：每字段 `{value, quote(4–200字), confidence_self(0–1)}`。
+- `app/mock_llm.py` — `MockLLM`（可编程脚本 mock，测试用）与 `DocLlmClient`（OpenAI 兼容生产形态，`DOC_LLM_BASE_URL`/`DOC_LLM_MODEL` 环境变量，禁止境外接口）。
+- `app/store.py` — 调用日志，每次调用记录 prompt_version 与模型名，可查询。
+
+### prompt_version 规则
+- 主版本 +1：字段集合或输出 Schema 变化；次版本 +0.1：措辞/示例调整。
+- 版本随每次调用写入 `llm_call_log`，审计可回溯。
+
+### 数据与保密
+全部测试样例为虚构合同文本，不含任何真实个人或企业信息。
+
+### 对接点（桩替换）
+- LLM 推理：`DocLlmClient`（环境变量 DOC_LLM_BASE_URL / DOC_LLM_MODEL）。
+- 调用日志存储：SQLite → PostgreSQL `llm_call_log`（字段见 store.py）。
+- 复核队列：`build_review_queue` 输出交给 S5 人工复核模块消费。
+
+## 四、测试结果
+
+见 `outputs/pytest_main.txt`（12 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取，零手写）、`SHA256SUMS`（全部交付文件哈希）。
