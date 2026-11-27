@@ -1,41 +1,33 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S5-DOC-013 · 含税与不含税金额、税率解析与大小写互校
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+## 交付内容
+- `app/amount.py`：解析与校验模块（纯函数，Decimal 转分整数，禁止 float）
+- `data/amount_fixtures.json`：50 条虚构金额写法夹具（小写 25 + 大写 25）
+- `tests/test_amount.py`：pytest 测试（AC1–AC4 + 边界）
+- `outputs/verify.json`：机器可读验证结果
 
-## 验收标准逐条对应
-
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
-
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
-
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
-
+## 运行与测试
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+python -m pytest tests -q
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## AC 对照
+| AC | 要求 | 实现 | 测试 |
+|---|---|---|---|
+| AC1 | 50 条夹具解析为期望分整数 | `parse_lower_amount` / `parse_upper_amount` | test_ac1_all_50_fixtures_parse_to_expected_fen |
+| AC2 | 大小写不一致输出 amount_case_mismatch | `check_and_reconcile` 规则1 | test_ac2_case_mismatch_flags_and_human_review |
+| AC3 | 只有含税+税率时不含税留空不推算 | 规则3 | test_ac3_two_items_no_inference |
+| AC4 | 无 float 参与金额运算 | AST 扫描浮点字面量/float() | test_ac4_no_float_in_amount_module |
+
+## 四条校验规则
+1. 同一金额大小写同时存在须一致，否则 `amount_case_mismatch` + 强制人工核对。
+2. 三项齐全校验 `含税 = 不含税 ×(1+税率)`，四舍五入到分、容差 ±1 分，否则 `tax_inconsistent`。
+3. 只出现两项时不自动推算第三项，第三项留空并提示补录。
+4. 税率不在 {0,1,3,6,9,13}% 时标记 `tax_rate_unusual`，交核对人确认。
+
+## 技术约定
+- 金额一律 `Decimal` 解析后转「分」整数（`ROUND_HALF_UP`），禁止 float。
+- 税率以 bp 存整数（1300 = 13%）。
+- 锚点词：价税合计 / 合同总金额（含税）/ 含税总价 / 不含税金额 / 税率 / 增值税。
+- 依赖：无。对接点：调用方传入条款/表格文本，返回结构化 `AmountResult`。
+- 样例金额全部虚构。
