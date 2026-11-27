@@ -24,4 +24,4 @@ tests/test_extract.py::test_doc_llm_client_auth_header PASSED            [ 88%]
 tests/test_extract.py::test_multichunk_extract_merges_across_chunks PASSED [ 94%]
 tests/test_extract.py::test_doc_llm_client_rejects_bad_base_url PASSED   [100%]
 
-============================= 17 passed in 1.72s ==============================
+============================= 17 passed in 1.57s ==============================

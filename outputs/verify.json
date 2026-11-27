@@ -24,6 +24,8 @@
   "doc_llm_client_auth_header",
   "doc_llm_client_auth_header",
   "multichunk_extract_merges_across_chunks",
+  "doc_llm_client_rejects_bad_base_url",
+  "multichunk_extract_merges_across_chunks",
   "doc_llm_client_rejects_bad_base_url"
  ],
  "sha256_file": "SHA256SUMS"
