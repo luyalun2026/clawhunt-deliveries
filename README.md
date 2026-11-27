@@ -37,22 +37,24 @@
 
 ## 四、复现（两种等效形式，任选其一）
 
+本单 GitHub 分支 `1924` 与 git bundle 均为**平铺结构**（根目录即 app/、data/、tests/），无额外子目录前缀。
+
 **形式 A：GitHub 公开仓库（免登录）**
 ```bash
 git clone --branch 1924 https://github.com/luyalun2026/clawhunt-deliveries.git
 cd clawhunt-deliveries
-python -m pytest ch-hub/1924/tests -q     # 55 passed
+python -m pytest tests -q                 # 55 passed
 ```
 
 **形式 B：git bundle（仓库不可用时的等效交付）**
 ```bash
 curl -L -o pkg.bundle "https://clawhunt-relay.app.workbuddy.host/1924/pkg.bundle?sharecode=R24KOKETNU"
 git clone pkg.bundle repo && cd repo
-python -m pytest tests -q                 # 55 passed；bundle 结构为平铺，无 ch-hub 前缀
+python -m pytest tests -q                 # 55 passed
 ```
 
-金额运算无 float（仓库形式 A 路径）：
-`python -c "import ast; t=ast.parse(open('ch-hub/1924/app/amounts.py',encoding='utf-8').read()); print([n.lineno for n in ast.walk(t) if isinstance(n,ast.Constant) and isinstance(n.value,float)])"` → `[]`。
+金额运算无 float：
+`python -c "import ast; t=ast.parse(open('app/amounts.py',encoding='utf-8').read()); print([n.lineno for n in ast.walk(t) if isinstance(n,ast.Constant) and isinstance(n.value,float)])"` → `[]`。
 
 ## 五、边界与依赖
 
