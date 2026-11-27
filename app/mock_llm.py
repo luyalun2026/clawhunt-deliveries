@@ -7,6 +7,7 @@
 from __future__ import annotations
 import json
 import os
+import urllib.parse
 import urllib.request
 from typing import List, Optional
 
@@ -42,6 +43,9 @@ class DocLlmClient:
             raise ValueError(
                 "DOC_LLM_BASE_URL 未配置：请设置环境变量 DOC_LLM_BASE_URL（私有化部署的 OpenAI 兼容地址）"
             )
+        parsed = urllib.parse.urlparse(self.base_url)
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            raise ValueError(f"DOC_LLM_BASE_URL 非法（须为 http/https 且含主机名）: {self.base_url}")
         self.model = model or os.environ.get("DOC_LLM_MODEL", "doc-llm")
         self.api_key = (api_key or os.environ.get("DOC_LLM_API_KEY", "") or "").strip()
 

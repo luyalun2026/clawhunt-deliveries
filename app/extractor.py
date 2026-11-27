@@ -140,50 +140,56 @@ def extract_group(
     store: CallLogStore,
     model: Optional[str] = None,
 ) -> GroupResult:
-    """对单个字段分组执行抽取。
+    """对单个字段分组执行抽取：切块 -> 逐块调用 -> 跨块合并。
 
     structure: 完整字段结构定义（组名 -> 字段名 -> 说明），用于渲染提示词。
     llm: OpenAI 兼容客户端（测试注入 mock；生产由 DOC_LLM_BASE_URL/DOC_LLM_MODEL 构造）。
+    每块独立重试（1 + JSON_RETRY_TIMES 次调用）；全部块解析失败才整组 llm_failed。
     """
     if field_group not in FIELD_GROUPS:
         raise KeyError(f"unknown field_group: {field_group}")
     model = model or "doc-llm-mock"
-    group_fields = FIELD_GROUPS[field_group]
-    prompt = render_prompt(field_group, structure, text)
+    group_fields = FIELD_GROUPS[field_group]["fields"]
 
     result = GroupResult(group=field_group)
-    parsed: Optional[Dict] = None
-    for attempt in range(1 + JSON_RETRY_TIMES):
-        raw = llm.chat(prompt, FIELD_GROUPS[field_group]["system"])
-        store.record(field_group=field_group, prompt_version=PROMPT_VERSIONS[field_group],
-                     model=model, attempt=attempt, ok=False)
-        parsed = _parse_model_json(raw)
-        if parsed is not None:
-            store.mark_last_ok()
-            break
-    if parsed is None:
-        for fname in group_fields["fields"]:
+    chunks = chunk_text(text)
+    sources = [c["text"] for c in chunks] or [text]
+    collected: Dict[str, List[Dict]] = {fname: [] for fname in group_fields}
+    ok_chunks = 0
+    for src in sources:
+        prompt = render_prompt(field_group, structure, src)
+        parsed: Optional[Dict] = None
+        for attempt in range(1 + JSON_RETRY_TIMES):
+            raw = llm.chat(prompt, FIELD_GROUPS[field_group]["system"])
+            store.record(field_group=field_group, prompt_version=PROMPT_VERSIONS[field_group],
+                         model=model, attempt=attempt, ok=False)
+            parsed = _parse_model_json(raw)
+            if parsed is not None:
+                store.mark_last_ok()
+                break
+        if parsed is None:
+            continue          # 该块 3 次均失败，交由其他块候选；全失败则整组 llm_failed
+        ok_chunks += 1
+        items = parsed.get("fields") or {}
+        for fname in group_fields:
+            raw_item = items.get(fname)
+            if isinstance(raw_item, dict):
+                raw_item = [raw_item]
+            if isinstance(raw_item, list):
+                collected[fname].extend(raw_item)
+
+    if ok_chunks == 0:
+        for fname in group_fields:
             fr = FieldResult(llm_failed=True)
             fr.not_found = True
             result.fields[fname] = fr
         result.llm_failed = True
         return result
 
-    items = parsed.get("fields") or {}
-    chunks = chunk_text(text)
-    sources = [c["text"] for c in chunks] or [text]
-    for fname in group_fields["fields"]:
-        cands = []
-        raw_item = items.get(fname)
-        if isinstance(raw_item, dict):
-            raw_item = [raw_item]
-        if isinstance(raw_item, list):
-            cands = raw_item
-        if not cands:
-            fr = FieldResult(not_found=True)
-        else:
-            fr = _merge_candidates(cands, text)
-        result.fields[fname] = fr
+    for fname in group_fields:
+        cands = collected[fname]
+        result.fields[fname] = (_merge_candidates(cands, text) if cands
+                                else FieldResult(not_found=True))
     return result
 
 

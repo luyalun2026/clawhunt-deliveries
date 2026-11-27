@@ -215,3 +215,32 @@ def test_doc_llm_client_auth_header():
     finally:
         if old is not None:
             os.environ["DOC_LLM_API_KEY"] = old
+
+
+def test_multichunk_extract_merges_across_chunks():
+    """逐块抽取：13000 字 -> 3 块，逐块调用（每块 1 次），跨块合并取可回查最高置信度。"""
+    filler = "这是虚构合同填充段落，用于构造超长文本测试。" * 20   # ~450 字
+    long_text = (filler * 15 + "总金额为人民币 12 万元（¥120000 元）。" + filler * 17)[:13000]
+    assert len(long_text) == 13000
+    ok_resp = MockLLM.ok({
+        "total_amount_quote": [{"value": "¥120000 元", "quote": "总金额为人民币 12 万元（¥120000 元）",
+                                "confidence_self": 0.97}],
+        "payment_terms_quote": [],
+    })
+    empty_resp = MockLLM.ok({})
+    store = CallLogStore()
+    llm = MockLLM([empty_resp, ok_resp, empty_resp])   # 中间块才含目标字段
+    res = extract_group(long_text, STRUCTURE, "amount_payment", llm, store)
+    assert res.llm_failed is False
+    assert res.fields["total_amount_quote"].value == "¥120000 元"
+    assert res.fields["total_amount_quote"].confidence_self == 0.97
+    assert len(llm.calls) == 3                          # 3 块各调用 1 次
+    assert len(store.calls_for_group("amount_payment")) == 3
+
+
+def test_doc_llm_client_rejects_bad_base_url():
+    """安全：BASE_URL 必须 http/https 且含主机名，防误配指向内部元数据路径。"""
+    from app.mock_llm import DocLlmClient
+    for bad in ["ftp://x", "not-a-url", "http://", "/admin/chat"]:
+        with pytest.raises(ValueError):
+            DocLlmClient(base_url=bad)
