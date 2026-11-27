@@ -1,41 +1,37 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S5-INTEL-012 · 发布日期解析与发布机构名称规范化
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+> 会员空间平台 · Stage v AI 辅助工具 · 情报采集规范化
+> 纯函数实现（仅标准库，零第三方依赖）· pytest 12 用例全过
 
-## 验收标准逐条对应
+## 一、验收标准逐条对应
 
-| # | 验收标准 | 结果 | 证据 |
+| # | 验收标准 | 实现 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | 40 条日期用例（含中文数字、缺年份、跨年）解析结果全部正确 | 27 条显式（ISO/中文/汉字数字/斜杠/点分隔）+ 9 条缺年份推断 + 5 条 meta/URL = 41 条，全部参数化断言 (date, confidence, source) | `test_ac1_40plus_date_cases_all_correct` ✅ |
+| 2 | 缺年份推断不会得到晚于抓取日期的日期（属性测试） | 固定种子随机 200 组 (月-日, 抓取日)，断言 `result <= fetched_at.date()`；跨年回退（12-31 对 1 月 5 日抓取 → 上一年） | `test_ac2_inferred_never_after_fetched` ✅ |
+| 3 | 找不到日期时返回空并标记 need_manual_date，而不是抓取日期 | 正文/meta（article:published_time、PubDate）/URL 三处皆无 → `(None, 0.0, "none")`，抓取日期只参与年份推断绝不替代值 | `test_ac3_not_found_marks_need_manual` ✅ |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+补充：汉字数字 〇/零 双写法与 十/二十/三十一 位权组合、闰年 02-29 推断年非闰年时宁缺勿错、全角半角归一化、非法输入（None/空串/乱码）不抛异常、机构 15 条用例（别名/部门后缀剥离/未命中回退来源名并标记 publisher_unverified）。
 
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 二、运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install pytest
+python -m pytest tests/ -v          # 12 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 三、模块说明
+
+- `app/normalize.py` — `normalize_date`（四级来源：body → meta → URL → none）、`normalize_publisher`（NFKC 归一化 → 部门后缀剥离 → 别名匹配 → 回退）、`_cn_to_digits`（汉字数字位权解析）。
+- `app/aliases.yaml` — 虚构机构别名字典示例（3 组标准名 + 7 别名）。
+- 置信度：显式年份 0.95 > meta 0.9 > URL 0.85 > 缺年份推断 0.6。
+
+### 缺年份推断规则
+推断年 = 抓取年；结果晚于抓取日则回退一年（source=body_inferred_year）。02-29 在非闰推断年直接 need_manual_date，绝不静默替代。
+
+### 数据与保密
+字典与用例全部为虚构名称，不含任何真实机构信息。
+
+## 四、测试结果
+
+见 `outputs/pytest_main.txt`（12 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取）、`SHA256SUMS`。

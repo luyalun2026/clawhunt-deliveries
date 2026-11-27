@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2197
+plugins: anyio-4.16.0, hypothesis-6.170.15
+collecting ... collected 12 items
+
+tests/test_normalize.py::test_ac1_40plus_date_cases_all_correct PASSED   [  8%]
+tests/test_normalize.py::test_ac1_chinese_digit_variants PASSED          [ 16%]
+tests/test_normalize.py::test_ac2_inferred_never_after_fetched PASSED    [ 25%]
+tests/test_normalize.py::test_ac2_cross_year_inference PASSED            [ 33%]
+tests/test_normalize.py::test_ac3_not_found_marks_need_manual PASSED     [ 41%]
+tests/test_normalize.py::test_ac3_fetched_at_never_substituted PASSED    [ 50%]
+tests/test_normalize.py::test_publisher_15_cases PASSED                  [ 58%]
+tests/test_normalize.py::test_publisher_unverified_fallback_uses_source PASSED [ 66%]
+tests/test_normalize.py::test_invalid_inputs_do_not_raise PASSED         [ 75%]
+tests/test_normalize.py::test_fullwidth_normalized PASSED                [ 83%]
+tests/test_normalize.py::test_explicit_future_date_returned_as_is PASSED [ 91%]
+tests/test_normalize.py::test_meta_preferred_only_after_body PASSED      [100%]
+
+============================= 12 passed in 1.15s ==============================
