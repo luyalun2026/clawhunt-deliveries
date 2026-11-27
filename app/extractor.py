@@ -144,8 +144,10 @@ def extract_group(
 
     structure: 完整字段结构定义（组名 -> 字段名 -> 说明），用于渲染提示词。
     llm: OpenAI 兼容客户端（测试注入 mock；生产由 DOC_LLM_BASE_URL/DOC_LLM_MODEL 构造）。
-    每块独立重试（1 + JSON_RETRY_TIMES 次调用）；
-    任一块连续 3 次解析失败即整组 llm_failed 交人工（严格贴合 AC2）。
+    每块独立重试（1 + JSON_RETRY_TIMES 次调用）。
+    AC2：连续 3 次非法 JSON 的块判为失败块；单块合同（或全部块失败）时整组 llm_failed。
+    AC3：多块合同时失败块跳过、成功块候选照常跨块合并（不丢弃有效字段），
+         失败块涉及的字段另标 llm_failed 交人工关注。
     """
     if field_group not in FIELD_GROUPS:
         raise KeyError(f"unknown field_group: {field_group}")
@@ -156,7 +158,7 @@ def extract_group(
     chunks = chunk_text(text)
     sources = [c["text"] for c in chunks] or [text]
     collected: Dict[str, List[Dict]] = {fname: [] for fname in group_fields}
-    ok_chunks = 0
+    failed_chunks = 0
     for src in sources:
         prompt = render_prompt(field_group, structure, src)
         parsed: Optional[Dict] = None
@@ -169,15 +171,9 @@ def extract_group(
                 store.mark_last_ok()
                 break
         if parsed is None:
-            # 连续 3 次非法 JSON（1 初始 + 2 重试）：立即整组 llm_failed 交人工，
-            # 严格贴合 AC2 字面（不依赖"所有块都失败"）。审计日志已记录 3 条 attempt。
-            for fname in group_fields:
-                fr = FieldResult(llm_failed=True)
-                fr.not_found = True
-                result.fields[fname] = fr
-            result.llm_failed = True
-            return result
-        ok_chunks += 1
+            # 连续 3 次非法 JSON（1 初始 + 2 重试）= 失败块，审计日志已记 3 条 attempt。
+            failed_chunks += 1
+            continue
         items = parsed.get("fields") or {}
         for fname in group_fields:
             raw_item = items.get(fname)
@@ -186,7 +182,8 @@ def extract_group(
             if isinstance(raw_item, list):
                 collected[fname].extend(raw_item)
 
-    if ok_chunks == 0:
+    # AC2：全部块失败（含单块合同 3 次非法 JSON）-> 整组 llm_failed 交人工。
+    if failed_chunks == len(sources):
         for fname in group_fields:
             fr = FieldResult(llm_failed=True)
             fr.not_found = True

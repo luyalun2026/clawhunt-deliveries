@@ -7,6 +7,7 @@
 from __future__ import annotations
 import json
 import os
+import urllib.error
 import urllib.parse
 import urllib.request
 from typing import List, Optional
@@ -64,6 +65,11 @@ class DocLlmClient:
         req = urllib.request.Request(
             self.base_url.rstrip("/") + "/chat/completions",
             data=body, headers=self._headers())
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            raise RuntimeError(f"模型接口 HTTP {e.code}") from e
+        except urllib.error.URLError as e:
+            raise RuntimeError(f"模型接口网络错误: {e.reason}") from e
         return data["choices"][0]["message"]["content"]
