@@ -1,24 +1,26 @@
 {
-  "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
-  "test_summary": {
-    "passed": 12,
-    "failed": 0,
-    "total": 12
-  },
-  "acceptance": {
-    "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
-    "AC2_llm_failed_after_3_bad_json": "test_ac2_three_bad_json_marks_llm_failed PASSED",
-    "AC3_20000char_overlap_300": "test_ac3_chunk_overlap_exact_300 PASSED",
-    "AC4_prompt_version_model_logged": "test_ac4_call_log_records_version_and_model PASSED"
-  },
-  "extras": [
-    "retry-then-success",
-    "chunk-max-size",
-    "quote-length-bounds",
-    "normalized-fullwidth-match",
-    "merge-highest-confidence",
-    "program-amount-parse",
-    "review-queue"
-  ],
-  "sha256_file": "SHA256SUMS"
+ "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
+ "test_summary": {
+  "passed": 14,
+  "failed": 0,
+  "total": 14
+ },
+ "acceptance": {
+  "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
+  "AC2_llm_failed_after_3_bad_json": "test_ac2_three_bad_json_marks_llm_failed PASSED",
+  "AC3_20000char_overlap_300": "test_ac3_chunk_overlap_exact_300 PASSED",
+  "AC4_prompt_version_model_logged": "test_ac4_call_log_records_version_and_model PASSED"
+ },
+ "extras": [
+  "retry-then-success",
+  "chunk-max-size",
+  "quote-length-bounds",
+  "normalized-fullwidth-match",
+  "merge-highest-confidence",
+  "program-amount-parse",
+  "review-queue",
+  "doc_llm_client_requires_base_url",
+  "sqlalchemy2_model_matches_ddl"
+ ],
+ "sha256_file": "SHA256SUMS"
 }

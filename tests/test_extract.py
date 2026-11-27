@@ -167,3 +167,36 @@ def test_review_queue_all_rows_flagged():
     results = extract_all(SAMPLE, STRUCTURE, llm, store)
     rows = build_review_queue(results)
     assert rows and all(r["needs_human_review"] for r in rows)
+
+
+def test_doc_llm_client_requires_base_url():
+    """安全加固：DOC_LLM_BASE_URL 未配置必须显式报错，不允许静默失败。"""
+    from app.mock_llm import DocLlmClient
+    old = os.environ.pop("DOC_LLM_BASE_URL", None)
+    try:
+        with pytest.raises(ValueError):
+            DocLlmClient()
+    finally:
+        if old is not None:
+            os.environ["DOC_LLM_BASE_URL"] = old
+
+
+def test_sqlalchemy_model_matches_sqlite_ddl():
+    """统一技术约定：llm_call_log 提供 SQLAlchemy 2 模型，字段与 SQLite DDL 逐列对应。"""
+    from sqlalchemy import inspect as sa_inspect
+    from app.models import Base, LlmCallLog
+    cols = {c.name for c in sa_inspect(LlmCallLog).columns}
+    assert cols == {"id", "field_group", "prompt_version", "model", "attempt", "parse_ok", "created_at"}
+    # SQLAlchemy 建表（内存 SQLite）与 store 的 DDL 同构可查
+    from sqlalchemy import create_engine
+    eng = create_engine("sqlite://")
+    Base.metadata.create_all(eng)
+    with eng.connect() as conn:
+        conn.execute(
+            LlmCallLog.__table__.insert().values(
+                field_group="subject", prompt_version="1.0", model="doc-llm-mock",
+                attempt=0, parse_ok=True,
+            )
+        )
+        rows = conn.execute(LlmCallLog.__table__.select()).fetchall()
+    assert len(rows) == 1 and rows[0].parse_ok is True

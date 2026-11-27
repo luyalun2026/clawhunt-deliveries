@@ -36,7 +36,11 @@ class DocLlmClient:
     """OpenAI 兼容客户端（生产用）。仅供联调；测试全部走 MockLLM。"""
 
     def __init__(self, base_url: Optional[str] = None, model: Optional[str] = None):
-        self.base_url = base_url or os.environ.get("DOC_LLM_BASE_URL", "")
+        self.base_url = (base_url or os.environ.get("DOC_LLM_BASE_URL", "") or "").strip()
+        if not self.base_url:
+            raise ValueError(
+                "DOC_LLM_BASE_URL 未配置：请设置环境变量 DOC_LLM_BASE_URL（私有化部署的 OpenAI 兼容地址）"
+            )
         self.model = model or os.environ.get("DOC_LLM_MODEL", "doc-llm")
 
     def chat(self, prompt: str, system: str) -> str:
