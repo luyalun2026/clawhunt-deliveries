@@ -1,41 +1,47 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S6-POD-040 · 收听数据日汇总任务：播放、听众、完播率与留存分段
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+> 会员空间平台 · Stage vi 数据链路 · podcast 汇总
+> SQLAlchemy 2 模型 + Alembic 迁移 + 独立双实现对账 + pytest 10 用例全过
 
-## 验收标准逐条对应
+## 一、验收标准逐条对应
 
-| # | 验收标准 | 结果 | 证据 |
+| # | 验收标准 | 实现 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | 夹具数据的汇总结果与口径文档中手算的期望值逐项一致 | 夹具 2753 条事件（seed=20261127，3 期节目×7 天，≥2000 条）；期望值由**独立实现** `tools/calc_expected.py` 朴素字典遍历手算 → `outputs/expected.json`，测试对 episode/column/all 三层逐字段断言 | `test_ac1_fixture_vs_expected_per_field` ✅、`test_ac1_column_and_all_rows_match` ✅ |
+| 2 | 对同一日期连续运行两次，汇总表行数与数值不变 | 每日期单事务先删后插；测试以业务键（stat_date/episode_id/column_id/org）排序取内容哈希（排除 uuid 主键与时间戳），两次运行哈希相等 | `test_ac2_idempotent_same_day_twice` ✅、`test_ac2_single_day_twice_rowcount_unchanged` ✅ |
+| 3 | --from --to 回补 7 天后，每天各有一行全站汇总 | `run(from, to)` 区间回补；全站行 `episode_id='__ALL__'` 每天恰 1 行；单日回补只动该日其他日数值不变；to<from 拒绝 | `test_ac3_backfill_7_days_one_all_row_per_day` ✅、`test_ac3_backfill_single_day_touches_only_that_day` ✅ |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+补充边界：0 听众 completion_rate NULL、缺时长节目 avg_listen_ratio NULL、进度恰好 100% 计入 reach_100、未知 source 原样保留、跨午夜 session 按事件时间戳归属。
 
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 二、运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install pytest sqlalchemy
+python tools/gen_fixture.py                                   # 生成夹具库（2753 条）
+python tools/calc_expected.py                                 # 独立手算期望值
+python -m app.aggregate --from 2026-11-01 --to 2026-11-08 \
+       --db sqlite:///podcast_fixture.db                      # 汇总任务
+python -m pytest tests/ -v                                    # 10 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+生产环境：`--db postgresql+psycopg://...`（JSONB/UUID 方言自动切换）；迁移：
+`alembic upgrade head`（`migrations/versions/0001_pod040_init.py`，可逆）。
+
+## 三、交付物
+
+- `app/models.py` — SQLAlchemy 2 模型（episodes / listening_events / episode_daily_stats / column_daily_stats，统一 org_id/site_id/created_at/created_by/updated_at/deleted_at 软删除字段）
+- `app/aggregate.py` — 汇总任务核心 + CLI（时区 Asia/Shanghai；每日期单事务先删后插）
+- `migrations/versions/0001_pod040_init.py` — Alembic 迁移（upgrade/downgrade 可逆）
+- `docs/口径文档.md` — 指标口径（与实现同义、与测试对账对应）
+- `tools/gen_fixture.py` / `tools/calc_expected.py` — 夹具与独立期望值计算
+- `outputs/expected.json` — 手算期望值；`outputs/pytest_main.txt` — 测试输出
+- `tests/test_aggregate.py` — 10 用例
+
+### 口径要点（详见 docs/口径文档.md）
+- unique_listeners：user_id 优先 / anon_id 兜底，episode_view 不计听众。
+- 全站行（__ALL__）plays/listeners/completes 跨节目去重；reach 按听众跨节目最大进度。
+- completion_rate 分母 0 → NULL；缺时长节目 avg_listen_ratio → NULL；全站 avg 恒 NULL。
+
+## 四、测试结果
+
+`outputs/pytest_main.txt`：10 passed / 0 failed；`outputs/verify.json` 数字由 pytest 输出自动提取（零手写）；`SHA256SUMS` 全部文件哈希。

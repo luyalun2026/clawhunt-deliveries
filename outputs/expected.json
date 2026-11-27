@@ -1,0 +1,1480 @@
+{
+ "episodes": {
+  "ep_A|2026-11-01": {
+   "views": 29,
+   "plays": 24,
+   "unique_listeners": 17,
+   "listen_seconds": 27271,
+   "completes": 9,
+   "completion_rate": 0.5294117647058824,
+   "avg_listen_ratio": 0.4456045751633987,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 17,
+    "reach_30": 16,
+    "reach_40": 16,
+    "reach_50": 15,
+    "reach_60": 14,
+    "reach_70": 14,
+    "reach_80": 13,
+    "reach_90": 12,
+    "reach_100": 9
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 10,
+     "listeners": 9
+    },
+    "search": {
+     "plays": 6,
+     "listeners": 5
+    },
+    "push": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "recommend": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-01": {
+   "views": 30,
+   "plays": 22,
+   "unique_listeners": 19,
+   "listen_seconds": 24295,
+   "completes": 8,
+   "completion_rate": 0.42105263157894735,
+   "avg_listen_ratio": 0.5327850877192982,
+   "reach": {
+    "reach_10": 19,
+    "reach_20": 19,
+    "reach_30": 18,
+    "reach_40": 18,
+    "reach_50": 17,
+    "reach_60": 15,
+    "reach_70": 13,
+    "reach_80": 11,
+    "reach_90": 7,
+    "reach_100": 1
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 8,
+     "listeners": 8
+    },
+    "unknown_src": {
+     "plays": 5,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-01": {
+   "views": 27,
+   "plays": 24,
+   "unique_listeners": 16,
+   "listen_seconds": 26858,
+   "completes": 8,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 15,
+    "reach_20": 15,
+    "reach_30": 15,
+    "reach_40": 15,
+    "reach_50": 15,
+    "reach_60": 13,
+    "reach_70": 12,
+    "reach_80": 12,
+    "reach_90": 7,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 7,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 6,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "share": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-02": {
+   "views": 26,
+   "plays": 19,
+   "unique_listeners": 18,
+   "listen_seconds": 20098,
+   "completes": 6,
+   "completion_rate": 0.3333333333333333,
+   "avg_listen_ratio": 0.31015432098765433,
+   "reach": {
+    "reach_10": 18,
+    "reach_20": 18,
+    "reach_30": 18,
+    "reach_40": 18,
+    "reach_50": 17,
+    "reach_60": 13,
+    "reach_70": 9,
+    "reach_80": 7,
+    "reach_90": 4,
+    "reach_100": 2
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 10,
+     "listeners": 9
+    },
+    "recommend": {
+     "plays": 5,
+     "listeners": 6
+    },
+    "search": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "push": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-02": {
+   "views": 23,
+   "plays": 17,
+   "unique_listeners": 16,
+   "listen_seconds": 17913,
+   "completes": 6,
+   "completion_rate": 0.375,
+   "avg_listen_ratio": 0.466484375,
+   "reach": {
+    "reach_10": 16,
+    "reach_20": 15,
+    "reach_30": 15,
+    "reach_40": 15,
+    "reach_50": 14,
+    "reach_60": 13,
+    "reach_70": 13,
+    "reach_80": 12,
+    "reach_90": 8,
+    "reach_100": 7
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    },
+    "search": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-02": {
+   "views": 25,
+   "plays": 18,
+   "unique_listeners": 16,
+   "listen_seconds": 19319,
+   "completes": 8,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 16,
+    "reach_20": 16,
+    "reach_30": 16,
+    "reach_40": 15,
+    "reach_50": 14,
+    "reach_60": 14,
+    "reach_70": 12,
+    "reach_80": 10,
+    "reach_90": 8,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "unknown_src": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-03": {
+   "views": 34,
+   "plays": 22,
+   "unique_listeners": 18,
+   "listen_seconds": 22041,
+   "completes": 7,
+   "completion_rate": 0.3888888888888889,
+   "avg_listen_ratio": 0.3401388888888889,
+   "reach": {
+    "reach_10": 18,
+    "reach_20": 18,
+    "reach_30": 18,
+    "reach_40": 18,
+    "reach_50": 17,
+    "reach_60": 16,
+    "reach_70": 15,
+    "reach_80": 13,
+    "reach_90": 11,
+    "reach_100": 7
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "share": {
+     "plays": 5,
+     "listeners": 6
+    },
+    "recommend": {
+     "plays": 4,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-03": {
+   "views": 21,
+   "plays": 21,
+   "unique_listeners": 17,
+   "listen_seconds": 21633,
+   "completes": 5,
+   "completion_rate": 0.29411764705882354,
+   "avg_listen_ratio": 0.5302205882352942,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 17,
+    "reach_30": 17,
+    "reach_40": 15,
+    "reach_50": 15,
+    "reach_60": 15,
+    "reach_70": 12,
+    "reach_80": 10,
+    "reach_90": 8,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "share": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 3
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 3
+    },
+    "recommend": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-03": {
+   "views": 33,
+   "plays": 21,
+   "unique_listeners": 16,
+   "listen_seconds": 21261,
+   "completes": 8,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 16,
+    "reach_20": 16,
+    "reach_30": 16,
+    "reach_40": 16,
+    "reach_50": 14,
+    "reach_60": 14,
+    "reach_70": 14,
+    "reach_80": 13,
+    "reach_90": 11,
+    "reach_100": 6
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 8,
+     "listeners": 8
+    },
+    "unknown_src": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 2,
+     "listeners": 2
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_C|2026-11-04": {
+   "views": 32,
+   "plays": 25,
+   "unique_listeners": 17,
+   "listen_seconds": 25256,
+   "completes": 8,
+   "completion_rate": 0.47058823529411764,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 16,
+    "reach_30": 16,
+    "reach_40": 16,
+    "reach_50": 16,
+    "reach_60": 16,
+    "reach_70": 12,
+    "reach_80": 11,
+    "reach_90": 8,
+    "reach_100": 6
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 10,
+     "listeners": 11
+    },
+    "unknown_src": {
+     "plays": 6,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 1,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-04": {
+   "views": 28,
+   "plays": 24,
+   "unique_listeners": 19,
+   "listen_seconds": 26010,
+   "completes": 6,
+   "completion_rate": 0.3157894736842105,
+   "avg_listen_ratio": 0.38026315789473686,
+   "reach": {
+    "reach_10": 19,
+    "reach_20": 19,
+    "reach_30": 19,
+    "reach_40": 18,
+    "reach_50": 17,
+    "reach_60": 15,
+    "reach_70": 14,
+    "reach_80": 10,
+    "reach_90": 9,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 9,
+     "listeners": 9
+    },
+    "unknown_src": {
+     "plays": 7,
+     "listeners": 7
+    },
+    "recommend": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "search": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-04": {
+   "views": 29,
+   "plays": 25,
+   "unique_listeners": 20,
+   "listen_seconds": 23294,
+   "completes": 8,
+   "completion_rate": 0.4,
+   "avg_listen_ratio": 0.4852916666666667,
+   "reach": {
+    "reach_10": 19,
+    "reach_20": 19,
+    "reach_30": 19,
+    "reach_40": 19,
+    "reach_50": 17,
+    "reach_60": 16,
+    "reach_70": 16,
+    "reach_80": 14,
+    "reach_90": 10,
+    "reach_100": 8
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 7,
+     "listeners": 7
+    },
+    "search": {
+     "plays": 7,
+     "listeners": 7
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "share": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 3,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_B|2026-11-05": {
+   "views": 22,
+   "plays": 24,
+   "unique_listeners": 19,
+   "listen_seconds": 22055,
+   "completes": 9,
+   "completion_rate": 0.47368421052631576,
+   "avg_listen_ratio": 0.4836622807017544,
+   "reach": {
+    "reach_10": 19,
+    "reach_20": 19,
+    "reach_30": 19,
+    "reach_40": 19,
+    "reach_50": 19,
+    "reach_60": 19,
+    "reach_70": 18,
+    "reach_80": 15,
+    "reach_90": 9,
+    "reach_100": 3
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 8,
+     "listeners": 8
+    },
+    "share": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-05": {
+   "views": 29,
+   "plays": 17,
+   "unique_listeners": 14,
+   "listen_seconds": 22245,
+   "completes": 5,
+   "completion_rate": 0.35714285714285715,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 14,
+    "reach_20": 14,
+    "reach_30": 14,
+    "reach_40": 14,
+    "reach_50": 14,
+    "reach_60": 13,
+    "reach_70": 13,
+    "reach_80": 9,
+    "reach_90": 7,
+    "reach_100": 3
+   },
+   "source_breakdown": {
+    "search": {
+     "plays": 5,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-05": {
+   "views": 24,
+   "plays": 19,
+   "unique_listeners": 16,
+   "listen_seconds": 20035,
+   "completes": 8,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": 0.34782986111111114,
+   "reach": {
+    "reach_10": 16,
+    "reach_20": 16,
+    "reach_30": 16,
+    "reach_40": 16,
+    "reach_50": 16,
+    "reach_60": 16,
+    "reach_70": 15,
+    "reach_80": 11,
+    "reach_90": 6,
+    "reach_100": 3
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "recommend": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-06": {
+   "views": 22,
+   "plays": 16,
+   "unique_listeners": 16,
+   "listen_seconds": 19524,
+   "completes": 6,
+   "completion_rate": 0.375,
+   "avg_listen_ratio": 0.3389583333333333,
+   "reach": {
+    "reach_10": 16,
+    "reach_20": 16,
+    "reach_30": 16,
+    "reach_40": 16,
+    "reach_50": 15,
+    "reach_60": 15,
+    "reach_70": 11,
+    "reach_80": 10,
+    "reach_90": 10,
+    "reach_100": 8
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "push": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-06": {
+   "views": 33,
+   "plays": 22,
+   "unique_listeners": 17,
+   "listen_seconds": 22433,
+   "completes": 8,
+   "completion_rate": 0.47058823529411764,
+   "avg_listen_ratio": 0.549828431372549,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 17,
+    "reach_30": 17,
+    "reach_40": 17,
+    "reach_50": 17,
+    "reach_60": 16,
+    "reach_70": 14,
+    "reach_80": 13,
+    "reach_90": 7,
+    "reach_100": 1
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 5,
+     "listeners": 4
+    },
+    "unknown_src": {
+     "plays": 5,
+     "listeners": 6
+    },
+    "share": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "recommend": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-06": {
+   "views": 24,
+   "plays": 24,
+   "unique_listeners": 20,
+   "listen_seconds": 24875,
+   "completes": 6,
+   "completion_rate": 0.3,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 20,
+    "reach_20": 20,
+    "reach_30": 19,
+    "reach_40": 18,
+    "reach_50": 17,
+    "reach_60": 15,
+    "reach_70": 13,
+    "reach_80": 13,
+    "reach_90": 8,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 11,
+     "listeners": 11
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 5
+    },
+    "recommend": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "share": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "search": {
+     "plays": 2,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-07": {
+   "views": 25,
+   "plays": 24,
+   "unique_listeners": 17,
+   "listen_seconds": 27779,
+   "completes": 4,
+   "completion_rate": 0.23529411764705882,
+   "avg_listen_ratio": 0.4539052287581699,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 17,
+    "reach_30": 17,
+    "reach_40": 16,
+    "reach_50": 16,
+    "reach_60": 16,
+    "reach_70": 14,
+    "reach_80": 14,
+    "reach_90": 11,
+    "reach_100": 5
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 6,
+     "listeners": 5
+    },
+    "recommend": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "unknown_src": {
+     "plays": 5,
+     "listeners": 4
+    },
+    "share": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 3,
+     "listeners": 3
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-07": {
+   "views": 22,
+   "plays": 16,
+   "unique_listeners": 13,
+   "listen_seconds": 16865,
+   "completes": 6,
+   "completion_rate": 0.46153846153846156,
+   "avg_listen_ratio": 0.5405448717948718,
+   "reach": {
+    "reach_10": 13,
+    "reach_20": 13,
+    "reach_30": 13,
+    "reach_40": 12,
+    "reach_50": 12,
+    "reach_60": 11,
+    "reach_70": 11,
+    "reach_80": 10,
+    "reach_90": 8,
+    "reach_100": 4
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "search": {
+     "plays": 4,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "unknown_src": {
+     "plays": 3,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-07": {
+   "views": 29,
+   "plays": 22,
+   "unique_listeners": 17,
+   "listen_seconds": 23280,
+   "completes": 7,
+   "completion_rate": 0.4117647058823529,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 17,
+    "reach_20": 17,
+    "reach_30": 17,
+    "reach_40": 17,
+    "reach_50": 15,
+    "reach_60": 15,
+    "reach_70": 14,
+    "reach_80": 13,
+    "reach_90": 12,
+    "reach_100": 10
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 6,
+     "listeners": 6
+    },
+    "recommend": {
+     "plays": 5,
+     "listeners": 5
+    },
+    "search": {
+     "plays": 5,
+     "listeners": 4
+    },
+    "push": {
+     "plays": 4,
+     "listeners": 3
+    },
+    "share": {
+     "plays": 2,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_A|2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 1,
+   "listen_seconds": 1471,
+   "completes": 0,
+   "completion_rate": 0.0,
+   "avg_listen_ratio": 0.4086111111111111,
+   "reach": {
+    "reach_10": 1,
+    "reach_20": 1,
+    "reach_30": 1,
+    "reach_40": 1,
+    "reach_50": 1,
+    "reach_60": 1,
+    "reach_70": 1,
+    "reach_80": 1,
+    "reach_90": 1,
+    "reach_100": 0
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 0,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_tech"
+  },
+  "ep_B|2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 2,
+   "listen_seconds": 1092,
+   "completes": 0,
+   "completion_rate": 0.0,
+   "avg_listen_ratio": 0.2275,
+   "reach": {
+    "reach_10": 2,
+    "reach_20": 2,
+    "reach_30": 2,
+    "reach_40": 2,
+    "reach_50": 1,
+    "reach_60": 1,
+    "reach_70": 1,
+    "reach_80": 1,
+    "reach_90": 1,
+    "reach_100": 0
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 0,
+     "listeners": 1
+    },
+    "search": {
+     "plays": 0,
+     "listeners": 1
+    }
+   },
+   "column_id": "col_biz"
+  },
+  "ep_C|2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 2,
+   "listen_seconds": 1060,
+   "completes": 0,
+   "completion_rate": 0.0,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 2,
+    "reach_20": 2,
+    "reach_30": 1,
+    "reach_40": 0,
+    "reach_50": 0,
+    "reach_60": 0,
+    "reach_70": 0,
+    "reach_80": 0,
+    "reach_90": 0,
+    "reach_100": 0
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 0,
+     "listeners": 2
+    }
+   },
+   "column_id": "col_tech"
+  }
+ },
+ "columns": {
+  "col_tech|2026-11-01": {
+   "views": 56,
+   "plays": 48,
+   "unique_listeners": 24,
+   "listen_seconds": 54129,
+   "completes": 13,
+   "completion_rate": 0.5416666666666666
+  },
+  "col_biz|2026-11-01": {
+   "views": 30,
+   "plays": 22,
+   "unique_listeners": 19,
+   "listen_seconds": 24295,
+   "completes": 8,
+   "completion_rate": 0.42105263157894735
+  },
+  "col_tech|2026-11-02": {
+   "views": 51,
+   "plays": 37,
+   "unique_listeners": 29,
+   "listen_seconds": 39417,
+   "completes": 12,
+   "completion_rate": 0.41379310344827586
+  },
+  "col_biz|2026-11-02": {
+   "views": 23,
+   "plays": 17,
+   "unique_listeners": 16,
+   "listen_seconds": 17913,
+   "completes": 6,
+   "completion_rate": 0.375
+  },
+  "col_tech|2026-11-03": {
+   "views": 67,
+   "plays": 43,
+   "unique_listeners": 30,
+   "listen_seconds": 43302,
+   "completes": 14,
+   "completion_rate": 0.4666666666666667
+  },
+  "col_biz|2026-11-03": {
+   "views": 21,
+   "plays": 21,
+   "unique_listeners": 17,
+   "listen_seconds": 21633,
+   "completes": 5,
+   "completion_rate": 0.29411764705882354
+  },
+  "col_tech|2026-11-04": {
+   "views": 60,
+   "plays": 49,
+   "unique_listeners": 27,
+   "listen_seconds": 51266,
+   "completes": 13,
+   "completion_rate": 0.48148148148148145
+  },
+  "col_biz|2026-11-04": {
+   "views": 29,
+   "plays": 25,
+   "unique_listeners": 20,
+   "listen_seconds": 23294,
+   "completes": 8,
+   "completion_rate": 0.4
+  },
+  "col_biz|2026-11-05": {
+   "views": 22,
+   "plays": 24,
+   "unique_listeners": 19,
+   "listen_seconds": 22055,
+   "completes": 9,
+   "completion_rate": 0.47368421052631576
+  },
+  "col_tech|2026-11-05": {
+   "views": 53,
+   "plays": 36,
+   "unique_listeners": 24,
+   "listen_seconds": 42280,
+   "completes": 9,
+   "completion_rate": 0.375
+  },
+  "col_tech|2026-11-06": {
+   "views": 46,
+   "plays": 40,
+   "unique_listeners": 28,
+   "listen_seconds": 44399,
+   "completes": 12,
+   "completion_rate": 0.42857142857142855
+  },
+  "col_biz|2026-11-06": {
+   "views": 33,
+   "plays": 22,
+   "unique_listeners": 17,
+   "listen_seconds": 22433,
+   "completes": 8,
+   "completion_rate": 0.47058823529411764
+  },
+  "col_tech|2026-11-07": {
+   "views": 54,
+   "plays": 46,
+   "unique_listeners": 26,
+   "listen_seconds": 51059,
+   "completes": 9,
+   "completion_rate": 0.34615384615384615
+  },
+  "col_biz|2026-11-07": {
+   "views": 22,
+   "plays": 16,
+   "unique_listeners": 13,
+   "listen_seconds": 16865,
+   "completes": 6,
+   "completion_rate": 0.46153846153846156
+  },
+  "col_tech|2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 3,
+   "listen_seconds": 2531,
+   "completes": 0,
+   "completion_rate": 0.0
+  },
+  "col_biz|2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 2,
+   "listen_seconds": 1092,
+   "completes": 0,
+   "completion_rate": 0.0
+  }
+ },
+ "all": {
+  "2026-11-01": {
+   "views": 86,
+   "plays": 70,
+   "unique_listeners": 32,
+   "listen_seconds": 78424,
+   "completes": 19,
+   "completion_rate": 0.59375,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 32,
+    "reach_20": 32,
+    "reach_30": 32,
+    "reach_40": 32,
+    "reach_50": 31,
+    "reach_60": 29,
+    "reach_70": 29,
+    "reach_80": 27,
+    "reach_90": 20,
+    "reach_100": 12
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 22,
+     "listeners": 16
+    },
+    "recommend": {
+     "plays": 14,
+     "listeners": 11
+    },
+    "search": {
+     "plays": 13,
+     "listeners": 9
+    },
+    "push": {
+     "plays": 11,
+     "listeners": 10
+    },
+    "unknown_src": {
+     "plays": 10,
+     "listeners": 9
+    }
+   }
+  },
+  "2026-11-02": {
+   "views": 74,
+   "plays": 54,
+   "unique_listeners": 33,
+   "listen_seconds": 57330,
+   "completes": 17,
+   "completion_rate": 0.5151515151515151,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 33,
+    "reach_20": 33,
+    "reach_30": 33,
+    "reach_40": 32,
+    "reach_50": 30,
+    "reach_60": 28,
+    "reach_70": 26,
+    "reach_80": 23,
+    "reach_90": 19,
+    "reach_100": 14
+   },
+   "source_breakdown": {
+    "share": {
+     "plays": 17,
+     "listeners": 14
+    },
+    "recommend": {
+     "plays": 15,
+     "listeners": 14
+    },
+    "push": {
+     "plays": 9,
+     "listeners": 8
+    },
+    "unknown_src": {
+     "plays": 8,
+     "listeners": 8
+    },
+    "search": {
+     "plays": 5,
+     "listeners": 5
+    }
+   }
+  },
+  "2026-11-03": {
+   "views": 88,
+   "plays": 64,
+   "unique_listeners": 38,
+   "listen_seconds": 64935,
+   "completes": 19,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 38,
+    "reach_20": 38,
+    "reach_30": 38,
+    "reach_40": 36,
+    "reach_50": 35,
+    "reach_60": 34,
+    "reach_70": 31,
+    "reach_80": 27,
+    "reach_90": 23,
+    "reach_100": 16
+   },
+   "source_breakdown": {
+    "push": {
+     "plays": 18,
+     "listeners": 15
+    },
+    "unknown_src": {
+     "plays": 14,
+     "listeners": 14
+    },
+    "share": {
+     "plays": 13,
+     "listeners": 13
+    },
+    "search": {
+     "plays": 12,
+     "listeners": 8
+    },
+    "recommend": {
+     "plays": 7,
+     "listeners": 8
+    }
+   }
+  },
+  "2026-11-04": {
+   "views": 89,
+   "plays": 74,
+   "unique_listeners": 35,
+   "listen_seconds": 74560,
+   "completes": 16,
+   "completion_rate": 0.45714285714285713,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 35,
+    "reach_20": 34,
+    "reach_30": 34,
+    "reach_40": 34,
+    "reach_50": 33,
+    "reach_60": 32,
+    "reach_70": 28,
+    "reach_80": 26,
+    "reach_90": 22,
+    "reach_100": 16
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 20,
+     "listeners": 17
+    },
+    "push": {
+     "plays": 17,
+     "listeners": 15
+    },
+    "share": {
+     "plays": 17,
+     "listeners": 16
+    },
+    "recommend": {
+     "plays": 10,
+     "listeners": 10
+    },
+    "search": {
+     "plays": 10,
+     "listeners": 9
+    }
+   }
+  },
+  "2026-11-05": {
+   "views": 75,
+   "plays": 60,
+   "unique_listeners": 28,
+   "listen_seconds": 64335,
+   "completes": 15,
+   "completion_rate": 0.5357142857142857,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 28,
+    "reach_20": 28,
+    "reach_30": 28,
+    "reach_40": 28,
+    "reach_50": 28,
+    "reach_60": 27,
+    "reach_70": 26,
+    "reach_80": 22,
+    "reach_90": 17,
+    "reach_100": 9
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 14,
+     "listeners": 13
+    },
+    "search": {
+     "plays": 13,
+     "listeners": 11
+    },
+    "unknown_src": {
+     "plays": 12,
+     "listeners": 10
+    },
+    "push": {
+     "plays": 11,
+     "listeners": 10
+    },
+    "share": {
+     "plays": 10,
+     "listeners": 11
+    }
+   }
+  },
+  "2026-11-06": {
+   "views": 79,
+   "plays": 62,
+   "unique_listeners": 36,
+   "listen_seconds": 66832,
+   "completes": 18,
+   "completion_rate": 0.5,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 36,
+    "reach_20": 36,
+    "reach_30": 35,
+    "reach_40": 34,
+    "reach_50": 34,
+    "reach_60": 33,
+    "reach_70": 30,
+    "reach_80": 29,
+    "reach_90": 20,
+    "reach_100": 13
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 19,
+     "listeners": 20
+    },
+    "push": {
+     "plays": 12,
+     "listeners": 11
+    },
+    "recommend": {
+     "plays": 11,
+     "listeners": 9
+    },
+    "share": {
+     "plays": 10,
+     "listeners": 8
+    },
+    "search": {
+     "plays": 10,
+     "listeners": 11
+    }
+   }
+  },
+  "2026-11-07": {
+   "views": 76,
+   "plays": 62,
+   "unique_listeners": 28,
+   "listen_seconds": 67924,
+   "completes": 13,
+   "completion_rate": 0.4642857142857143,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 28,
+    "reach_20": 28,
+    "reach_30": 28,
+    "reach_40": 28,
+    "reach_50": 28,
+    "reach_60": 28,
+    "reach_70": 26,
+    "reach_80": 25,
+    "reach_90": 22,
+    "reach_100": 17
+   },
+   "source_breakdown": {
+    "recommend": {
+     "plays": 14,
+     "listeners": 11
+    },
+    "unknown_src": {
+     "plays": 14,
+     "listeners": 7
+    },
+    "push": {
+     "plays": 13,
+     "listeners": 10
+    },
+    "search": {
+     "plays": 12,
+     "listeners": 10
+    },
+    "share": {
+     "plays": 9,
+     "listeners": 9
+    }
+   }
+  },
+  "2026-11-08": {
+   "views": 0,
+   "plays": 0,
+   "unique_listeners": 5,
+   "listen_seconds": 3623,
+   "completes": 0,
+   "completion_rate": 0.0,
+   "avg_listen_ratio": null,
+   "reach": {
+    "reach_10": 5,
+    "reach_20": 5,
+    "reach_30": 4,
+    "reach_40": 3,
+    "reach_50": 2,
+    "reach_60": 2,
+    "reach_70": 2,
+    "reach_80": 2,
+    "reach_90": 2,
+    "reach_100": 0
+   },
+   "source_breakdown": {
+    "unknown_src": {
+     "plays": 0,
+     "listeners": 2
+    },
+    "search": {
+     "plays": 0,
+     "listeners": 1
+    },
+    "recommend": {
+     "plays": 0,
+     "listeners": 2
+    }
+   }
+  }
+ }
+}

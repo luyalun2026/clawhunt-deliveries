@@ -1,0 +1,26 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\python.exe
+cachedir: .pytest_cache
+hypothesis profile 'default'
+rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\2804
+plugins: anyio-4.16.0, hypothesis-6.170.15
+collecting ... collected 10 items
+
+tests/test_aggregate.py::test_ac1_fixture_vs_expected_per_field PASSED   [ 10%]
+tests/test_aggregate.py::test_ac1_column_and_all_rows_match PASSED       [ 20%]
+tests/test_aggregate.py::test_ac1_expected_covers_2000plus_events_3_episodes PASSED [ 30%]
+tests/test_aggregate.py::test_ac2_idempotent_same_day_twice PASSED       [ 40%]
+tests/test_aggregate.py::test_ac2_single_day_twice_rowcount_unchanged PASSED [ 50%]
+tests/test_aggregate.py::test_ac3_backfill_7_days_one_all_row_per_day PASSED [ 60%]
+tests/test_aggregate.py::test_ac3_backfill_single_day_touches_only_that_day PASSED [ 70%]
+tests/test_aggregate.py::test_ac3_range_validation PASSED                [ 80%]
+tests/test_aggregate.py::test_boundary_zero_listener_completion_null PASSED [ 90%]
+tests/test_aggregate.py::test_boundary_reach_100_exact PASSED            [100%]
+
+============================== warnings summary ===============================
+tests/test_aggregate.py: 399 warnings
+  C:\Users\Administrator\.workbuddy\binaries\python\versions\3.13.12\Lib\site-packages\sqlalchemy\sql\schema.py:4362: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore[call-arg, no-any-return, no-untyped-call]  # noqa: E501
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+====================== 10 passed, 399 warnings in 4.13s =======================
