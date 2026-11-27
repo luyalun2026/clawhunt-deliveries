@@ -22,4 +22,4 @@ tests/test_extract.py::test_doc_llm_client_requires_base_url PASSED      [ 86%]
 tests/test_extract.py::test_sqlalchemy_model_matches_sqlite_ddl PASSED   [ 93%]
 tests/test_extract.py::test_doc_llm_client_auth_header PASSED            [100%]
 
-============================= 15 passed in 1.71s ==============================
+============================= 15 passed in 1.55s ==============================

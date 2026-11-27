@@ -21,6 +21,7 @@
   "review-queue",
   "doc_llm_client_requires_base_url",
   "sqlalchemy2_model_matches_ddl",
+  "doc_llm_client_auth_header",
   "doc_llm_client_auth_header"
  ],
  "sha256_file": "SHA256SUMS"
