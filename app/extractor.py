@@ -105,7 +105,7 @@ def _parse_model_json(raw: str) -> Optional[Dict]:
         return obj if isinstance(obj, dict) else None
     except Exception:
         # 容错：抓取首个 {...} JSON 对象
-        m = re.search(r"\{.*\}", raw or "", re.S)
+        m = re.search(r"\{.*?\}", raw or "", re.S)  # 非贪婪，避免跨整个响应
         if m:
             try:
                 obj = json.loads(m.group(0))
