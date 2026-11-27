@@ -1,9 +1,9 @@
 {
  "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
  "test_summary": {
-  "passed": 14,
+  "passed": 15,
   "failed": 0,
-  "total": 14
+  "total": 15
  },
  "acceptance": {
   "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
@@ -20,7 +20,8 @@
   "program-amount-parse",
   "review-queue",
   "doc_llm_client_requires_base_url",
-  "sqlalchemy2_model_matches_ddl"
+  "sqlalchemy2_model_matches_ddl",
+  "doc_llm_client_auth_header"
  ],
  "sha256_file": "SHA256SUMS"
 }

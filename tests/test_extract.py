@@ -200,3 +200,18 @@ def test_sqlalchemy_model_matches_sqlite_ddl():
         )
         rows = conn.execute(LlmCallLog.__table__.select()).fetchall()
     assert len(rows) == 1 and rows[0].parse_ok is True
+
+
+def test_doc_llm_client_auth_header():
+    """生产客户端从 DOC_LLM_API_KEY 注入 Bearer Authorization 头；未配置则不带。"""
+    from app.mock_llm import DocLlmClient
+    old = os.environ.pop("DOC_LLM_API_KEY", None)
+    try:
+        c = DocLlmClient(base_url="http://internal-llm.local/v1")
+        assert "Authorization" not in c._headers()
+        os.environ["DOC_LLM_API_KEY"] = "sk-test-local"
+        c2 = DocLlmClient(base_url="http://internal-llm.local/v1")
+        assert c2._headers()["Authorization"] == "Bearer sk-test-local"
+    finally:
+        if old is not None:
+            os.environ["DOC_LLM_API_KEY"] = old
