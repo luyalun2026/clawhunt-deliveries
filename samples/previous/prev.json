@@ -1,0 +1,135 @@
+{
+ "run": {
+  "source": "locust-csv",
+  "scenario": "基线轮（延迟系数 2.2，Locust 2.47.0）",
+  "duration_s": 20.0,
+  "users": 8,
+  "total_requests": 4413,
+  "total_failed": 14,
+  "error_rate": 0.0032,
+  "endpoints": {
+   "GET /api/members": {
+    "count": 1821,
+    "failed": 0,
+    "p50": 12.0,
+    "p95": 16.0,
+    "p99": 17.0,
+    "avg": 12.1,
+    "rps": 95.57,
+    "error_rate": 0.0
+   },
+   "GET /api/orders/export": {
+    "count": 645,
+    "failed": 14,
+    "p50": 89.0,
+    "p95": 120.0,
+    "p99": 120.0,
+    "avg": 87.0,
+    "rps": 33.85,
+    "error_rate": 0.0217
+   },
+   "GET /api/prospects": {
+    "count": 1947,
+    "failed": 0,
+    "p50": 31.0,
+    "p95": 44.0,
+    "p99": 45.0,
+    "avg": 31.5,
+    "rps": 102.18,
+    "error_rate": 0.0
+   }
+  },
+  "meta": {}
+ },
+ "checks": [
+  {
+   "scope": "GET /api/members",
+   "metric": "p50",
+   "actual": 12.0,
+   "threshold": 20.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/members",
+   "metric": "p95",
+   "actual": 16.0,
+   "threshold": 40.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/members",
+   "metric": "error_rate",
+   "actual": 0.0,
+   "threshold": 0.05,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/orders/export",
+   "metric": "p50",
+   "actual": 89.0,
+   "threshold": 90.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/orders/export",
+   "metric": "p95",
+   "actual": 120.0,
+   "threshold": 200.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/orders/export",
+   "metric": "error_rate",
+   "actual": 0.02,
+   "threshold": 0.05,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/prospects",
+   "metric": "p50",
+   "actual": 31.0,
+   "threshold": 40.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/prospects",
+   "metric": "p95",
+   "actual": 44.0,
+   "threshold": 80.0,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  },
+  {
+   "scope": "GET /api/prospects",
+   "metric": "error_rate",
+   "actual": 0.0,
+   "threshold": 0.05,
+   "ok": true,
+   "prev": null,
+   "delta_pct": null
+  }
+ ],
+ "summary": {
+  "total": 9,
+  "passed": 9,
+  "failed": 0,
+  "verdict": "PASS",
+  "failed_items": [],
+  "regressions": []
+ }
+}

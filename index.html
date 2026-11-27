@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>#2983 P95 分析报告模板与自动生成 · 交付落地页</title>
+<style>body{font:14px/1.7 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;max-width:960px;margin:32px auto;padding:0 20px;color:#1b2430}
+h1{font-size:21px}h2{font-size:16px;margin-top:26px;border-bottom:1px solid #d8e0e8;padding-bottom:6px}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{border:1px solid #d8e0e8;padding:6px 9px;text-align:right}
+th{background:#f1f5f9}td:first-child{text-align:left}code{background:#f3f6f9;padding:1px 5px;border-radius:3px}
+.ok{color:#1a7f4b;font-weight:600}.bad{color:#b3261e;font-weight:600}</style></head><body>
+<h1>工单 #2983 · P95 分析报告模板与自动生成</h1>
+<p>验收结论：<span class="ok">PASS</span>
+（9 项检查，0 项超阈）｜pytest 17 passed｜
+报告 7993 字节、外链引用 0 处</p>
+<h2>本期实测（samples/locust · Locust 2.47.0 真实采集）</h2>
+<table><thead><tr><th>接口</th><th>请求数</th><th>P50</th><th>P95</th><th>P99</th><th>错误率</th><th>上轮 P95</th></tr></thead>
+<tbody><tr><td>GET /api/members</td><td>3806</td><td>7.0</td><td>9.0</td><td>10.0</td><td>0.00%</td><td>16.0</td></tr><tr><td>GET /api/orders/export</td><td>1279</td><td>41.0</td><td>57.0</td><td>58.0</td><td>2.42%</td><td>120.0</td></tr><tr><td>GET /api/prospects</td><td>3787</td><td>16.0</td><td>21.0</td><td>22.0</td><td>0.00%</td><td>44.0</td></tr></tbody></table>
+<p>总请求 8872，失败 31（0.35%）。</p>
+<h2>三条验收对照</h2>
+<ul>
+<li>AC1 阈值与上一轮对比：报告第五节「阈值对比（超阈项）」与第六节「与上一轮对比（恶化 &gt; 10%）」，Δ 由 <code>perfreport/thresholds.py</code> 计算。</li>
+<li>AC2 单文件无外部依赖：<code>outputs/report.html</code> 内嵌 CSS 与 SVG，外链引用实测 0 处（测试 <code>test_single_file_no_external_refs</code> 断言为 0）。</li>
+<li>AC3 样例由真实压测结果生成：<code>samples/locust/</code> 三张 CSV 为 <strong>Locust 2.47.0</strong> <code>--headless --csv</code> 真实压测产物；<code>samples/k6/summary.json</code> 与 <code>result.jsonl</code> 为 <strong>k6 v2.4.0</strong> <code>--summary-export</code> / <code>--out json</code> 真实产物；报告由真实 Locust CSV 生成，完整命令见 README「采集与复现」。</li>
+</ul>
+<h2>复现</h2>
+<pre><code>git clone --branch 2983 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest tests -q          # 期望 17 passed
+python verify.py --skip-load       # 用已有结果重生成报告与 verify.json
+python verify.py                   # 重新压测（8 秒）后再生成</code></pre>
+<p>报告样例：<code>outputs/report.html</code>（7993 字节，sha256 569bc15f00a24266…）</p>
+</body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>性能测试报告</title>
+<style>
+:root{--fg:#1b2430;--muted:#5b6b7c;--line:#d8e0e8;--bg:#fbfcfd;--ok:#1a7f4b;--bad:#b3261e;--acc:#1f5fa9}
+*{box-sizing:border-box}
+body{margin:0;padding:32px;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+h1{font-size:22px;margin:0 0 4px}h2{font-size:16px;margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+.kpi{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0 4px}
+.card{flex:1 1 150px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:12px 14px}
+.card .k{color:var(--muted);font-size:12px}.card .v{font-size:20px;font-weight:600;margin-top:2px}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:13px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:right}
+th{background:#f1f5f9;font-weight:600}
+td.l,th.l{text-align:left}
+.ok{color:var(--ok);font-weight:600}.bad{color:var(--bad);font-weight:600}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;border:1px solid var(--line);background:#fff}
+ul{margin:6px 0 0 18px;padding:0}li{margin:3px 0}
+.note{color:var(--muted);font-size:12px;margin-top:6px}
+</style></head><body>
+<h1>性能测试报告</h1>
+<div class="sub">场景：基线轮（延迟系数 2.2，Locust 2.47.0） ｜ 数据来源：locust-csv ｜ 请求总数：4413 ｜ 失败：14（0.32%）</div>
+<div class="kpi">
+  <div class="card"><div class="k">结论</div><div class="v ok">PASS</div></div>
+  <div class="card"><div class="k">超阈项 / 检查项</div><div class="v">0 / 9</div></div>
+  <div class="card"><div class="k">最差 P95（ms）</div><div class="v">120.0</div></div>
+  <div class="card"><div class="k">总错误率</div><div class="v">0.32%</div></div>
+  <div class="card"><div class="k">并发用户</div><div class="v">8</div></div>
+</div>
+
+<h2>一、测试目的</h2>
+<p>验证当前版本在目标并发下的延迟分位与错误率是否满足发布阈值，并与上一轮结果对比识别性能回归。</p>
+
+<h2>二、测试环境</h2>
+<table><tbody><tr><td class="l">（未提供环境信息）</td><td class="l"></td></tr></tbody></table>
+
+<h2>三、并发曲线</h2>
+<svg viewBox="0 0 760 180" width="100%" role="img" aria-label="并发曲线"><line x1="40" y1="156" x2="740" y2="156" stroke="#c9d3dd"/><polyline fill="none" stroke="#1f5fa9" stroke-width="2" points="40.0,156.0 76.8,123.0 113.7,90.0 150.5,24.0 187.4,24.0 224.2,24.0 261.1,24.0 297.9,24.0 334.7,24.0 371.6,24.0 408.4,24.0 445.3,24.0 482.1,24.0 518.9,24.0 555.8,24.0 592.6,24.0 629.5,24.0 666.3,24.0 703.2,24.0 740.0,24.0"/><polyline fill="none" stroke="#b26b00" stroke-width="2" stroke-dasharray="4 3" points="40.0,156.0 76.8,156.0 113.7,156.0 150.5,130.9 187.4,114.4 224.2,98.6 261.1,82.0 297.9,69.2 334.7,61.9 371.6,57.2 408.4,54.3 445.3,51.3 482.1,48.7 518.9,37.3 555.8,30.5 592.6,26.4 629.5,24.0 666.3,25.6 703.2,24.7 740.0,24.7"/><text x="40" y="14" font-size="11" fill="#5b6b7c">并发用户（实线，峰值 8）／RPS（虚线，峰值 252.4）</text><text x="40" y="174" font-size="11" fill="#5b6b7c">0s</text><text x="670" y="174" font-size="11" fill="#5b6b7c">19s</text></svg>
+
+<h2>四、各接口延迟分位</h2>
+<svg viewBox="0 0 760 220" width="100%" role="img" aria-label="各接口延迟分位"><text x="40" y="14" font-size="11" fill="#5b6b7c">P50（浅）／P95（中）／P99（深），单位毫秒</text><line x1="40" y1="192" x2="740" y2="192" stroke="#c9d3dd"/><rect x="50.0" y="176.0" width="12" height="16.0" fill="#8fb8e0"/><text x="56.0" y="173.0" font-size="9" fill="#5b6b7c" text-anchor="middle">12</text><rect x="68.0" y="170.7" width="12" height="21.3" fill="#1f5fa9"/><text x="74.0" y="167.7" font-size="9" fill="#5b6b7c" text-anchor="middle">16</text><rect x="86.0" y="169.3" width="12" height="22.7" fill="#0d3b6e"/><text x="92.0" y="166.3" font-size="9" fill="#5b6b7c" text-anchor="middle">17</text><text x="77.0" y="210" font-size="10" fill="#5b6b7c" text-anchor="middle">GET /api/memb…</text><rect x="263.3" y="73.3" width="12" height="118.7" fill="#8fb8e0"/><text x="269.3" y="70.3" font-size="9" fill="#5b6b7c" text-anchor="middle">89</text><rect x="281.3" y="32.0" width="12" height="160.0" fill="#1f5fa9"/><text x="287.3" y="29.0" font-size="9" fill="#5b6b7c" text-anchor="middle">120</text><rect x="299.3" y="32.0" width="12" height="160.0" fill="#0d3b6e"/><text x="305.3" y="29.0" font-size="9" fill="#5b6b7c" text-anchor="middle">120</text><text x="290.3" y="210" font-size="10" fill="#5b6b7c" text-anchor="middle">GET /api/orde…</text><rect x="476.7" y="150.7" width="12" height="41.3" fill="#8fb8e0"/><text x="482.7" y="147.7" font-size="9" fill="#5b6b7c" text-anchor="middle">31</text><rect x="494.7" y="133.3" width="12" height="58.7" fill="#1f5fa9"/><text x="500.7" y="130.3" font-size="9" fill="#5b6b7c" text-anchor="middle">44</text><rect x="512.7" y="132.0" width="12" height="60.0" fill="#0d3b6e"/><text x="518.7" y="129.0" font-size="9" fill="#5b6b7c" text-anchor="middle">45</text><text x="503.7" y="210" font-size="10" fill="#5b6b7c" text-anchor="middle">GET /api/pros…</text></svg>
+<table><thead><tr><th class="l">接口</th><th>请求数</th><th>P50</th><th>P95</th><th>P99</th><th>错误率</th><th>RPS</th>
+<th>P95 阈值</th><th>上轮 P95</th><th>Δ</th><th>判定</th></tr></thead>
+<tbody><tr><td class="l">GET /api/members</td><td>1821</td><td>12.0</td><td>16.0</td><td>17.0</td><td>0.00%</td><td>95.6</td><td>40.0</td><td>—</td><td>—</td><td><span class="ok">达标</span></td></tr><tr><td class="l">GET /api/orders/export</td><td>645</td><td>89.0</td><td>120.0</td><td>120.0</td><td>2.17%</td><td>33.9</td><td>200.0</td><td>—</td><td>—</td><td><span class="ok">达标</span></td></tr><tr><td class="l">GET /api/prospects</td><td>1947</td><td>31.0</td><td>44.0</td><td>45.0</td><td>0.00%</td><td>102.2</td><td>80.0</td><td>—</td><td>—</td><td><span class="ok">达标</span></td></tr></tbody></table>
+<p class="note">单位：毫秒；Δ 为 P95 相对上一轮的相对变化，正值表示变慢。</p>
+
+<h2>五、阈值对比（超阈项）</h2>
+<table><thead><tr><th class="l">接口</th><th class="l">指标</th><th>实测</th><th>阈值</th></tr></thead>
+<tbody><tr><td class="l" colspan="4">无超阈项</td></tr></tbody></table>
+
+<h2>六、与上一轮对比（恶化 &gt; 10%）</h2>
+<table><thead><tr><th class="l">接口</th><th class="l">指标</th><th>上轮</th><th>本轮</th><th>变化</th></tr></thead>
+<tbody><tr><td class="l" colspan="5">无恶化超过 10% 的指标</td></tr></tbody></table>
+
+<h2>七、结论与建议</h2>
+<ul><li>全部指标在阈值内且无显著恶化，可按当前配置发布；建议把本轮结果归档为下一轮对比基线。</li></ul>
+<p class="note">本报告由 perfreport 自动生成：单文件、样式与图表全部内联，无外部依赖，可直接转发。</p>
+</body></html>

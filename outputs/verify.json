@@ -1,0 +1,89 @@
+{
+ "generated_at": "2026-11-28T07:14:22",
+ "pytest": {
+  "summary": "17 passed in 1.91s",
+  "passed": 17,
+  "returncode": 0
+ },
+ "report": {
+  "path": "outputs/report.html",
+  "bytes": 7993,
+  "external_refs": 0,
+  "sha256": "569bc15f00a24266cd4c36f3fa5f6c7a77dc3f8acb96e8a59b3952da26b3e9dc"
+ },
+ "verdict": "PASS",
+ "checks": {
+  "total": 9,
+  "failed": 0
+ },
+ "run": {
+  "source": "locust-csv",
+  "requests": 8872,
+  "failed": 31,
+  "error_rate": 0.0035,
+  "endpoints": {
+   "GET /api/members": {
+    "count": 3806,
+    "failed": 0,
+    "p50": 7.0,
+    "p95": 9.0,
+    "p99": 10.0,
+    "avg": 6.8,
+    "rps": 200.05,
+    "error_rate": 0.0
+   },
+   "GET /api/orders/export": {
+    "count": 1279,
+    "failed": 31,
+    "p50": 41.0,
+    "p95": 57.0,
+    "p99": 58.0,
+    "avg": 41.4,
+    "rps": 67.23,
+    "error_rate": 0.0242
+   },
+   "GET /api/prospects": {
+    "count": 3787,
+    "failed": 0,
+    "p50": 16.0,
+    "p95": 21.0,
+    "p99": 22.0,
+    "avg": 15.6,
+    "rps": 199.05,
+    "error_rate": 0.0
+   }
+  }
+ },
+ "previous": {
+  "GET /api/members": {
+   "count": 1821,
+   "failed": 0,
+   "p50": 12.0,
+   "p95": 16.0,
+   "p99": 17.0,
+   "avg": 12.1,
+   "rps": 95.57,
+   "error_rate": 0.0
+  },
+  "GET /api/orders/export": {
+   "count": 645,
+   "failed": 14,
+   "p50": 89.0,
+   "p95": 120.0,
+   "p99": 120.0,
+   "avg": 87.0,
+   "rps": 33.85,
+   "error_rate": 0.0217
+  },
+  "GET /api/prospects": {
+   "count": 1947,
+   "failed": 0,
+   "p50": 31.0,
+   "p95": 44.0,
+   "p99": 45.0,
+   "avg": 31.5,
+   "rps": 102.18,
+   "error_rate": 0.0
+  }
+ }
+}
