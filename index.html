@@ -1,5 +1,47 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8"><title>S5-DOC-013 金额税率解析</title></head>
-<body><h1>S5-DOC-013 · 金额与税率解析与大小写互校</h1>
-<p>交付包：<a href="README.md">README</a> · <a href="app/amount.py">解析模块</a> · <a href="data/amount_fixtures.json">50 条夹具</a> · <a href="outputs/verify.json">验证结果</a></p>
-<p>Decimal 转分整数，禁止 float；四条校验规则见 README。</p></body></html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>S5-DOC-013 金额与税率解析 · 交付 #1924</title>
+<style>
+:root{--acc:#2b6cb0;--bg:#f7fafc;--fg:#1a202c;--mut:#4a5568;--card:#fff;--bd:#e2e8f0}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--fg);line-height:1.65}
+.wrap{max-width:900px;margin:0 auto;padding:32px 20px}
+h1{font-size:26px;margin:0 0 8px;color:var(--acc)}h2{font-size:19px;margin:28px 0 12px;border-left:4px solid var(--acc);padding-left:10px}
+.sub{color:var(--mut);margin-bottom:24px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:18px 22px;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left}th{background:#edf2f7}
+code{background:#edf2f7;padding:2px 6px;border-radius:4px;font-size:13px}pre{background:#1a202c;color:#e2e8f0;padding:14px;border-radius:8px;overflow:auto;font-size:13px}
+a{color:var(--acc);font-weight:600}.badge{display:inline-block;background:#38a169;color:#fff;padding:2px 10px;border-radius:12px;font-size:12px}
+ul{margin:8px 0}li{margin:5px 0}
+</style></head><body><div class="wrap">
+<h1>#1924 · 含税/不含税金额与税率解析、大小写互校</h1>
+<p class="sub">S5-DOC-013 · 交付包 <span class="badge">55 tests passed</span></p>
+
+<div class="card">
+<h2 style="margin-top:0">交付内容</h2>
+<ul>
+<li><a href="README.md">README.md</a> — AC 逐条对照、校验规则表、复现命令</li>
+<li><a href="app/amounts.py">app/amounts.py</a> — 解析与校验模块（纯函数，Decimal 转分，禁止 float）</li>
+<li><a href="data/fixtures.py">data/fixtures.py</a> — 50 条虚构金额写法夹具（小写 25 + 大写 20 + 税率 5）</li>
+<li><a href="tests/test_amounts.py">tests/test_amounts.py</a> — pytest（AC1–AC4 + 边界）</li>
+<li><a href="outputs/verify.json">outputs/verify.json</a> — 机器可读验证结果</li>
+</ul>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">验收标准对照</h2>
+<table><tr><th>AC</th><th>要求</th><th>结果</th></tr>
+<tr><td>AC1</td><td>50 条夹具解析为期望分整数</td><td>PASS</td></tr>
+<tr><td>AC2</td><td>大小写不一致输出 amount_case_mismatch</td><td>PASS</td></tr>
+<tr><td>AC3</td><td>只有含税+税率时不含税留空不推算</td><td>PASS</td></tr>
+<tr><td>AC4</td><td>无 float 参与金额运算</td><td>PASS（AST 扫描）</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h2 style="margin-top:0">复现</h2>
+<pre>git clone --branch 1924 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest ch-hub/1924/tests -q   # 55 passed</pre>
+<p class="sub">金额一律 Decimal 解析转「分」整数，禁止 float；四条校验规则由程序执行，大模型不参与数值处理。样例全虚构。</p>
+</div>
+</div></body></html>

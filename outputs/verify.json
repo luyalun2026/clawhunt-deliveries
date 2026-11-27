@@ -1,24 +1,15 @@
 {
- "task": "S5-DOC-013 含税/不含税金额与税率解析、大小写互校",
+ "problem_id": 1924,
  "test_summary": {
-  "passed": 11,
-  "failed": 0,
-  "total": 11
+  "passed": 55,
+  "failed": 0
  },
- "acceptance": {
-  "AC1_50_fixtures": "test_ac1_all_50_fixtures_parse_to_expected_fen PASSED (50 fixtures)",
-  "AC2_case_mismatch": "test_ac2_case_mismatch_flags_and_human_review PASSED",
-  "AC3_two_items_no_inference": "test_ac3_two_items_no_inference PASSED",
-  "AC4_no_float": "test_ac4_no_float_in_amount_module PASSED (AST scan)"
+ "ac": {
+  "AC1_50_fixtures": "PASS (25 lower + 20 upper + 5 rate = 50)",
+  "AC2_case_mismatch": "PASS (amount_case_mismatch asserted)",
+  "AC3_no_infer": "PASS (None + needs_manual_fill)",
+  "AC4_no_float": "PASS (AST: no float literal, no float() call)"
  },
- "extras": [
-  "case consistent",
-  "three items reconcile",
-  "tax rate whitelist",
-  "tax inconsistent",
-  "lower variants",
-  "upper variants",
-  "to_fen rounding"
- ],
- "sha256_file": "SHA256SUMS"
+ "fixtures_count": 50,
+ "no_float": true
 }
