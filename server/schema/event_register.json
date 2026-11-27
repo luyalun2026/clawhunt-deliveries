@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event_register",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "required": true,
+      "description": "活动 ID"
+    },
+    "signup_state": {
+      "type": "string",
+      "enum": [
+        "signed",
+        "waitlisted"
+      ],
+      "required": true,
+      "description": "报名结果"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "signup_state"
+  ],
+  "x_meta": {
+    "version": "1.1.0",
+    "status": "active",
+    "owner": "数据组-张工（虚构）"
+  }
+}

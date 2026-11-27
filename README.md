@@ -1,41 +1,42 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# S3-TRK-001 · 埋点事件字典与属性 Schema（首批 13 个核心事件）
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+> 会员空间平台 · Stage iii 数据采集 · track 模块
+> 字典单源（YAML）→ 生成脚本 → Markdown / TypeScript / JSON Schema 三端产物
+> pytest 10 用例全过
 
-## 验收标准逐条对应
+## 一、验收标准逐条对应
 
-| # | 验收标准 | 结果 | 证据 |
+| # | 验收标准 | 实现 | 证据 |
 |---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 1 | 字典包含 13 个事件，且每个事件都有 props Schema | `load_dictionary` 断言事件数==13 且逐事件 props 为 type=object 的 JSON Schema；13 个事件名与订单清单逐一对应 | `test_ac1_dictionary_13_events_with_props_schema` ✅ |
+| 2 | 生成脚本输出 Markdown 与 .d.ts 文件，CI 中生成结果与仓库内文件一致 | `generate.py` 输出 docs/event_dictionary.md、sdk/events.d.ts、server/schema/*.json（13 份）；测试在 tmp 目录重跑生成并与仓库内文件**逐字节比对**（生成时间不写入，保证可复现） | `test_ac2_regenerated_files_byte_identical` ✅ |
+| 3 | 字段名命中个人信息黑名单时生成脚本报错（测试） | 黑名单写在 YAML 顶部 blacklist 段；加载即校验，命中 phone/手机号 等即 SystemExit 并打印事件名与违规字段 | `test_ac3_blacklist_field_raises` ✅、`test_ac3_blacklist_chinese_variant_raises` ✅ |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+补充：重名事件/非法状态/非法版本号/props 非 object 报错；keyword 为唯一放行的搜索词字段；deprecated 事件必须带 deprecated_reason；服务端 Schema required 与 additionalProperties:false 校验。
 
-## 算法要点
-
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
-
-## 运行
+## 二、运行方法
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install pytest pyyaml
+python track/generate.py            # 生成三端产物
+python -m pytest tests/ -v          # 10 passed
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 三、交付物
+
+- `track/event_dictionary.yaml` — 单一事实源（13 事件：app_launch、page_view、auth_success、auth_apply、resource_view、resource_publish、connect_request、event_view、event_register、event_checkin、faq_ask、faq_feedback、share）
+- `track/generate.py` — 生成脚本（加载即校验：数量/重名/黑名单/Schema 合法性）
+- `docs/event_dictionary.md` — 生成的 Markdown 文档
+- `sdk/events.d.ts` — 生成的 TypeScript 类型（enum → 联合类型，required 字段非可选）
+- `server/schema/*.json` — 每事件一份服务端校验 JSON Schema（additionalProperties:false）
+- `tests/test_dictionary.py` — 10 用例
+
+### 版本与评审流程
+版本号 semver；变更流程：改 YAML → 数据管理员评审 → 合版 → 重跑 generate.py → 一致性测试（AC2）通过。README 内记录对接点：小程序 SDK（编译期 .d.ts）、服务端校验（JSON Schema）。
+
+### 数据与保密
+字典全部为虚构负责人（数据组-李工/张工/王工 虚构），字段只允许 keyword 搜索词，严禁手机号/证件号/姓名/邮箱。
+
+## 四、测试结果
+
+见 `outputs/pytest_main.txt`（10 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取）、`SHA256SUMS`。

@@ -1,0 +1,267 @@
+# 会员空间平台埋点事件字典（单一事实源）· S3-TRK-001
+# 全部内容为虚构示例。变更需数据管理员评审，版本号递增。
+blacklist:
+  - phone
+  - mobile
+  - tel
+  - id_card
+  - idcard
+  - 证件号
+  - 身份证
+  - name
+  - user_name
+  - 姓名
+  - email
+  - 邮箱
+events:
+  - name: app_launch
+    description: 小程序启动
+    trigger: 冷启动/热启动进入前台
+    page: 全局
+    auto_collect: true
+    owner: 数据组-李工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties: {}
+      additionalProperties: false
+  - name: page_view
+    description: 页面浏览
+    trigger: 页面 onShow
+    page: 全局
+    auto_collect: true
+    owner: 数据组-李工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        page:
+          type: string
+          required: true
+          description: 页面路径
+        keyword:
+          type: string
+          required: false
+          description: 搜索词（允许记录）
+      additionalProperties: false
+  - name: auth_success
+    description: 登录成功
+    trigger: 登录接口返回成功
+    page: 登录页
+    auto_collect: true
+    owner: 数据组-王工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        method:
+          type: string
+          enum: [wechat, password]
+          required: true
+          description: 登录方式
+      additionalProperties: false
+  - name: auth_apply
+    description: 提交入驻/认证申请
+    trigger: 申请表单提交
+    page: 认证申请页
+    auto_collect: false
+    owner: 数据组-王工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        apply_kind:
+          type: string
+          enum: [member, vendor]
+          required: true
+          description: 申请类型
+      additionalProperties: false
+  - name: resource_view
+    description: 资源详情浏览
+    trigger: 资源详情页 onShow
+    page: 资源详情页
+    auto_collect: true
+    owner: 数据组-李工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        item_id:
+          type: string
+          required: true
+          description: 资源 ID
+        from:
+          type: string
+          enum: [list, search, share, recommend]
+          required: true
+          description: 进入来源
+      additionalProperties: false
+  - name: resource_publish
+    description: 资源发布
+    trigger: 发布成功回调
+    page: 资源发布页
+    auto_collect: false
+    owner: 数据组-张工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        item_id:
+          type: string
+          required: true
+          description: 资源 ID
+        kind:
+          type: string
+          enum: [supply, demand]
+          required: true
+          description: 供需类型
+      additionalProperties: false
+  - name: connect_request
+    description: 提交对接申请
+    trigger: 对接申请提交成功
+    page: 资源详情页
+    auto_collect: false
+    owner: 数据组-张工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        item_id:
+          type: string
+          required: true
+          description: 资源 ID
+      additionalProperties: false
+  - name: event_view
+    description: 活动详情浏览
+    trigger: 活动详情页 onShow
+    page: 活动详情页
+    auto_collect: true
+    owner: 数据组-李工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        event_id:
+          type: string
+          required: true
+          description: 活动 ID
+      additionalProperties: false
+  - name: event_register
+    description: 活动报名
+    trigger: 报名表单提交成功
+    page: 活动详情页
+    auto_collect: false
+    owner: 数据组-张工（虚构）
+    version: "1.1.0"
+    status: active
+    props:
+      type: object
+      properties:
+        event_id:
+          type: string
+          required: true
+          description: 活动 ID
+        signup_state:
+          type: string
+          enum: [signed, waitlisted]
+          required: true
+          description: 报名结果
+      additionalProperties: false
+  - name: event_checkin
+    description: 活动签到
+    trigger: 签到成功
+    page: 签到页
+    auto_collect: false
+    owner: 数据组-张工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        event_id:
+          type: string
+          required: true
+          description: 活动 ID
+        method:
+          type: string
+          enum: [qrcode, manual]
+          required: true
+          description: 签到方式
+      additionalProperties: false
+  - name: faq_ask
+    description: 提问 FAQ / 知识库
+    trigger: 问题提交
+    page: 帮助页
+    auto_collect: true
+    owner: 数据组-王工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        question_len:
+          type: integer
+          required: true
+          description: 问题字符数（不记录原文）
+        hit_faq:
+          type: boolean
+          required: false
+          description: 是否命中 FAQ
+        keyword:
+          type: string
+          required: false
+          description: 搜索词（允许记录）
+      additionalProperties: false
+  - name: faq_feedback
+    description: 答案反馈
+    trigger: 点赞/点踩
+    page: 帮助页
+    auto_collect: false
+    owner: 数据组-王工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        answer_id:
+          type: string
+          required: true
+          description: 答案 ID
+        useful:
+          type: boolean
+          required: true
+          description: 是否有帮助
+      additionalProperties: false
+  - name: share
+    description: 分享
+    trigger: 转发成功回调
+    page: 全局
+    auto_collect: true
+    owner: 数据组-李工（虚构）
+    version: "1.0.0"
+    status: active
+    props:
+      type: object
+      properties:
+        page:
+          type: string
+          required: true
+          description: 被分享页面
+        target_type:
+          type: string
+          enum: [resource, event, article, mini_program]
+          required: true
+          description: 分享对象类型
+        target_id:
+          type: string
+          required: false
+          description: 对象 ID（页面级分享为空）
+      additionalProperties: false

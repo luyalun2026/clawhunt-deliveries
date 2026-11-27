@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event_view",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "required": true,
+      "description": "活动 ID"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "event_id"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-李工（虚构）"
+  }
+}

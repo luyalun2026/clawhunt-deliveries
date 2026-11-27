@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "page_view",
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "string",
+      "required": true,
+      "description": "页面路径"
+    },
+    "keyword": {
+      "type": "string",
+      "required": false,
+      "description": "搜索词（允许记录）"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "page"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-李工（虚构）"
+  }
+}

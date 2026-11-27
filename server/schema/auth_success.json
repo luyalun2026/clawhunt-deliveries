@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "auth_success",
+  "type": "object",
+  "properties": {
+    "method": {
+      "type": "string",
+      "enum": [
+        "wechat",
+        "password"
+      ],
+      "required": true,
+      "description": "登录方式"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "method"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-王工（虚构）"
+  }
+}

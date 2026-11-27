@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "resource_publish",
+  "type": "object",
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "required": true,
+      "description": "资源 ID"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "supply",
+        "demand"
+      ],
+      "required": true,
+      "description": "供需类型"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "item_id",
+    "kind"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-张工（虚构）"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "faq_ask",
+  "type": "object",
+  "properties": {
+    "question_len": {
+      "type": "integer",
+      "required": true,
+      "description": "问题字符数（不记录原文）"
+    },
+    "hit_faq": {
+      "type": "boolean",
+      "required": false,
+      "description": "是否命中 FAQ"
+    },
+    "keyword": {
+      "type": "string",
+      "required": false,
+      "description": "搜索词（允许记录）"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "question_len"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-王工（虚构）"
+  }
+}

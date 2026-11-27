@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "resource_view",
+  "type": "object",
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "required": true,
+      "description": "资源 ID"
+    },
+    "from": {
+      "type": "string",
+      "enum": [
+        "list",
+        "search",
+        "share",
+        "recommend"
+      ],
+      "required": true,
+      "description": "进入来源"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "item_id",
+    "from"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-李工（虚构）"
+  }
+}

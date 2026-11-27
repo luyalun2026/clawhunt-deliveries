@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "app_launch",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "required": [],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-李工（虚构）"
+  }
+}

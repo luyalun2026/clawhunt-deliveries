@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "share",
+  "type": "object",
+  "properties": {
+    "page": {
+      "type": "string",
+      "required": true,
+      "description": "被分享页面"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "resource",
+        "event",
+        "article",
+        "mini_program"
+      ],
+      "required": true,
+      "description": "分享对象类型"
+    },
+    "target_id": {
+      "type": "string",
+      "required": false,
+      "description": "对象 ID（页面级分享为空）"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "page",
+    "target_type"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-李工（虚构）"
+  }
+}

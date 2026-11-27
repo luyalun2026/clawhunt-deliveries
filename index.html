@@ -1,110 +1,48 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>S4-FIN-002 签约事件分期算法与尾差处理</title>
-<style>
-:root{--ink:#111827;--sub:#5b6472;--line:#e5e7eb;--acc:#1f3864;--bg:#fbfcfe}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}
-.wrap{max-width:960px;margin:0 auto;padding:40px 24px 64px}
-h1{font-size:26px;margin:0 0 6px;color:var(--acc)}
-.sub{color:var(--sub);margin:0 0 24px}
-.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
-.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
-.card b{display:block;font-size:24px;color:var(--acc)}
-.card span{color:var(--sub);font-size:13px}
-h2{font-size:18px;margin:32px 0 10px;padding-left:10px;border-left:4px solid var(--acc)}
-table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
-th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
-th{background:#eef2f9;font-weight:600}
-ul{padding-left:22px}li{margin:4px 0}
-a{color:var(--acc)}
-.meta{color:var(--sub);font-size:12px}
-.note{background:#fff;border:1px dashed var(--line);border-radius:10px;padding:14px 16px;color:var(--sub);font-size:13px}
-code{background:#eef2f9;padding:1px 5px;border-radius:4px;font-size:13px}
-</style></head><body><div class="wrap">
-<h1>#2856 · 签约事件生成回款计划：分期算法与尾差处理（S4-FIN-002）</h1>
-<p class="sub">整数分 + Decimal 全程无 float · 尾期按天折算 + 尾差归最后一期 · hypothesis 200 例属性测试 · 幂等双重防护</p>
-
-<div class="kpi">
-<div class="card"><b>11</b><span>pytest 通过 / 失败 0</span></div>
-<div class="card"><b>200</b><span>hypothesis 随机合同全过</span></div>
-<div class="card"><b>10/10</b><span>样例合同黄金文件一致</span></div>
-<div class="card"><b>0</b><span>float 违规（AST 检查）</span></div>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#2609 S3-TRK-001 埋点事件字典与属性 Schema（首批 13 个核心事件） · 交付包</title>
+<style>body{font-family:'Microsoft YaHei',sans-serif;margin:0;background:#f6f7f9;color:#222}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px}
+.tag{display:inline-block;background:#e8f0fe;color:#1a56db;border-radius:99px;padding:4px 14px;font-size:13px}
+h1{font-size:26px;margin:14px 0 6px} .lead{color:#555;line-height:1.7}
+.kpis{display:flex;gap:12px;margin:18px 0}
+.kpi{background:#fff;border-radius:10px;padding:14px 18px;box-shadow:0 1px 4px rgba(0,0,0,.06);text-align:center;flex:1}
+.kpi b{display:block;font-size:22px;color:#1a56db} .kpi span{font-size:12px;color:#777}
+h2{font-size:18px;margin-top:26px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden}
+th,td{padding:8px 10px;border-bottom:1px solid #eee;font-size:13px;text-align:left;vertical-align:top}
+th{background:#f0f2f5} .ok{color:#0a7d32;font-weight:600}
+code{background:#f2f3f5;padding:1px 5px;border-radius:4px;font-size:12px}
+pre{background:#1e2430;color:#d7e3f4;padding:14px;border-radius:8px;overflow:auto;font-size:13px}
+ul{line-height:1.9} .foot{color:#888;font-size:12px;margin-top:24px}</style></head>
+<body><div class="wrap">
+<span class="tag">ClawHunt #2609 · 交付包</span>
+<h1>S3-TRK-001 埋点事件字典与属性 Schema（首批 13 个核心事件）</h1>
+<p class="lead">YAML 字典单源 → generate.py 生成三端产物（Markdown 文档 / sdk/events.d.ts / server/schema 13 份 JSON Schema）；加载即校验事件数、重名、semver 版本、状态枚举与个人信息黑名单。</p>
+<div class="kpis">
+  <div class="kpi"><b>10</b><span>测试通过</span></div>
+  <div class="kpi"><b>0</b><span>测试失败</span></div>
+  <div class="kpi"><b>9</b><span>交付文件</span></div>
+  <div class="kpi"><b>$76.50</b><span>投标金额</span></div>
 </div>
 
-<h2>交付文件（浏览器可直接打开）</h2><ul>
-<li><a href="schedule.py">schedule.py</a> <span class="meta">sha256:fb251344f6f71bdc · 8999 bytes</span></li>
-<li><a href="reference.py">reference.py</a> <span class="meta">sha256:40983799ea7ccaae · 2841 bytes</span></li>
-<li><a href="check_no_float.py">check_no_float.py</a> <span class="meta">sha256:b360b9cc0fb8b6ae · 2516 bytes</span></li>
-<li><a href="make_samples.py">make_samples.py</a> <span class="meta">sha256:e488e9ef29ea13b2 · 5897 bytes</span></li>
-<li><a href="verify.py">verify.py</a> <span class="meta">sha256:f346cff0b34ddd9b · 19865 bytes</span></li>
-<li><a href="README.md">README.md</a> <span class="meta">sha256:6c73193e100c9985 · 2362 bytes</span></li>
-<li><a href="tests/test_schedule.py">tests/test_schedule.py</a> <span class="meta">sha256:92a74cc3f95f030e · 9246 bytes</span></li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> <span class="meta">sha256:65ccc87a7d8c0acc · 1396 bytes</span></li>
-<li><a href="evidence/samples_run.txt">evidence/samples_run.txt</a> <span class="meta">sha256:a7478c1420c9db1f · 1008 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.json">sample_contracts/01_12m_quarter_tail.json</a> <span class="meta">sha256:bed31f08e2e5614e · 444 bytes</span></li>
-<li><a href="sample_contracts/01_12m_quarter_tail.expected.json">sample_contracts/01_12m_quarter_tail.expected.json</a> <span class="meta">sha256:753d24b53d6202b7 · 1957 bytes</span></li>
-</ul>
+<h2>验收标准逐条落点</h2>
+<table><thead><tr><th>验收项</th><th>证据（可复跑）</th><th>实测结论</th><th>状态</th></tr></thead>
+<tbody><tr><td>字典包含 13 个事件且各有 props Schema</td><td><code>test_ac1_dictionary_13_events_with_props_schema</code></td><td>事件名与订单清单逐一对应；订单给定 props（item_id+from、signup_state 等）逐事件断言</td><td class='ok'>通过</td></tr><tr><td>CI 生成结果与仓库内文件一致</td><td><code>test_ac2_regenerated_files_byte_identical</code></td><td>tmp 重跑 generate 与仓库内 MD/.d.ts/JSON Schema 逐字节比对；生成时间不写入保证可复现</td><td class='ok'>通过</td></tr><tr><td>黑名单字段名报错</td><td><code>test_ac3_blacklist_field_raises + 中文变体</code></td><td>phone/手机号 命中即 SystemExit 并打印事件名与违规字段</td><td class='ok'>通过</td></tr></tbody></table>
 
-<h2>验收标准逐条对应（实测）</h2>
-<table><thead><tr><th>验收标准</th><th>实测</th><th>结论</th></tr></thead><tbody>
-<tr><td>① 12 个月季付：租金 4 期、会籍 4 期、押金 1 期，逐分相等</td>
-<td>租金 4 期 Σ=1,200,000（合同 1,200,000）；会籍 4 期 Σ=360,000（合同 360,000）；押金 1 期 50,000，到期 2026-01-01</td>
-<td>✅ PASS</td></tr>
-<tr><td>② hypothesis 随机 200 份合同（含尾期折算），Σ分期==总额</td>
-<td>max_examples=200，pytest 11 passed / 0 failed（2.02s，hypothesis 6.170.15）</td>
-<td>✅ PASS</td></tr>
-<tr><td>③ 同一事件重复投递 3 次只生成 1 个计划</td>
-<td>投递 3 次 created=[True, False, False]；store 内 active 计划 1 个</td>
-<td>✅ PASS</td></tr>
-<tr><td>④ 金额计算模块中没有 float 运算</td>
-<td>AST 扫描违规 0 处（退出码 0）；检查器对违规样本正确报警（test_no_float_checker_detects_violation）</td>
-<td>✅ PASS</td></tr>
-<tr><td>附：10 份样例合同与期望分期黄金文件逐字段一致</td>
-<td>10/10 份一致，Σ分期==总额 True</td>
-<td>✅ PASS</td></tr>
-</tbody></table>
+<h2>边界另测</h2>
+<ul><li>重名事件报错</li><li>非法 status/semver 版本报错</li><li>props 非 object 报错</li><li>deprecated 必须带 deprecated_reason</li><li>.d.ts required 字段非可选且 enum 生成联合类型</li><li>服务端 Schema additionalProperties:false。</li></ul>
 
-<h2>10 份样例合同（合同总额单位：分）</h2>
-<table><thead><tr><th>样例</th><th>付款周期</th><th>分期数</th><th>合同总额（分）</th><th>Σ分期==总额</th><th>黄金文件一致</th></tr></thead>
-<tbody>
-<tr><td>01_12m_quarter_tail</td><td>quarter</td><td>9</td><td>1,610,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>02_12m_month_exact</td><td>month</td><td>13</td><td>1,220,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>03_10m_quarter_tail</td><td>quarter</td><td>4</td><td>1,001,918</td><td>✅</td><td>✅</td></tr>
-<tr><td>04_24m_year_multi</td><td>year</td><td>5</td><td>3,100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>05_6m_half_year</td><td>half_year</td><td>2</td><td>530,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>06_8m_month_tail</td><td>month</td><td>17</td><td>815,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>07_36m_quarter_multi</td><td>quarter</td><td>13</td><td>3,080,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>08_1m_month_min</td><td>month</td><td>1</td><td>100,000</td><td>✅</td><td>✅</td></tr>
-<tr><td>09_18m_half_year_tail</td><td>half_year</td><td>5</td><td>1,513,425</td><td>✅</td><td>✅</td></tr>
-<tr><td>10_20m_month_tail</td><td>month</td><td>43</td><td>3,133,973</td><td>✅</td><td>✅</td></tr>
-</tbody></table>
+<h2>复现方法</h2>
+<pre><code>git clone --branch 2609 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest tests -q</code></pre>
 
-<h2>算法要点</h2>
-<ul>
-<li>整期金额 = 周期金额原值（整数分，不做除法）；尾期日金额 = 月金额 × 12 ÷ 365（Decimal，ROUND_HALF_UP 到分）。</li>
-<li>尾差 = 该费用类型总额 − Σ整期 − 尾期折算值，计入该类型最后一期 → 每个费用类型逐分相等。</li>
-<li>到期日：首期 = 首付款日；后续每期 = 周期开始日 − <code>advance_days</code>；押金独立 1 行，到期日 = 首付款日。</li>
-<li>多年合同输出 <code>first_year_amount_cents</code>（起始 12 个月内开始的周期的分期之和）。</li>
-<li>幂等：<code>PlanStore</code> 以 <code>source_event_id</code> 唯一 + 同合同仅一个 active 计划双重防护；生产替换为 PostgreSQL 唯一索引 / 部分唯一索引，接口不变。</li>
-</ul>
+<h2>交付文件与 SHA-256</h2>
+<table><thead><tr><th>文件</th><th>字节</th><th>SHA-256（前 16 位）</th></tr></thead>
+<tbody><tr><td><code>README.md</code></td><td>2,995</td><td><code>80dd2cbcd92aea98…</code></td></tr><tr><td><code>track/event_dictionary.yaml</code></td><td>6,750</td><td><code>524c76bb2f497d71…</code></td></tr><tr><td><code>track/generate.py</code></td><td>7,666</td><td><code>71c9812532732c34…</code></td></tr><tr><td><code>docs/event_dictionary.md</code></td><td>4,909</td><td><code>d66cb095e3f47bca…</code></td></tr><tr><td><code>sdk/events.d.ts</code></td><td>1,781</td><td><code>81cca786c2e57b71…</code></td></tr><tr><td><code>server/schema/event_register.json</code></td><td>618</td><td><code>20e890952be424cb…</code></td></tr><tr><td><code>tests/test_dictionary.py</code></td><td>4,882</td><td><code>5df5d4c28ff6a3c7…</code></td></tr><tr><td><code>outputs/pytest_main.txt</code></td><td>1,344</td><td><code>50f30ddcc9aae229…</code></td></tr><tr><td><code>outputs/verify.json</code></td><td>716</td><td><code>e79a996ccd6058a9…</code></td></tr></tbody></table>
 
-<h2>复现命令</h2>
-<div class="note">
-python -m pytest tests/ -v &nbsp;→&nbsp; 11 passed in 2.02s<br>
-python check_no_float.py schedule.py &nbsp;→&nbsp; 违规 0 处，退出码 0<br>
-python make_samples.py &nbsp;→&nbsp; 重算 10 份样例与期望分期<br>
-python verify.py &nbsp;→&nbsp; 重跑全部检查并重写 <a href="outputs/verify.json">outputs/verify.json</a>
-</div>
-
-<h2>证据文件</h2>
-<ul>
-<li><a href="outputs/verification-run.txt">outputs/verification-run.txt</a> — 五段式验证记录（pytest 逐条 / 样例 / 幂等 / 无 float / AC1 明细）</li>
-<li><a href="outputs/verify.json">outputs/verify.json</a> — 实测数字唯一来源，本页所有数字由它自动回填</li>
-<li><a href="outputs/ac-checklist.csv">outputs/ac-checklist.csv</a> — 验收项逐条实测表</li>
-<li><a href="evidence/pytest.txt">evidence/pytest.txt</a> · <a href="evidence/samples_run.txt">evidence/samples_run.txt</a></li>
-</ul>
-
-<p class="meta">生成时间 2026-11-18 18:20:40 · Python 3.13.14 · 全部数据为虚构样例，不含任何真实客户或个人信息 · 未引入任何向境外发送数据的第三方 SDK</p>
+<p class="foot">本页数字由 <code>_1127_pages.py</code> 实跑 <code>python -m pytest</code> 与文件哈希自动生成，未手写；
+完整哈希见同目录 <code>SHA256SUMS</code>。数据全部虚构，不含客户名称与真实个人信息。</p>
 </div></body></html>

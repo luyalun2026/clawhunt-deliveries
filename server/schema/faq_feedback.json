@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "faq_feedback",
+  "type": "object",
+  "properties": {
+    "answer_id": {
+      "type": "string",
+      "required": true,
+      "description": "答案 ID"
+    },
+    "useful": {
+      "type": "boolean",
+      "required": true,
+      "description": "是否有帮助"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "answer_id",
+    "useful"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-王工（虚构）"
+  }
+}

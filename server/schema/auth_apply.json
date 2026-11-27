@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "auth_apply",
+  "type": "object",
+  "properties": {
+    "apply_kind": {
+      "type": "string",
+      "enum": [
+        "member",
+        "vendor"
+      ],
+      "required": true,
+      "description": "申请类型"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "apply_kind"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-王工（虚构）"
+  }
+}

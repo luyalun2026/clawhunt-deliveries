@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event_checkin",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "required": true,
+      "description": "活动 ID"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "qrcode",
+        "manual"
+      ],
+      "required": true,
+      "description": "签到方式"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "method"
+  ],
+  "x_meta": {
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "数据组-张工（虚构）"
+  }
+}
