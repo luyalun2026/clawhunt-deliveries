@@ -1,0 +1,34 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#2430 多会所字段覆盖扫描</title>
+<style>
+:root{--acc:#2563eb;--bg:#f8fafc;--card:#fff;--ink:#0f172a}
+body{margin:0;font-family:"Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+main{max-width:860px;margin:0 auto;padding:40px 20px}
+.badge{display:inline-block;background:var(--acc);color:#fff;border-radius:6px;padding:2px 10px;font-size:13px}
+h1{font-size:26px;margin:14px 0}
+.card{background:var(--card);border:1px solid #e2e8f0;border-radius:10px;padding:20px;margin:16px 0}
+pre{background:#f1f5f9;border-radius:6px;padding:14px;overflow:auto;font-size:13px}
+a{color:var(--acc)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{border:1px solid #e2e8f0;padding:6px 10px;text-align:left}
+</style></head><body><main>
+<span class="badge">#2430</span>
+<h1>多会所字段覆盖扫描：org_id / site_id 与索引核查</h1>
+<div class="card">
+<p>scan_tenancy_columns.py 实查系统目录（PG=information_schema / pg_indexes；SQLite 测试路径=pragma 等价），tenancy_rules.yaml 三类分类（会所级/机构级/全局字典），未登记表一律 blocker、退出码 1 可接 CI。报告数字零手写。</p>
+<h3>验收覆盖</h3>
+<table>
+<tr><th>AC</th><th>证据</th></tr>
+<tr><td>1 业务表数量与目录统计一致</td><td>test_ac1_table_count_matches_information_schema（同口径相等断言）</td></tr>
+<tr><td>2 两张虚构测试表两类问题报出</td><td>fake_room（缺 site_id 列）→ blocker；fake_venue（缺 org_id 索引）→ major</td></tr>
+<tr><td>3 未登记表 blocker + 退出码 1</td><td>sneaky_table 用例 + 退出码断言</td></tr>
+</table>
+<p>实跑报告样例：<a href="outputs/report.md">outputs/report.md</a> · <a href="outputs/report.json">outputs/report.json</a>（7 表：blocker=2 major=3）</p>
+<h3>复跑</h3>
+<pre>env -u GITHUB_TOKEN git clone --depth 1 --branch 2430 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries/2430 && pip install sqlalchemy pytest && python -m pytest tests -q
+# 6 passed</pre>
+<p>SHA-256 见 <a href="SHA256SUMS">SHA256SUMS</a> · 文档 <a href="README.md">README.md</a></p>
+</div>
+</main></body></html>

@@ -1,0 +1,79 @@
+{
+ "schema": "main",
+ "business_table_count": 7,
+ "tables": [
+  {
+   "table": "venue",
+   "class": "site",
+   "missing_columns": [],
+   "missing_indexes": [
+    "(org_id) 或 (org_id, site_id) 前缀索引",
+    "(site_id) 索引"
+   ],
+   "cross_org_fk_risk": [],
+   "level": "major"
+  },
+  {
+   "table": "fake_room",
+   "class": "site",
+   "missing_columns": [
+    "site_id"
+   ],
+   "missing_indexes": [
+    "(org_id) 或 (org_id, site_id) 前缀索引"
+   ],
+   "cross_org_fk_risk": [],
+   "level": "blocker"
+  },
+  {
+   "table": "fake_venue",
+   "class": "site",
+   "missing_columns": [],
+   "missing_indexes": [
+    "(org_id) 或 (org_id, site_id) 前缀索引",
+    "(site_id) 索引"
+   ],
+   "cross_org_fk_risk": [],
+   "level": "major"
+  },
+  {
+   "table": "contact",
+   "class": "org",
+   "missing_columns": [],
+   "missing_indexes": [
+    "(org_id) 或 (org_id, site_id) 前缀索引"
+   ],
+   "cross_org_fk_risk": [],
+   "level": "major"
+  },
+  {
+   "table": "member_company",
+   "class": "org",
+   "missing_columns": [],
+   "missing_indexes": [],
+   "cross_org_fk_risk": [],
+   "level": "ok"
+  },
+  {
+   "table": "region_code",
+   "class": "global",
+   "missing_columns": [],
+   "missing_indexes": [],
+   "cross_org_fk_risk": [],
+   "level": "ok"
+  },
+  {
+   "table": "sneaky_table",
+   "class": "unregistered",
+   "missing_columns": [],
+   "missing_indexes": [],
+   "cross_org_fk_risk": [],
+   "level": "blocker"
+  }
+ ],
+ "summary": {
+  "blocker": 2,
+  "major": 3,
+  "warn": 0
+ }
+}

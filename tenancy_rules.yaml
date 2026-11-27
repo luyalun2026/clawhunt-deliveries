@@ -1,0 +1,32 @@
+# 多会所字段覆盖规则：分类依据全部登记在此，未登记表一律 blocker。
+tables:
+  venue:
+    class: site
+    notes: "场地：会所维度，site_id 必须非空"
+  activity:
+    class: site
+    notes: "活动：在某一会所举办，site_id 必须非空"
+  sop_instance:
+    class: site
+    notes: "SOP 实例：绑定具体会所执行"
+  member_company:
+    class: org
+    notes: "会员企业：机构级共享，site_id 可空"
+  contact:
+    class: org
+    notes: "联系人：机构级共享"
+  kb_article:
+    class: org
+    notes: "知识库文章：机构级共享"
+  region_code:
+    class: global
+    notes: "地区字典：全局豁免租户列"
+  industry_code:
+    class: global
+    notes: "行业字典：全局豁免租户列"
+  fake_room:
+    class: site
+    notes: "虚构测试表（AC2）：故意缺 site_id 列"
+  fake_venue:
+    class: site
+    notes: "虚构测试表（AC2）：故意缺 org_id 索引"
