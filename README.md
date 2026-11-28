@@ -38,7 +38,7 @@
 | 6 | 生成后引用校验失败（chunk 不存在 / 片段不匹配） | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=citation_failed`；整答降级 |
 | 7 | 以上全部不命中 | `answer` | 生成结果 | 不记缺口；判定结果以 `review_level=L0` 进复核队列 |
 
-固定文案：`知识库中没有找到；已记录为知识缺口，负责人会补充。`（`app/refusal.py: REFUSAL_TEXT`，测试按字面量比对，不做包含匹配）。
+固定文案：`知识库中没有找到，已记录为知识缺口，负责人会补充`（`app/refusal.py: REFUSAL_TEXT`，测试按字面量比对，不做包含匹配）。
 
 ## 关键实现
 

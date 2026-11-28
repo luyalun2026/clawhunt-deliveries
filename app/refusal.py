@@ -8,8 +8,8 @@
 """
 from datetime import date, datetime, timedelta
 
-# 固定文案：主句 + 尾句，逐字符常量，测试按字面量比对
-REFUSAL_TEXT = "知识库中没有找到；已记录为知识缺口，负责人会补充。"
+# 固定文案：主句 + 尾句，与任务原文两处引号内字符串逐字一致，测试按字面量比对
+REFUSAL_TEXT = "知识库中没有找到，已记录为知识缺口，负责人会补充"
 
 POLICY_TEXTS = {
     "contact": "无法提供其他会员的联系方式，此类信息不对第三方开放。",
