@@ -244,3 +244,24 @@ def test_doc_llm_client_rejects_bad_base_url():
     for bad in ["ftp://x", "not-a-url", "http://", "/admin/chat"]:
         with pytest.raises(ValueError):
             DocLlmClient(base_url=bad)
+
+
+def test_multichunk_failed_chunk_fields_marked_llm_failed():
+    """多块合同：块1 连续 3 次不合规/非法 JSON、块2 成功 -> 块1 涉及且无候选的字段标 llm_failed，
+    有候选字段照常合并，整组不整体判失败。"""
+    filler = "这是虚构合同填充段落，用于构造超长文本测试。" * 20
+    long_text = (filler * 15 + "总金额为人民币 12 万元（¥120000 元）。" + filler * 17)[:13000]
+    ok_resp = MockLLM.ok({
+        "total_amount_quote": [{"value": "¥120000 元", "quote": "总金额为人民币 12 万元（¥120000 元）",
+                                "confidence_self": 0.97, "not_found": False}],
+        "payment_terms_quote": [],
+    })
+    store = CallLogStore()
+    llm = MockLLM(["bad json", "bad json", "bad json", ok_resp])  # 块1 3 连败，块2 成功
+    res = extract_group(long_text, STRUCTURE, "amount_payment", llm, store)
+    assert res.llm_failed is False                       # 有成功块 -> 整组不判失败
+    assert res.fields["total_amount_quote"].value == "¥120000 元"
+    assert res.fields["total_amount_quote"].llm_failed is False
+    assert res.fields["payment_terms_quote"].llm_failed is True   # 仅来自失败块 -> 交人工
+    assert res.fields["payment_terms_quote"].not_found is True
+    assert len(llm.calls) == 5                           # 3 块：块1 3 次 + 块2/块3 各 1 次

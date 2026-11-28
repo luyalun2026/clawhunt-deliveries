@@ -45,3 +45,10 @@ python -m pytest tests/ -v          # 27 passed
 ## 四、测试结果
 
 见 `outputs/pytest_main.txt`（17 passed / 0 failed）、`outputs/verify.json`（数字由 pytest 输出自动提取，零手写）、`SHA256SUMS`（全部交付文件哈希）。
+
+## 五、数据安全与留存口径
+
+- **落盘数据**：`llm_call_log`（SQLite）仅记录调用审计元数据（field_group / prompt_version / model / attempt / parse_ok / created_at），**不落合同原文**；抽取结果只进入内存中的 review_queue 数据结构并由调用方持久化，本服务自身不另存合同全文。
+- **访问控制**：SQLite 文件位于服务私有数据目录，部署时目录权限收紧为服务账号独占（POSIX 0700 / 数据盘不进公共备份）；store.py 连接使用本地相对路径，不监听任何网络端口。
+- **传输**：模型调用走 `DOC_LLM_BASE_URL`（启动时校验必须 http/https 且含主机名，禁止境外接口），生产环境要求内网私有化部署并启用 https；发送内容仅为切块后的合同片段（≤6000 字），无越权字段。
+- **AI 边界**：模型只做定位与抄录，金额由 `parse_amounts` 程序解析；全部结果标记 `needs_human_review`，不直接对外发送。

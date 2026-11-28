@@ -1,9 +1,9 @@
 {
   "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
   "test_summary": {
-    "passed": 27,
+    "passed": 28,
     "failed": 0,
-    "total": 27
+    "total": 28
   },
   "acceptance": {
     "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
@@ -25,6 +25,7 @@
     "test_doc_llm_client_auth_header",
     "test_multichunk_extract_merges_across_chunks",
     "test_doc_llm_client_rejects_bad_base_url",
+    "test_multichunk_failed_chunk_fields_marked_llm_failed",
     "test_schema_file_loads_and_has_not_found",
     "test_valid_output_passes",
     "test_single_object_candidate_normalized_passes",

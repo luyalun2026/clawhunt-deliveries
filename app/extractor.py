@@ -219,8 +219,14 @@ def extract_group(
 
     for fname in group_fields:
         cands = collected[fname]
-        result.fields[fname] = (_merge_candidates(cands, text) if cands
-                                else FieldResult(not_found=True))
+        if cands:
+            result.fields[fname] = _merge_candidates(cands, text)
+        else:
+            # 多块合同中该字段仅来自失败块（无任何可回查候选）-> 标 llm_failed 交人工。
+            fr = FieldResult(not_found=True)
+            if failed_chunks > 0:
+                fr.llm_failed = True
+            result.fields[fname] = fr
     return result
 
 
