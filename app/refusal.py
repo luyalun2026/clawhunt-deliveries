@@ -111,13 +111,17 @@ def decide(question, chunks, *, site_id, settings, policy_router, gap, generator
     vis = visible_chunks(chunks, site_id=site_id, user_level=user_level)
     good = [c for c in vis if evidence_ok(c, settings)]
     fresh = [c for c in good if not is_stale(c, settings, today=today)]
+    stale_all = [c for c in vis if is_stale(c, settings, today=today)]
 
-    # 3) 三条硬条件（按 切片不足 > 低分 > 全过期 的顺序给出 reason）
+    # 3) 三条硬条件（按 切片不足 > 全过期 > 低分 > 混合不足 的顺序给出 reason；
+    #    全部可见切片过复审期时判 stale_docs（规则 5），即使它们同时全部低分）
     reason = None
     if not vis:
         reason = "insufficient"
     elif len(fresh) < max(1, int(settings.min_evidence)):
-        if not good:
+        if len(stale_all) == len(vis):
+            reason = "stale_docs"
+        elif not good:
             reason = "low_score"
         elif not fresh:
             reason = "stale_docs"

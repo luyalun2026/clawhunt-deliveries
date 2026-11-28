@@ -44,7 +44,9 @@ def make_router(rules):
                          [k for k in (r.get("keywords") or [])]))
 
     def route(question):
-        q = str(question or "")
+        # 输入防护：截断超长文本、去除控制字符（正则模式来自服务端配置文件，
+        # 不来自用户输入，因此无 ReDoS 注入面）
+        q = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f]", "", str(question or ""))[:2000]
         for rid, cat, pattern, keywords in compiled:
             if pattern is not None and pattern.search(q):
                 return cat

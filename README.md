@@ -2,7 +2,7 @@
 
 ## 运行结果
 
-- 用例 41，通过 41，失败 0（41 passed in 1.81s）
+- 用例 46，通过 46，失败 0（46 passed，含返工整改 5 例）
 - 生成时间：2026-11-22T02:22:30
 
 | 验收分组 | 用例数 | 通过 | 失败 | 结论 |
@@ -12,7 +12,7 @@
 | AC3 每次拒答调用一次知识缺口记录 | 7 | 7 | 0 | 通过 |
 | AC4 三类禁答各 ≥3 用例并通过 | 10 | 10 | 0 | 通过 |
 | 边界与加固：可见范围/引用归一化/配置校验/政策优先级 | 12 | 12 | 0 | 通过 |
-| **合计** | **41** | **41** | **0** | **全部通过** |
+| **合计** | **46** | **46** | **0** | **全部通过** |
 
 ## 实测指标（probe.py 运行期采集）
 
@@ -32,9 +32,9 @@
 |---|---|---|---|---|
 | 1 | 命中禁答三类（contact / business / commitment） | `refuse_policy` | `POLICY_TEXTS[category]` | 记 1 次知识缺口，`reason=policy`；不判分数 |
 | 2 | 可见范围过滤后无切片 | `refuse_kb` | `REFUSAL_TEXT`（固定） | 记 1 次缺口，`reason=insufficient` |
-| 3 | `max(rerank) < KB_MIN_RERANK_SCORE` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=low_score` |
+| 3 | `max(rerank) < KB_MIN_RERANK_SCORE`（且可见切片非全部过期） | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=low_score` |
 | 4 | 达标切片数 `< KB_MIN_EVIDENCE` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=insufficient` |
-| 5 | 达标切片全部 `doc_review_valid_until < today` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=stale_docs` |
+| 5 | 可见切片全部 `doc_review_valid_until < today`（**优先于规则 3 判定**，即使同时全部低分） | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=stale_docs`（test_r1/r2/r3） |
 | 6 | 生成后引用校验失败（chunk 不存在 / 片段不匹配） | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=citation_failed`；整答降级 |
 | 7 | 以上全部不命中 | `answer` | 生成结果 | 不记缺口；判定结果以 `review_level=L0` 进复核队列 |
 
@@ -42,7 +42,8 @@
 
 ## 关键实现
 
-- `app/settings.py`：`KB_MIN_RERANK_SCORE`（默认 0.35）、`KB_MIN_EVIDENCE`（1）、`DOC_FRESHNESS_DAYS`（180）、`KB_GAP_BASE_URL` 全部从环境变量读取，缺省时在 `used_defaults` 中留痕（test_29）。
+- `app/settings.py`：`KB_MIN_RERANK_SCORE`（默认 0.35）、`KB_MIN_EVIDENCE`（1）、`DOC_FRESHNESS_DAYS`（180）、`KB_GAP_BASE_URL` 全部从环境变量读取，缺省时在 `used_defaults` 中留痕（test_29）；`KB_GAP_BASE_URL` 经 `validate_gap_url` 强校验：必须 http/https 且含主机名，否则启动即 ValueError，防止误配导致缺口数据外传（test_r4）。
+- `app/policy.py`：路由输入先去除控制字符并截断 2000 字再做正则/关键词匹配；正则模式全部来自服务端配置文件 `forbidden_rules.yaml`（非用户输入），无 ReDoS 注入面（test_r5）。
 - `app/refusal.py`：`decide()` 为短路流水线，生成模型只在第 7 步发生一次；`verify_citations()` 用 NFKC 归一化后做子串比对，全角/半角等价文本不会被误拒（test_27）。
 - `app/policy.py` + `forbidden_rules.yaml`：正则 + 关键词双通道；加载时校验 `id` 唯一、每类规则样例 ≥3、三类齐全，缺失即启动报错（test_31 / test_32）。
 - `stub/generator.py`：强制引用模式，可注入 `fake_chunk_id` / 改写片段，用于证明"引用失败必降级"。
