@@ -1,41 +1,75 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# 工单 #1935 · 证据充分性判定与拒答规则
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+## 运行结果
 
-## 验收标准逐条对应
+- 用例 41，通过 41，失败 0（41 passed in 1.81s）
+- 生成时间：2026-11-22T02:22:30
 
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 验收分组 | 用例数 | 通过 | 失败 | 结论 |
+|---|---|---|---|---|
+| AC1 拒答文案与固定文案逐字一致（含阈值边界） | 6 | 6 | 0 | 通过 |
+| AC2 拒答路径生成模型调用次数为 0 | 6 | 6 | 0 | 通过 |
+| AC3 每次拒答调用一次知识缺口记录 | 7 | 7 | 0 | 通过 |
+| AC4 三类禁答各 ≥3 用例并通过 | 10 | 10 | 0 | 通过 |
+| 边界与加固：可见范围/引用归一化/配置校验/政策优先级 | 12 | 12 | 0 | 通过 |
+| **合计** | **41** | **41** | **0** | **全部通过** |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+## 实测指标（probe.py 运行期采集）
 
-## 算法要点
+| 指标 | 实测值 |
+|---|---|
+| `cases` | `7` |
+| `refused` | `6` |
+| `answered` | `1` |
+| `generator_calls` | `1` |
+| `gap_calls` | `6` |
+| `outcome_matrix` | `{"normal": "answer/None", "low_score": "refuse_kb/low_score", "stale": "refuse_kb/stale_docs", "policy_contact": "refuse_policy/policy", "policy_business": "refuse_policy/policy", "policy_commitment": "refuse_policy/policy", "cross_site": "refuse_kb/insufficient"}` |
+| `rules_loaded` | `4` |
 
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+## 判定规则表（阈值 / 分支 / 文案 / 副作用）
 
-## 运行
+| # | 条件 | 判定 | 文案来源 | 副作用 |
+|---|---|---|---|---|
+| 1 | 命中禁答三类（contact / business / commitment） | `refuse_policy` | `POLICY_TEXTS[category]` | 记 1 次知识缺口，`reason=policy`；不判分数 |
+| 2 | 可见范围过滤后无切片 | `refuse_kb` | `REFUSAL_TEXT`（固定） | 记 1 次缺口，`reason=insufficient` |
+| 3 | `max(rerank) < KB_MIN_RERANK_SCORE` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=low_score` |
+| 4 | 达标切片数 `< KB_MIN_EVIDENCE` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=insufficient` |
+| 5 | 达标切片全部 `doc_review_valid_until < today` | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=stale_docs` |
+| 6 | 生成后引用校验失败（chunk 不存在 / 片段不匹配） | `refuse_kb` | `REFUSAL_TEXT` | 记 1 次缺口，`reason=citation_failed`；整答降级 |
+| 7 | 以上全部不命中 | `answer` | 生成结果 | 不记缺口；判定结果以 `review_level=L0` 进复核队列 |
+
+固定文案：`知识库中没有找到；已记录为知识缺口，负责人会补充。`（`app/refusal.py: REFUSAL_TEXT`，测试按字面量比对，不做包含匹配）。
+
+## 关键实现
+
+- `app/settings.py`：`KB_MIN_RERANK_SCORE`（默认 0.35）、`KB_MIN_EVIDENCE`（1）、`DOC_FRESHNESS_DAYS`（180）、`KB_GAP_BASE_URL` 全部从环境变量读取，缺省时在 `used_defaults` 中留痕（test_29）。
+- `app/refusal.py`：`decide()` 为短路流水线，生成模型只在第 7 步发生一次；`verify_citations()` 用 NFKC 归一化后做子串比对，全角/半角等价文本不会被误拒（test_27）。
+- `app/policy.py` + `forbidden_rules.yaml`：正则 + 关键词双通道；加载时校验 `id` 唯一、每类规则样例 ≥3、三类齐全，缺失即启动报错（test_31 / test_32）。
+- `stub/generator.py`：强制引用模式，可注入 `fake_chunk_id` / 改写片段，用于证明"引用失败必降级"。
+- `stub/gap_service.py`：知识缺口服务桩（内存计数 + 请求体可查），生产替换为 `KB_GAP_BASE_URL` 指向的真实服务。
+
+## 与其他工单的对接点
+
+| 上游/下游 | 对接方式 |
+|---|---|
+| 重排服务 | 提供 `rerank_score`（0–1），未归一化时按 README 的线性归一化适配点处理 |
+| 可见范围过滤 | 本模块接收 `site_id` / `user_level` / `deleted_at` / `classification` 字段自行过滤，也可由上游预过滤后只传可见切片 |
+| 知识缺口服务（S3-KB-025） | `POST {KB_GAP_BASE_URL}`，载荷 `{question, reason, site_id, asked_at, category?}` |
+| 生成服务 | 强制引用模式，返回 `{answer, citations:[{chunk_id, snippet}]}` |
+| 复核队列 | 判定结果带 `review_level=L0` 入库，不对外发送 |
+
+## 复现方式
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+pip install pytest pyyaml
+python verify.py          # 跑 pytest + probe，生成 outputs/verify.json / matrix.md / run-report.md
+cat outputs/run-report.md
 ```
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+依赖：Python 3.11+、pytest 9、PyYAML。无需网络、无需数据库、无境外接口。
+
+## 边界与已知限制
+
+- 每轮按独立 question 判定，不做多轮上下文继承（真实业务若需多轮，需在会话层拼接后传入）。
+- `doc_review_valid_until` 缺失时视为不过期（fail-open），因为上游时效治理配置未就绪时把全部文档判过期会导致可用性归零；如需 fail-closed，改 `is_stale()` 一行即可。
+- 政策判定基于规则词表，不做语义模型判定；词表由 `forbidden_rules.yaml` 维护，扩展无需改代码。
