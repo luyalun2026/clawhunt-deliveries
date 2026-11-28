@@ -3,7 +3,7 @@
 from app.refusal import REFUSAL_TEXT
 from app.settings import Settings
 
-FIXED = "知识库中没有找到，已记录为知识缺口，负责人会补充"
+FIXED = "知识库中没有找到。已记录为知识缺口，负责人会补充"
 
 
 def test_01_low_score_text_exact(chunk, gen, ask, gap):

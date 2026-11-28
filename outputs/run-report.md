@@ -1,8 +1,8 @@
 # 运行报告（自动生成）
 
-- 生成时间：2026-11-28T22:42:02
+- 生成时间：2026-11-28T22:45:58
 - 命令：`python verify.py`（内部 `pytest tests -q` + `python probe.py`）
-- pytest 汇总：`46 passed in 2.13s`；退出码 0
+- pytest 汇总：`46 passed in 2.19s`；退出码 0
 - 用例 46，通过 46，失败 0
 
 ## 用例 × 结果矩阵
