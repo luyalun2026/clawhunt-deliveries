@@ -35,4 +35,4 @@ tests/test_schema_check.py::test_missing_fields_key_rejected PASSED      [ 92%]
 tests/test_schema_check.py::test_extract_group_retries_schema_invalid_then_llm_failed PASSED [ 96%]
 tests/test_schema_check.py::test_extract_group_second_attempt_valid_succeeds PASSED [100%]
 
-============================= 28 passed in 1.77s ==============================
+============================= 28 passed in 1.71s ==============================
