@@ -1,41 +1,59 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# 工单 #2771 · S2-CRM-006 招商商机表 crm_opportunity 模型与迁移
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+SQLAlchemy 2 模型 + Alembic 迁移（含两条补建外键）+ 约束测试。测试数据全部虚构。
 
-## 验收标准逐条对应
+## 一、验收标准逐条对照（pytest 实跑）
 
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 验收标准 | 交付物 | 验证方式 |
+|---|---|---|
+| 1. upgrade/downgrade 往返成功，alembic check 零漂移 | migrations/versions/0001+0002 | tests/test_00_alembic_check.py 进程内 `alembic check`；test_ac1_columns_and_roundtrip 断言列齐全 |
+| 2. stage='lost' 且 lost_reason 为空被 CHECK 拒 | ck_opp_lost_reason_required | TestAC2LostReasonCheck 双向断言 |
+| 3. expected_first_year_amount_fen 列 bigint 且负数被拒 | BigInteger 列 + ck_opp_amount_nonneg | TestAC3AmountColumnAndCheck：反射列类型 + 插入 -1 断言 IntegrityError |
+| 4. 两条补建外键 upgrade 后存在、downgrade 后移除 | 0002 迁移 batch 补建 crm_interaction.opportunity_id 与 crm_lead.converted_opportunity_id | TestAC4BackfillForeignKeys PRAGMA/反射断言 + 迁移往返（downgrade 由 conftest teardown 完成后再 upgrade） |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+## 二、字段表
 
-## 算法要点
+| 字段 | 类型 | 可空 | 默认 | 说明 |
+|---|---|---|---|---|
+| company_id | UUID FK→crm_company.id | 否 | — | 必填 |
+| lead_id | UUID FK→crm_lead.id | 是 | — | 来源线索 |
+| name | varchar(100) | 否 | — | 商机名称 |
+| owner_user_id | UUID | 否 | — | 负责人 |
+| stage | varchar(20) | 否 | discovery | 6 档枚举 |
+| stage_changed_at | timestamptz | 是 | — | 应用层在 stage 变更时更新（不设触发器，README 注明） |
+| expected_first_year_amount_fen | bigint | 是 | — | 预计首年金额（分），CHECK ≥0 |
+| membership_tier | varchar(20) | 是 | — | flex / standard / premium / strategic |
+| space_type | varchar(20) | 是 | — | hot_desk / fixed_desk / private_office / suite |
+| seats_needed | int | 是 | — | CHECK ≥0 |
+| area_sqm | numeric(8,2) | 是 | — | CHECK ≥0 |
+| expected_move_in_date / expected_close_date | date | 是 | — | |
+| win_probability | smallint | 是 | — | CHECK 0–100 |
+| lost_reason | varchar(20) | 是 | — | 6 档枚举；lost 时必填 |
+| closed_at | timestamptz | 是 | — | |
+| merged_into_id | UUID FK→crm_opportunity.id | 是 | — | 自引用合并 |
 
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+**索引**：ix_opp_org_stage_close、ix_opp_org_owner_stage、ix_opp_org_company。
 
-## 运行
+## 三、补建外键说明（本迁移同时负责）
+
+- `crm_interaction.opportunity_id` → crm_opportunity.id（fk_interaction_opportunity_id）
+- `crm_lead.converted_opportunity_id` → crm_opportunity.id（fk_lead_converted_opportunity_id）
+- upgrade 补建、downgrade 移除，两侧对称（AC4 实测）。
+
+## 四、占位与接线点
+
+- 0001 为占位 stub：crm_company（最小公共字段）、crm_lead（含 converted_opportunity_id 列）、
+  crm_interaction（含 opportunity_id 列）。真实表迁移合入后：改 0001 的 down_revision 链接到真实链头、
+  删除占位建表段；0002 的 batch 补建外键段落保留不动即可。
+
+## 五、双环境与复现
+
+- 测试默认 SQLite 等价承载（CHECK/唯一约束/PRAGMA 外键校验语义一致），克隆即跑；PG16 环境设 `PG_DSN`
+  后自动切 PostgreSQL；PG16 专属 DDL 见 `pg_ddl.sql`。
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+git clone --branch 2771 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest tests -q            # 见 outputs/run-report.md 的实测汇总
+python verify.py                     # 重新生成 outputs/
 ```
-
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
