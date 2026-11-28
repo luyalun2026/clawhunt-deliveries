@@ -1,41 +1,63 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# 工单 #2763 · S2-CRM-002 联系人表 crm_contact 模型与迁移
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+SQLAlchemy 2 模型 + Alembic 迁移 + 约束测试。测试数据全部虚构。
 
-## 验收标准逐条对应
+## 一、验收标准逐条对照（pytest 实跑）
 
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 验收标准 | 交付物 | 验证方式 |
+|---|---|---|
+| 1. upgrade/downgrade 往返成功，alembic check 零漂移 | migrations/versions/0001+0002 | tests/test_00_alembic_check.py 进程内 `alembic check`；test_ac1_roundtrip_and_zero_drift 断言往返后表结构完整 |
+| 2. 同企业第二个 primary 被拒，第一个改 staff 后可插入 | uq_contact_company_primary 部分唯一索引 (company_id) WHERE member_identity='primary' AND deleted_at IS NULL | TestAC2PrimaryUnique 断言 IntegrityError → 改档 → 复插成功 |
+| 3. bound 且 unionid 空被 CHECK 拒 | ck_contact_bound_unionid | TestAC3BoundUnionidCheck 双向断言 |
+| 4. 同 org 未删除联系人 unionid 冲突被拒、异 org 共存 | uq_contact_org_unionid (org_id, wechat_unionid) WHERE deleted_at IS NULL AND wechat_unionid IS NOT NULL | TestAC4OrgUnionidPartialUnique 双例 + 软删除复用例 |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+## 二、字段与约束表
 
-## 算法要点
+| 字段 | 类型 | 可空 | 默认 | 说明 |
+|---|---|---|---|---|
+| id | UUID | 否 | uuid4 | 主键（统一公共字段） |
+| org_id / site_id / created_at / created_by / updated_at / deleted_at | — | — | — | 统一公共字段（软删除） |
+| company_id | UUID FK→crm_company.id | 是 | — | 尚未关联企业的线索联系人为空 |
+| name | varchar(50) | 否 | — | 姓名 |
+| title | varchar(50) | 是 | — | 职务 |
+| mobile | varchar(16) | 是 | — | E.164 规范存储；normalize_mobile() 归一化 |
+| email | varchar(120) | 是 | — | |
+| member_identity | varchar(20) | 否 | none | none / primary / staff（crm/enums.py） |
+| wechat_unionid | varchar(64) | 是 | — | |
+| wechat_openid | varchar(64) | 是 | — | |
+| wechat_bind_status | varchar(20) | 否 | unbound | unbound / bound / revoked |
+| wechat_bound_at | timestamptz | 是 | — | |
+| merged_into_id | UUID FK→crm_contact.id | 是 | — | 自引用合并 |
 
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+**索引**
+- 部分唯一 uq_contact_org_unionid (org_id, wechat_unionid) WHERE deleted_at IS NULL AND wechat_unionid IS NOT NULL
+- 部分唯一 uq_contact_org_mobile (org_id, mobile) WHERE deleted_at IS NULL AND mobile IS NOT NULL
+- 部分唯一 uq_contact_company_primary (company_id) WHERE member_identity='primary' AND deleted_at IS NULL
+- 普通 ix_contact_org_company、ix_contact_org_identity
 
-## 运行
+**CHECK**
+- ck_contact_bound_unionid：bound ⟹ unionid 非空
+- ck_contact_identity_company：member_identity ≠ none ⟹ company_id 非空
+- 枚举白名单两处（与 crm/enums.py 同源）
+
+## 三、占位与接线点
+
+- 迁移 0001 为 **crm_company 占位 stub**（最小公共字段+name/credit_code）：企业表迁移属其他工单，
+  本迁移 down_revision 链于其占位 revision。真实企业表合入后，将 0001 的 down_revision 改接真实
+  链头并删除占位表即可，0002 无需改动。
+- crm_contact.company_id 的 FK 直接指向 crm_company.id，无需改动。
+- merged_into_id 自引用 FK 用 use_alter（迁移内表建好后补建）。
+
+## 四、双环境说明
+
+- 本包测试默认跑 **SQLite 等价承载**（部分唯一索引 WHERE / CHECK 语义与 PG16 一致），克隆即跑。
+- PG16 专属 DDL 见 `pg_ddl.sql`（timestamptz 等）；设 `PG_DSN` 环境变量后 conftest 自动改用 PostgreSQL 跑同一套用例。
+
+## 五、复现
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+git clone --branch 2763 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest tests -q            # 见 outputs/run-report.md 的实测汇总
+python verify.py                     # 重新生成 outputs/（junit.xml / verify.json / run-report.md）
 ```
-
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
