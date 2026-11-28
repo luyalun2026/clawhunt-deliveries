@@ -42,11 +42,11 @@ FIELD_GROUPS: Dict[str, Dict] = {
 }
 
 PROMPT_VERSIONS: Dict[str, str] = {
-    "subject": "1.0",
-    "term": "1.0",
-    "amount_payment": "1.0",
-    "rights": "1.0",
-    "clauses": "1.0",
+    "subject": "1.1",
+    "term": "1.1",
+    "amount_payment": "1.1",
+    "rights": "1.1",
+    "clauses": "1.1",
 }
 
 
@@ -61,7 +61,8 @@ def render_prompt(group: str, structure: Dict, text: str) -> str:
     lines += [
         "",
         "输出 JSON：{\"fields\": {字段名: [{\"value\": 抄录值, \"quote\": 原文连续片段(4-200字), "
-        "\"confidence_self\": 0~1}]}}。找不到的字段给空列表。quote 必须逐字来自原文。",
+        "\"confidence_self\": 0~1, \"not_found\": 该字段是否未在原文找到(true/false)}]}}。"
+        "找不到的字段给空列表。quote 必须逐字来自原文。",
     ]
     lines += ["", "【原文】", text or ""]
     return "\n".join(lines)

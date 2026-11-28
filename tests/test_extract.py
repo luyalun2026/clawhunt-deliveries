@@ -111,7 +111,7 @@ def test_ac4_call_log_records_version_and_model():
     extract_group(SAMPLE, STRUCTURE, "amount_payment", llm, store, model="doc-llm-mock")
     rows = store.calls_for_group("amount_payment")
     assert len(rows) == 1
-    assert rows[0]["prompt_version"] == PROMPT_VERSIONS["amount_payment"] == "1.0"
+    assert rows[0]["prompt_version"] == PROMPT_VERSIONS["amount_payment"] == "1.1"
     assert rows[0]["model"] == "doc-llm-mock"
     assert rows[0]["parse_ok"] == 1
 
@@ -122,7 +122,7 @@ def test_ac4b_all_groups_logged():
     extract_all(SAMPLE, STRUCTURE, llm, store)
     assert store.count() == len(FIELD_GROUPS) == 5
     for g in FIELD_GROUPS:
-        assert store.calls_for_group(g)[0]["prompt_version"] == "1.0"
+        assert store.calls_for_group(g)[0]["prompt_version"] == "1.1"
 
 
 # ---------- 补充边界 ----------
@@ -265,3 +265,11 @@ def test_multichunk_failed_chunk_fields_marked_llm_failed():
     assert res.fields["payment_terms_quote"].llm_failed is True   # 仅来自失败块 -> 交人工
     assert res.fields["payment_terms_quote"].not_found is True
     assert len(llm.calls) == 5                           # 3 块：块1 3 次 + 块2/块3 各 1 次
+
+
+def test_prompt_instructs_not_found_key():
+    """prompt/schema 对齐（返工整改）：render_prompt 输出指令必须包含 not_found 键，
+    与 schema.json 的 required 一致，避免生产模型省略该键导致持久校验失败。"""
+    from app.prompts import render_prompt
+    p = render_prompt("term", {"term": {"effective_date": "生效日"}}, "原文")
+    assert "not_found" in p
