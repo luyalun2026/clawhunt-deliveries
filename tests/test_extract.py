@@ -38,9 +38,9 @@ def test_ac1_quote_not_in_source_marked():
     """AC1：mock 返回不存在于原文的 quote -> quote_not_found 且 value 为空。"""
     store = CallLogStore()
     llm = MockLLM([MockLLM.ok({
-        "party_a": [{"value": "不存在公司", "quote": "这句话原文里根本没有出现哦", "confidence_self": 0.9}],
+        "party_a": [{"value": "不存在公司", "quote": "这句话原文里根本没有出现哦", "confidence_self": 0.9, "not_found": False}],
         "party_b": [{"value": "蓝湾商务服务（虚构）股份有限公司",
-                     "quote": "乙方：蓝湾商务服务（虚构）股份有限公司", "confidence_self": 0.95}],
+                     "quote": "乙方：蓝湾商务服务（虚构）股份有限公司", "confidence_self": 0.95, "not_found": False}],
         "contract_name": [],
     })])
     res = extract_group(SAMPLE, STRUCTURE, "subject", llm, store)
@@ -70,7 +70,7 @@ def test_ac2b_retry_then_success():
     store = CallLogStore()
     llm = MockLLM([None, None, MockLLM.ok({
         "effective_date": [{"value": "2026-01-01", "quote": "本合同自 2026 年 1 月 1 日起生效",
-                            "confidence_self": 0.9}],
+                            "confidence_self": 0.9, "not_found": False}],
         "expiry_date": [], "term_desc": [],
     })])
     res = extract_group(SAMPLE, STRUCTURE, "term", llm, store)
@@ -104,9 +104,9 @@ def test_ac4_call_log_records_version_and_model():
     store = CallLogStore()
     llm = MockLLM([MockLLM.ok({
         "total_amount_quote": [{"value": "¥120000 元", "quote": "总金额为人民币 12 万元（¥120000 元）",
-                                "confidence_self": 0.93}],
+                                "confidence_self": 0.93, "not_found": False}],
         "payment_terms_quote": [{"value": "分四期支付", "quote": "分四期支付，每季度末支付 3 万元",
-                                 "confidence_self": 0.88}],
+                                 "confidence_self": 0.88, "not_found": False}],
     })])
     extract_group(SAMPLE, STRUCTURE, "amount_payment", llm, store, model="doc-llm-mock")
     rows = store.calls_for_group("amount_payment")
@@ -144,9 +144,9 @@ def test_merge_picks_highest_confidence_backcheckable():
     store = CallLogStore()
     llm = MockLLM([MockLLM.ok({
         "member_rights": [
-            {"value": "坏候选", "quote": "不存在的原文片段哈", "confidence_self": 0.99},
+            {"value": "坏候选", "quote": "不存在的原文片段哈", "confidence_self": 0.99, "not_found": False},
             {"value": "共享办公工位、会议室预约、产业对接活动", "quote": "会员权益：共享办公工位、会议室预约、产业对接活动",
-             "confidence_self": 0.80},
+             "confidence_self": 0.80, "not_found": False},
         ],
         "service_scope": [],
     })])
@@ -224,7 +224,7 @@ def test_multichunk_extract_merges_across_chunks():
     assert len(long_text) == 13000
     ok_resp = MockLLM.ok({
         "total_amount_quote": [{"value": "¥120000 元", "quote": "总金额为人民币 12 万元（¥120000 元）",
-                                "confidence_self": 0.97}],
+                                "confidence_self": 0.97, "not_found": False}],
         "payment_terms_quote": [],
     })
     empty_resp = MockLLM.ok({})

@@ -12,20 +12,21 @@
 | 3 | 20000 字虚构长合同切块、相邻块重叠恰 300 字 | `chunk_text`：size=6000、step=5700，逐对断言重叠 300 字且内容一致 | `test_ac3_chunk_overlap_exact_300` ✅ |
 | 4 | 每次调用记录 prompt_version 与模型名，可在库中查到 | `store.CallLogStore`（SQLite，生产替换为 PostgreSQL 表 `llm_call_log`）：每次调用一行，含 field_group/prompt_version/model/attempt/parse_ok | `test_ac4_call_log_records_version_and_model` ✅ |
 
-补充用例（8 条）：第 3 次重试成功不判失败、切块上限、quote 长度 4–200 边界、全半角+空白归一化匹配、多块合并取「可回查且置信度最高」、金额由程序解析（AI 不计算）、复核队列全行标记人工核对。
+补充用例（18 条）：JSON Schema 机械校验（缺 not_found/额外键/quote 越界/置信度越界/类型错误均被拒、单对象候选规范化、不合规重试后成功、3 次不合规标 llm_failed）、第 3 次重试成功不判失败、切块上限、quote 长度 4–200 边界、全半角+空白归一化匹配、多块合并取「可回查且置信度最高」、金额由程序解析（AI 不计算）、复核队列全行标记人工核对。
 
 ## 二、运行方法
 
 ```bash
 pip install pytest
-python -m pytest tests/ -v          # 17 passed
+python -m pytest tests/ -v          # 27 passed
 ```
 
 ## 三、模块说明
 
 - `app/extractor.py` — 核心：切块（6000/300 重叠）、分组抽取、quote 回查、候选合并、重试与 llm_failed、`parse_amounts`（程序解析金额）、`build_review_queue`（人工复核队列）。
 - `app/prompts.py` — 5 组提示词模板（主体信息/期限/金额与付款/权益/条款摘要），`PROMPT_VERSIONS` 版本管理。
-- `app/schema.json` — 输出 JSON Schema：每字段 `{value, quote(4–200字), confidence_self(0–1)}`。
+- `app/schema.json` — 输出 JSON Schema：每字段 `{value, quote(4–200字), confidence_self(0–1), not_found}`。
+- `app/schema_check.py` — 零依赖轻量 JSON Schema 校验器（type/required/properties/additionalProperties/items/minLength/maxLength/minimum/maximum）。模型输出解析成功后按 schema 机械校验，不合规与非法 JSON 同一口径：重试 2 次、仍失败按失败块处理（整组 llm_failed）。
 - `app/mock_llm.py` — `MockLLM`（可编程脚本 mock，测试用）与 `DocLlmClient`（OpenAI 兼容生产形态，`DOC_LLM_BASE_URL`/`DOC_LLM_MODEL` 环境变量，禁止境外接口）。
 - `app/store.py` — 调用日志，每次调用记录 prompt_version 与模型名，可查询。
 

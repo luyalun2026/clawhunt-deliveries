@@ -7,7 +7,8 @@
   （NFKC 全半角统一 + 去空白）回查；回查失败丢弃 value 并标记 quote_not_found。
 - 长合同按条款切块：每块 <=6000 字、相邻块重叠恰 300 字；
   合并时同字段取「quote 可回查且 confidence_self 最高」的候选。
-- JSON 解析失败重试 2 次（每组最多 3 次调用），仍失败整组标记 llm_failed。
+- JSON 解析失败或不符合 JSON Schema 时重试 2 次（每组最多 3 次调用），
+  仍失败整组标记 llm_failed。
 - 模型只做定位与抄录；金额数值由程序从原文解析（parse_amounts），
   AI 不参与任何金额计算。
 - 抽取结果全部进入人工复核队列（review_queue），不直接对外发送。
@@ -21,6 +22,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Dict, List, Optional
 
 from .prompts import FIELD_GROUPS, PROMPT_VERSIONS, render_prompt
+from .schema_check import is_valid
 from .store import CallLogStore
 
 CHUNK_SIZE = 6000
@@ -115,6 +117,29 @@ def _parse_model_json(raw: str) -> Optional[Dict]:
         return None
 
 
+def _normalize_for_schema(parsed: Dict) -> Optional[Dict]:
+    """校验前规范化：单对象候选视为单元素数组（与 schema 的 items 结构对齐）。"""
+    fields = parsed.get("fields")
+    if not isinstance(fields, dict):
+        return None
+    norm = {}
+    for k, v in fields.items():
+        norm[k] = [v] if isinstance(v, dict) else v
+    return {"fields": norm}
+
+
+def _extract_fields(parsed: Dict, group_fields: List[str]) -> Dict[str, List[Dict]]:
+    items = parsed.get("fields") or {}
+    out: Dict[str, List[Dict]] = {f: [] for f in group_fields}
+    for fname in group_fields:
+        raw_item = items.get(fname)
+        if isinstance(raw_item, dict):
+            raw_item = [raw_item]
+        if isinstance(raw_item, list):
+            out[fname].extend(raw_item)
+    return out
+
+
 def _merge_candidates(cands: List[Dict], source_text: str) -> FieldResult:
     """同字段多块候选合并：取 quote 可回查且 confidence_self 最高者。"""
     valid = [c for c in cands if quote_backcheck(c.get("quote") or "", source_text)]
@@ -145,7 +170,8 @@ def extract_group(
     structure: 完整字段结构定义（组名 -> 字段名 -> 说明），用于渲染提示词。
     llm: OpenAI 兼容客户端（测试注入 mock；生产由 DOC_LLM_BASE_URL/DOC_LLM_MODEL 构造）。
     每块独立重试（1 + JSON_RETRY_TIMES 次调用）。
-    AC2：连续 3 次非法 JSON 的块判为失败块；单块合同（或全部块失败）时整组 llm_failed。
+    AC2：连续 3 次非法 JSON 或不符合 JSON Schema 的块判为失败块；
+         单块合同（或全部块失败）时整组 llm_failed。
     AC3：多块合同时失败块跳过、成功块候选照常跨块合并（不丢弃有效字段），
          失败块涉及的字段另标 llm_failed 交人工关注。
     """
@@ -168,19 +194,19 @@ def extract_group(
                          model=model, attempt=attempt, ok=False)
             parsed = _parse_model_json(raw)
             if parsed is not None:
-                store.mark_last_ok()
-                break
+                # 解析成功后按 JSON Schema 机械校验（不合规与解析失败同一口径重试）
+                norm = _normalize_for_schema(parsed)
+                if norm is not None and is_valid(norm):
+                    store.mark_last_ok()
+                    break
+            parsed = None
         if parsed is None:
-            # 连续 3 次非法 JSON（1 初始 + 2 重试）= 失败块，审计日志已记 3 条 attempt。
+            # 连续 3 次非法 JSON / 不合规（1 初始 + 2 重试）= 失败块，审计日志已记 3 条 attempt。
             failed_chunks += 1
             continue
-        items = parsed.get("fields") or {}
-        for fname in group_fields:
-            raw_item = items.get(fname)
-            if isinstance(raw_item, dict):
-                raw_item = [raw_item]
-            if isinstance(raw_item, list):
-                collected[fname].extend(raw_item)
+        chunk_items = _extract_fields(parsed, group_fields)
+        for fname, lst in chunk_items.items():
+            collected[fname].extend(lst)
 
     # AC2：全部块失败（含单块合同 3 次非法 JSON）-> 整组 llm_failed 交人工。
     if failed_chunks == len(sources):

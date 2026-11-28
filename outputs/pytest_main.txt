@@ -4,24 +4,34 @@ cachedir: .pytest_cache
 hypothesis profile 'default'
 rootdir: C:\Users\Administrator\WorkBuddy\2026-09-24-23-48-57\ch-hub\1922
 plugins: anyio-4.16.0, hypothesis-6.170.15
-collecting ... collected 17 items
+collecting ... collected 27 items
 
-tests/test_extract.py::test_ac1_quote_not_in_source_marked PASSED        [  5%]
-tests/test_extract.py::test_ac2_three_bad_json_marks_llm_failed PASSED   [ 11%]
-tests/test_extract.py::test_ac2b_retry_then_success PASSED               [ 17%]
-tests/test_extract.py::test_ac3_chunk_overlap_exact_300 PASSED           [ 23%]
-tests/test_extract.py::test_ac3b_chunks_respect_max_size PASSED          [ 29%]
-tests/test_extract.py::test_ac4_call_log_records_version_and_model PASSED [ 35%]
-tests/test_extract.py::test_ac4b_all_groups_logged PASSED                [ 41%]
-tests/test_extract.py::test_quote_length_bounds PASSED                   [ 47%]
-tests/test_extract.py::test_quote_normalized_match_fullwidth PASSED      [ 52%]
-tests/test_extract.py::test_merge_picks_highest_confidence_backcheckable PASSED [ 58%]
-tests/test_extract.py::test_amounts_parsed_by_program_not_llm PASSED     [ 64%]
-tests/test_extract.py::test_review_queue_all_rows_flagged PASSED         [ 70%]
-tests/test_extract.py::test_doc_llm_client_requires_base_url PASSED      [ 76%]
-tests/test_extract.py::test_sqlalchemy_model_matches_sqlite_ddl PASSED   [ 82%]
-tests/test_extract.py::test_doc_llm_client_auth_header PASSED            [ 88%]
-tests/test_extract.py::test_multichunk_extract_merges_across_chunks PASSED [ 94%]
-tests/test_extract.py::test_doc_llm_client_rejects_bad_base_url PASSED   [100%]
+tests/test_extract.py::test_ac1_quote_not_in_source_marked PASSED        [  3%]
+tests/test_extract.py::test_ac2_three_bad_json_marks_llm_failed PASSED   [  7%]
+tests/test_extract.py::test_ac2b_retry_then_success PASSED               [ 11%]
+tests/test_extract.py::test_ac3_chunk_overlap_exact_300 PASSED           [ 14%]
+tests/test_extract.py::test_ac3b_chunks_respect_max_size PASSED          [ 18%]
+tests/test_extract.py::test_ac4_call_log_records_version_and_model PASSED [ 22%]
+tests/test_extract.py::test_ac4b_all_groups_logged PASSED                [ 25%]
+tests/test_extract.py::test_quote_length_bounds PASSED                   [ 29%]
+tests/test_extract.py::test_quote_normalized_match_fullwidth PASSED      [ 33%]
+tests/test_extract.py::test_merge_picks_highest_confidence_backcheckable PASSED [ 37%]
+tests/test_extract.py::test_amounts_parsed_by_program_not_llm PASSED     [ 40%]
+tests/test_extract.py::test_review_queue_all_rows_flagged PASSED         [ 44%]
+tests/test_extract.py::test_doc_llm_client_requires_base_url PASSED      [ 48%]
+tests/test_extract.py::test_sqlalchemy_model_matches_sqlite_ddl PASSED   [ 51%]
+tests/test_extract.py::test_doc_llm_client_auth_header PASSED            [ 55%]
+tests/test_extract.py::test_multichunk_extract_merges_across_chunks PASSED [ 59%]
+tests/test_extract.py::test_doc_llm_client_rejects_bad_base_url PASSED   [ 62%]
+tests/test_schema_check.py::test_schema_file_loads_and_has_not_found PASSED [ 66%]
+tests/test_schema_check.py::test_valid_output_passes PASSED              [ 70%]
+tests/test_schema_check.py::test_single_object_candidate_normalized_passes PASSED [ 74%]
+tests/test_schema_check.py::test_missing_not_found_rejected PASSED       [ 77%]
+tests/test_schema_check.py::test_extra_key_rejected PASSED               [ 81%]
+tests/test_schema_check.py::test_quote_length_bounds_rejected PASSED     [ 85%]
+tests/test_schema_check.py::test_confidence_bounds_and_type_rejected PASSED [ 88%]
+tests/test_schema_check.py::test_missing_fields_key_rejected PASSED      [ 92%]
+tests/test_schema_check.py::test_extract_group_retries_schema_invalid_then_llm_failed PASSED [ 96%]
+tests/test_schema_check.py::test_extract_group_second_attempt_valid_succeeds PASSED [100%]
 
-============================= 17 passed in 1.57s ==============================
+============================= 27 passed in 1.70s ==============================

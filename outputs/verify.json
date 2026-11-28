@@ -1,32 +1,40 @@
 {
- "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
- "test_summary": {
-  "passed": 17,
-  "failed": 0,
-  "total": 17
- },
- "acceptance": {
-  "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
-  "AC2_llm_failed_after_3_bad_json": "test_ac2_three_bad_json_marks_llm_failed PASSED",
-  "AC3_20000char_overlap_300": "test_ac3_chunk_overlap_exact_300 PASSED",
-  "AC4_prompt_version_model_logged": "test_ac4_call_log_records_version_and_model PASSED"
- },
- "extras": [
-  "retry-then-success",
-  "chunk-max-size",
-  "quote-length-bounds",
-  "normalized-fullwidth-match",
-  "merge-highest-confidence",
-  "program-amount-parse",
-  "review-queue",
-  "doc_llm_client_requires_base_url",
-  "sqlalchemy2_model_matches_ddl",
-  "doc_llm_client_auth_header",
-  "doc_llm_client_auth_header",
-  "multichunk_extract_merges_across_chunks",
-  "doc_llm_client_rejects_bad_base_url",
-  "multichunk_extract_merges_across_chunks",
-  "doc_llm_client_rejects_bad_base_url"
- ],
- "sha256_file": "SHA256SUMS"
+  "task": "S5-DOC-010 llm_extract 字段抽取：分组提示词与 JSON Schema 约束",
+  "test_summary": {
+    "passed": 27,
+    "failed": 0,
+    "total": 27
+  },
+  "acceptance": {
+    "AC1_quote_not_found": "test_ac1_quote_not_in_source_marked PASSED",
+    "AC2_llm_failed_after_3_bad_json_or_schema_invalid": "test_ac2_three_bad_json_marks_llm_failed PASSED",
+    "AC3_20000char_overlap_300": "test_ac3_chunk_overlap_exact_300 PASSED",
+    "AC4_prompt_version_model_logged": "test_ac4_call_log_records_version_and_model PASSED"
+  },
+  "extras": [
+    "test_ac2b_retry_then_success",
+    "test_ac3b_chunks_respect_max_size",
+    "test_ac4b_all_groups_logged",
+    "test_quote_length_bounds",
+    "test_quote_normalized_match_fullwidth",
+    "test_merge_picks_highest_confidence_backcheckable",
+    "test_amounts_parsed_by_program_not_llm",
+    "test_review_queue_all_rows_flagged",
+    "test_doc_llm_client_requires_base_url",
+    "test_sqlalchemy_model_matches_sqlite_ddl",
+    "test_doc_llm_client_auth_header",
+    "test_multichunk_extract_merges_across_chunks",
+    "test_doc_llm_client_rejects_bad_base_url",
+    "test_schema_file_loads_and_has_not_found",
+    "test_valid_output_passes",
+    "test_single_object_candidate_normalized_passes",
+    "test_missing_not_found_rejected",
+    "test_extra_key_rejected",
+    "test_quote_length_bounds_rejected",
+    "test_confidence_bounds_and_type_rejected",
+    "test_missing_fields_key_rejected",
+    "test_extract_group_retries_schema_invalid_then_llm_failed",
+    "test_extract_group_second_attempt_valid_succeeds"
+  ],
+  "sha256_file": "SHA256SUMS"
 }
