@@ -1,41 +1,60 @@
-# S4-FIN-002 · 签约事件分期算法与尾差处理（交付页）
+# 工单 #2770 · S2-CRM-004 互动记录表 crm_interaction 模型与迁移
 
-**交付物**：`schedule.py`（纯函数分期算法 + 幂等事件消费者桩）、`check_no_float.py`（AST 静态检查）、
-10 份样例合同与期望分期黄金文件（`sample_contracts/`）
+SQLAlchemy 2 模型 + Alembic 迁移 + 约束测试 + 万条 EXPLAIN 复现脚本。测试数据全部虚构。
 
-## 验收标准逐条对应
+## 一、验收标准逐条对照（pytest 实跑）
 
-| # | 验收标准 | 结果 | 证据 |
-|---|---|---|---|
-| 1 | 12 个月季付 → 租金 4 期、会籍 4 期、押金 1 期，逐分相等 | ✅ `test_12m_quarter_contract` | `evidence/pytest.txt` |
-| 2 | hypothesis 随机 200 份合同（含尾期折算），Σ分期 == 总额 | ✅ `test_hypothesis_200_contracts`（max_examples=200） | `evidence/pytest.txt` |
-| 3 | 同一事件重复投递 3 次只生成 1 个计划 | ✅ `test_idempotent_event_redelivery`（双重防护：source_event_id 唯一 + 同合同 active 唯一） | `evidence/pytest.txt` |
-| 4 | 金额模块无 float | ✅ `check_no_float.py` AST 扫描 schedule.py 违规 0 处；且检查器自身对违规样本正确报警 | `evidence/pytest.txt` |
+| 验收标准 | 交付物 | 验证方式 |
+|---|---|---|
+| 1. upgrade/downgrade 往返成功，alembic check 零漂移 | migrations/versions/0001+0002 | tests/test_00_alembic_check.py 进程内 `alembic check`；test_ac1_columns_and_roundtrip 断言列齐全且 lead_id/opportunity_id 只建列不建外键 |
+| 2. duration_minutes=1441、summary 空串或超 5000 字被 CHECK 拒 | ck_int_duration_range / ck_int_summary_len | TestAC2DurationAndSummaryChecks 三组反例 + 边界值（1440、1 字、5000 字）通过 |
+| 3. 1 万条虚构互动按 company_id 取最近 20 条 EXPLAIN 命中 (org_id, company_id, occurred_at) 索引 | seed_10k.py + explain_query.py + ix_int_org_company_occ | TestAC3ExplainUsesCompositeIndex：PG_DSN 下 seed→EXPLAIN(ANALYZE)→断言计划含索引名并落盘 outputs/explain-output.txt；无 PG16 环境显式 skip 并提供一键复现命令 |
 
-**pytest 汇总：11 passed**。另：10 份样例与 `reference.py`（独立参照算法）逐字段一致 10/10
-（`evidence/samples_run.txt`）。
+## 二、字段表
 
-## 算法要点
+| 字段 | 类型 | 可空 | 默认 | 说明 |
+|---|---|---|---|---|
+| company_id | UUID FK→crm_company.id | 否 | — | 必填 |
+| contact_id | UUID FK→crm_contact.id | 是 | — | |
+| type | varchar(20) | 否 | — | visit / call / wechat / meeting / event / email / other |
+| occurred_at | timestamptz | 否 | — | 发生时间 |
+| duration_minutes | int | 是 | — | CHECK 0–1440 |
+| summary | text | 否 | — | CHECK length 1–5000 |
+| next_action | varchar(200) | 是 | — | |
+| next_action_due | date | 是 | — | |
+| lead_id / opportunity_id | UUID | 是 | — | 本迁移只建列，外键由线索表、商机表迁移补建 |
+| source | varchar(20) | 否 | manual | manual / import / system |
+| owner_user_id | UUID | 是 | — | 记录人 |
+| merged_into_id | UUID FK→crm_interaction.id | 是 | — | 自引用合并 |
 
-- 完整周期判据：周期末 <= 合同期末；最后一期恰好覆盖到期末时按周期金额收取，`kind=regular`，不标 `tail`。
-- 整期金额 = 周期金额原值（整数分，不做除法）；尾期（不足一个完整周期）日金额 = 月金额 × 12 ÷ 365，
-  Decimal 计算后 ROUND_HALF_UP **取整到 1 分**（`prorate_tail()`）。
-- 总额由规则推导（n_full × 周期金额 + 尾期折算）；`total_cents` 可省略，显式给出时只允许 ±5 分舍入尾差
-  计入最后一期，超差抛 `FeeTotalMismatch`，不静默吸收。
-- 交叉验证：`reference.py` 用整数 divmod 独立实现同一规则，样例期望值与 hypothesis 期望值均由它生成。
-- 到期日：首期 = 首付款日；后续 = 周期开始日 − advance_days；押金独立 1 行。
-- 多年合同输出 first_year_amount_cents（起始 12 个月内的分期之和）。
-- 幂等：`PlanStore` 以 source_event_id 唯一 + 同合同仅一个 active 计划双重防护；
-  生产替换为 PostgreSQL 唯一索引/部分唯一索引，接口不变。
+**索引**
+- DESC 复合索引三处：ix_int_org_company_occ / ix_int_org_contact_occ / ix_int_org_owner_occ，
+  均为 (org_id, <维度>, occurred_at DESC)，服务"按企业/联系人/记录人取最近记录"
+- ix_int_summary_trgm：PG16 上为 GIN 三元组索引（pg_trgm，summary 关键字模糊搜索）；
+  SQLite 无 gin_trgm_ops，降级为普通索引（语义差异在 README 与迁移内注明）
 
-## 运行
+## 三、AC3 复现（需真实 PG16）
 
 ```bash
-python -m pytest tests/ -v          # 全部测试（含 hypothesis 200 例）
-python check_no_float.py schedule.py # 无 float 静态检查（违规退出码 1）
-python make_samples.py              # 重新生成 10 份样例与黄金文件
+export PG_DSN=postgresql://user:pass@host:5432/db
+python seed_10k.py        # 灌入 1 万条虚构互动
+python explain_query.py   # 输出 EXPLAIN(ANALYZE) 全文并断言命中 ix_int_org_company_occ
 ```
+EXPLAIN 全文由脚本自动写入 outputs/explain-output.txt 并打印（不手写数字）。
+本包开发环境无 PG16/docker，该断言在无 PG_DSN 时显式 skip（skipif 落盘留痕），
+pg_ddl.sql 提供 DBA 一键审阅的 PG16 专属 DDL（timestamptz / pg_trgm / GIN）。
 
-对接点：事件来源 S3-SALES（`contract.signed`），当前以样例事件 JSON 驱动（桩）；
-落库层为 PostgreSQL（金额一律 BigInteger 分），README 随仓库维护。
-全部数据虚构，无客户名称，无 float。
+## 四、占位与接线点
+
+- 0001 为占位 stub：crm_company、crm_contact（最小公共字段）。真实表迁移合入后改 down_revision
+  链接并删除占位段；crm_interaction 的 company_id/contact_id 外键无需改动。
+- lead_id / opportunity_id 外键预留：线索表（#2772）与商机表（#2771）迁移补建。
+
+## 五、复现
+
+```bash
+git clone --branch 2770 https://github.com/luyalun2026/clawhunt-deliveries.git
+cd clawhunt-deliveries
+python -m pytest tests -q            # 见 outputs/run-report.md 的实测汇总
+python verify.py                     # 重新生成 outputs/
+```
